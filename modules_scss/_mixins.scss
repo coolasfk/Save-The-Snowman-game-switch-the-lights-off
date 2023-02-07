@@ -1,0 +1,3 @@
+@mixin moveSnowBall($animation,$duration,$method,$times){
+    animation: $animation $duration $method $times;
+}

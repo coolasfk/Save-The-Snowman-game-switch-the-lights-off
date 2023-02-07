@@ -1,0 +1,19 @@
+{
+  "name": "snowman-game-code",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "parcel index.html"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "parcel-bundler": "^1.12.5",
+    "scss": "^0.2.4"
+  },
+  "devDependencies": {
+    "sass": "^1.58.0"
+  },
+  "description": ""
+}
