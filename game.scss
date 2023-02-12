@@ -32,25 +32,33 @@ body {
     }
   }
   .main {
-    &__snowball-wrapper,
-    .snowball-wrapper {
+    display: flex;
+    justify-content: center;
+    &__snowball-wrapper-link,
+    .snowball-wrapper-link {
       display: flex;
       justify-content: center;
+      &__snowball-wrapper,
+      .snowball-wrapper {
+        display: flex;
+        justify-content: center;
 
-      &__snowball-cta {
-        margin-top: 35vw;
-        position: absolute;
-        z-index: 10;
-        color: c.$background-color;
-        font: t.$h3-font;
-        cursor: pointer;
-        text-align: center;
-      }
-      &__snowball {
-        cursor: pointer;
-        margin-bottom: 20vw;
-        height: 80vw;
-        animation: moveSnowBall 2s infinite ease-in-out;
+        &__snowball-cta {
+          margin-top: 35vw;
+          position: absolute;
+          z-index: 10;
+          color: c.$background-color;
+          font: t.$h3-font;
+          cursor: pointer;
+          text-align: center;
+        }
+
+        &__snowball {
+          cursor: pointer;
+          margin-bottom: 20vw;
+          height: 80vw;
+          animation: moveSnowBall 2s infinite ease-in-out;
+        }
       }
     }
   }
