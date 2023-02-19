@@ -236,11 +236,13 @@ directionsArrows.forEach(function (arrow) {
     fakeSnowball.style.backgroundColor = "green";
     document.querySelector(".footer").append(fakeSnowball);
     console.log(fakeSnowball.style.height);
+    console.log("before the shoot", fakeSnowball.getBoundingClientRect());
     console.log(snowballTranslateX, snowballTranslateY);
     console.log(arrowClicked);
     var directionOfThrow;
     for (i = 0; i < 15; i++) {
       if (arrowClicked == allArrows[i]) {
+        fakeSnowball.style.transform = "translateX(".concat(snowballTranslateX, ") translateY(-").concat(snowballTranslateY, ") ");
         directionOfThrow = function directionOfThrow() {
           directionsForSnowball = "translateX(".concat(snowballTranslateX, ") translateY(-").concat(snowballTranslateY, ") ");
           return directionsForSnowball;
@@ -249,11 +251,21 @@ directionsArrows.forEach(function (arrow) {
     }
     for (i = 15; i < 30; i++) {
       if (arrowClicked == allArrows[i]) {
+        fakeSnowball.style.transform = "translateX(-".concat(snowballTranslateX, ") translateY(-").concat(snowballTranslateY, ") ");
         directionOfThrow = function directionOfThrow() {
           directionsForSnowball = "translateX(-".concat(snowballTranslateX, ") translateY(-").concat(snowballTranslateY, ") ");
           return directionsForSnowball;
         };
       }
+    }
+    console.log("after the shoot", fakeSnowball.getBoundingClientRect());
+    var fakeSnowballAfterThrowPosition = fakeSnowball.getBoundingClientRect();
+    var firstSwitchPosition = firstSwitch.getBoundingClientRect();
+    console.log(fakeSnowballAfterThrowPosition.top, firstSwitchPosition.top);
+    if (fakeSnowballAfterThrowPosition.top == firstSwitchPosition.top) {
+      console.log("hit");
+    } else {
+      console.log("miss");
     }
     var directionsForSnowballRead = directionOfThrow();
     var throwingSnowBall = [{
@@ -321,7 +333,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54623" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56602" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

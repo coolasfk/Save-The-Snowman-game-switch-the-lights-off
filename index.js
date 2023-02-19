@@ -160,13 +160,14 @@ directionsArrows.forEach((arrow) => {
     document.querySelector(".footer").append(fakeSnowball);
 
     console.log(fakeSnowball.style.height);
-
+    console.log("before the shoot", fakeSnowball.getBoundingClientRect());
     console.log(snowballTranslateX, snowballTranslateY);
 
     console.log(arrowClicked);
     let directionOfThrow;
     for (i = 0; i < 15; i++) {
       if (arrowClicked == allArrows[i]) {
+        fakeSnowball.style.transform = `translateX(${snowballTranslateX}) translateY(-${snowballTranslateY}) `;
         directionOfThrow = () => {
           directionsForSnowball = `translateX(${snowballTranslateX}) translateY(-${snowballTranslateY}) `;
           return directionsForSnowball;
@@ -175,11 +176,23 @@ directionsArrows.forEach((arrow) => {
     }
     for (i = 15; i < 30; i++) {
       if (arrowClicked == allArrows[i]) {
+        fakeSnowball.style.transform = `translateX(-${snowballTranslateX}) translateY(-${snowballTranslateY}) `;
         directionOfThrow = () => {
           directionsForSnowball = `translateX(-${snowballTranslateX}) translateY(-${snowballTranslateY}) `;
           return directionsForSnowball;
         };
       }
+    }
+
+    console.log("after the shoot", fakeSnowball.getBoundingClientRect());
+
+    let fakeSnowballAfterThrowPosition = fakeSnowball.getBoundingClientRect();
+    let firstSwitchPosition = firstSwitch.getBoundingClientRect();
+    console.log(fakeSnowballAfterThrowPosition.top, firstSwitchPosition.top);
+    if (fakeSnowballAfterThrowPosition.top == firstSwitchPosition.top) {
+      console.log("hit");
+    } else {
+      console.log("miss");
     }
 
     let directionsForSnowballRead = directionOfThrow();
