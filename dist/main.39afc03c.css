@@ -8,13 +8,12 @@
   overflow: hidden;
 }
 
-body {
-  max-height: 100%;
-  max-width: 100%;
-  background-color: #685370;
-}
-
-@media (max-width: 600px) {
+@media only screen and (max-width: 900px) {
+  body {
+    max-height: 100%;
+    max-width: 100%;
+    background-color: #685370;
+  }
   .header__logo-wrapper__logo,
   .header .logo-wrapper__logo {
     width: 70vw;
@@ -58,6 +57,63 @@ body {
     height: 400vw;
     margin-left: -100vw;
     margin-top: -20vw;
+  }
+  .main__backdrop-wrapper__backdrop,
+  .main .backdrop-wrapper__backdrop {
+    width: 400vw;
+    height: 400vw;
+  }
+}
+body {
+  max-height: 100%;
+  max-width: 100%;
+  background-color: #685370;
+}
+
+@media (min-width: 901px) {
+  .header__logo-wrapper__logo,
+  .header .logo-wrapper__logo {
+    width: 30vw;
+    height: auto;
+    margin: 5vw;
+    margin-top: 15vw;
+    margin-left: 15vw;
+    z-index: 10;
+    position: absolute;
+    background-color: transparent;
+  }
+  .main__snowman-wrapper__snowman,
+  .main .snowman-wrapper__snowman {
+    z-index: 5;
+    width: 35vw;
+    margin-left: 50vw;
+    margin-top: 2vw;
+  }
+  .main__play-btn-wrapper,
+  .main .play-btn-wrapper {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .main__play-btn-wrapper__play-btn,
+  .main .play-btn-wrapper__play-btn {
+    width: 15vw;
+    height: auto;
+    position: absolute;
+    z-index: 20;
+    margin-left: 25vw;
+    margin-top: -15vw;
+    background-color: transparent;
+  }
+  .main__backdrop-wrapper,
+  .main .backdrop-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 400vw;
+    height: 400vw;
+    margin-left: -100vw;
+    margin-top: -8vw;
   }
   .main__backdrop-wrapper__backdrop,
   .main .backdrop-wrapper__backdrop {

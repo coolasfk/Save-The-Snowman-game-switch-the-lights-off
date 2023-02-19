@@ -10,92 +10,219 @@
   box-sizing: border-box;
   overflow-x: hidden;
 }
+@media only screen and (max-width: 900px) {
+  body {
+    max-height: 100%;
+    max-width: 100%;
 
-body {
-  max-height: 100%;
-  max-width: 100%;
+    background-color: c.$background-color;
+  }
 
-  background-color: c.$background-color;
-}
-
-.main {
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-
-  &__first-switch-wrapper,
-  .first-switch-wrapper {
+  .main {
     height: 100vh;
     width: 100vw;
-
-    &__first-switch {
-      height: 30vw;
-      width: auto;
-      margin: 10vw 40vw 0 15vw;
-    }
-    &__second-switch {
-      height: 20vw;
-      width: auto;
-      margin: 20vw 30vw 0 15vw;
-    }
-    &__third-switch {
-      height: 40vw;
-      width: auto;
-      margin-left: 55vw;
-    }
-  }
-  &__throw-mechanics-wrapper,
-  .throw-mechanics-wrapper {
-    width: 60vw;
-    height: auto;
     display: flex;
     justify-content: center;
-    background-color: transparent;
-    height: auto;
-    width: 100vw;
-    &__directions,
-    .directions {
+    flex-direction: column;
+
+    &__first-switch-wrapper,
+    .first-switch-wrapper {
+      height: 100vh;
+      width: 100vw;
       background-color: transparent;
+
+      &__first-switch {
+        height: 30vw;
+        width: auto;
+        margin: 10vw 40vw 0 15vw;
+      }
+      &__second-switch {
+        height: 20vw;
+        width: auto;
+        margin: 20vw 30vw 0 15vw;
+      }
+      &__third-switch {
+        height: 40vw;
+        width: auto;
+        margin-right: 10vw;
+        margin-left: 55vw;
+        margin-bottom: 2vw;
+      }
+    }
+    &__throw-mechanics-wrapper,
+    .throw-mechanics-wrapper {
       width: 100vw;
       height: auto;
       display: flex;
+      flex-direction: column;
       justify-content: center;
-      &__arrows,
-      .arrows {
-        width: 100vw;
-        height: auto;
+      background-color: transparent;
+
+      &__directions,
+      .directions {
         background-color: transparent;
-        margin-bottom: 30vw;
+
+        display: flex;
+        justify-content: center;
+        &__arrows,
+        .arrows {
+          background-color: transparent;
+          margin-bottom: 30vw;
+          position: relative;
+          &__arrow {
+            padding: 5vw;
+          }
+        }
+      }
+      &__snowball {
+        height: 20vw;
+
+        width: auto;
+        background-color: transparent;
+        animation: snowball-animation 1.2s ease-out 1;
+        position: absolute;
+
+        margin: 15vw 50vw 15vw 50vw;
+        transform: translateX(-10vw);
+        z-index: 100;
       }
     }
   }
-  &__snowball {
-    height: 20vw;
 
-    width: auto;
-    background-color: transparent;
-    // animation: snowball-animation 1.2s ease-out 1;
-    position: absolute;
-    margin: 180vw 50vw 15vw 50vw;
-
-    transform: translateX(-10vw);
-    z-index: 100;
+  @keyframes snowball-animation {
+    0% {
+      // height: 20vw;
+      margin: 15vw 50vw 15vw 50vw;
+    }
+    50% {
+      height: 30vw;
+      // margin: 100vw 50vw 15vw 50vw;
+    }
+    100% {
+      // height: 20vw;
+      margin: -300vw 50vw 15vw 50vw;
+    }
   }
 }
 
-@keyframes snowball-animation {
-  0% {
-    height: 20vw;
-    margin: 180vw 50vw 15vw 50vw;
+@media only screen and (min-width: 901px) {
+  body {
+    max-height: 100%;
+    max-width: 100%;
+
+    background-color: c.$background-color;
   }
-  50% {
-    height: 30vw;
-    // margin: 100vw 50vw 15vw 50vw;
+
+  .main {
+    height: 100vh;
+    width: 100vw;
+    border: red solid 4px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 0;
+    &__first-switch-wrapper,
+    .first-switch-wrapper {
+      width: 100vw;
+      height: auto;
+
+      border: blue solid 4px;
+      background-color: transparent;
+      margin: 0;
+
+      &__first-switch {
+        height: 10vw;
+        width: auto;
+        margin: 5vw 10vw 0 20vw;
+      }
+      &__second-switch {
+        height: 8vw;
+        width: auto;
+        margin: 6vw 20vw 0 15vw;
+      }
+      &__third-switch {
+        height: 10vw;
+        width: auto;
+        margin-right: 10vw;
+        margin-left: 75vw;
+        margin-bottom: 2vw;
+      }
+    }
+    &__throw-mechanics-wrapper,
+    .throw-mechanics-wrapper {
+      width: 100vw;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background-color: transparent;
+
+      &__directions,
+      .directions {
+        width: 30vw;
+        background-color: transparent;
+
+        display: flex;
+        justify-content: center;
+        margin: 5vw 50vw 20vw 50vw;
+        transform: translateX(-15vw);
+
+        &__arrows,
+        .arrows {
+          background-color: transparent;
+
+          &__arrow {
+            padding: 2vw;
+          }
+        }
+      }
+      &__snowball {
+        height: 10vw;
+        margin: 0;
+        padding: 0;
+        width: auto;
+        background-color: transparent;
+        position: relative;
+        // animation: snowball-animation 1.2s ease-out 1;
+        position: absolute;
+
+        margin: 5vw 50vw 5vw 50vw;
+        transform: translateX(-5vw);
+        z-index: 100;
+      }
+    }
   }
-  100% {
-    height: 20vw;
-    margin: -250vw 50vw 15vw 50vw;
+
+  @keyframes snowball-animation {
+    0% {
+      // height: 20vw;
+      margin: 5vw 50vw 5vw 50vw;
+    }
+    50% {
+      height: 14vw;
+      // margin: 100vw 50vw 15vw 50vw;
+    }
+    80% {
+      // height: 20vw;
+      margin: -300vw 50vw 15vw 50vw;
+    }
+    84% {
+      opacity: 1;
+    }
+    85% {
+      margin: -300vw 50vw 15vw 50vw;
+      opacity: 0;
+    }
+
+    90% {
+      margin: 30vw 50vw 5vw 50vw;
+      opacity: 0;
+    }
+    91% {
+      opacity: 0;
+    }
+    95% {
+      margin: 15vw 50vw 5vw 50vw;
+    }
   }
 }

@@ -8,96 +8,230 @@
   overflow-x: hidden;
 }
 
-body {
-  max-height: 100%;
-  max-width: 100%;
-  background-color: #685370;
-}
-
-.main {
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-}
-.main__first-switch-wrapper,
-.main .first-switch-wrapper {
-  height: 100vh;
-  width: 100vw;
-}
-.main__first-switch-wrapper__first-switch,
-.main .first-switch-wrapper__first-switch {
-  height: 30vw;
-  width: auto;
-  margin: 10vw 40vw 0 15vw;
-}
-.main__first-switch-wrapper__second-switch,
-.main .first-switch-wrapper__second-switch {
-  height: 20vw;
-  width: auto;
-  margin: 20vw 30vw 0 15vw;
-}
-.main__first-switch-wrapper__third-switch,
-.main .first-switch-wrapper__third-switch {
-  height: 40vw;
-  width: auto;
-  margin-left: 55vw;
-}
-.main__throw-mechanics-wrapper,
-.main .throw-mechanics-wrapper {
-  width: 60vw;
-  height: auto;
-  display: flex;
-  justify-content: center;
-  background-color: transparent;
-  height: auto;
-  width: 100vw;
-}
-.main__throw-mechanics-wrapper__directions,
-.main__throw-mechanics-wrapper .directions,
-.main .throw-mechanics-wrapper__directions,
-.main .throw-mechanics-wrapper .directions {
-  background-color: transparent;
-  width: 100vw;
-  height: auto;
-  display: flex;
-  justify-content: center;
-}
-.main__throw-mechanics-wrapper__directions__arrows,
-.main__throw-mechanics-wrapper__directions .arrows,
-.main__throw-mechanics-wrapper .directions__arrows,
-.main__throw-mechanics-wrapper .directions .arrows,
-.main .throw-mechanics-wrapper__directions__arrows,
-.main .throw-mechanics-wrapper__directions .arrows,
-.main .throw-mechanics-wrapper .directions__arrows,
-.main .throw-mechanics-wrapper .directions .arrows {
-  width: 100vw;
-  height: auto;
-  background-color: transparent;
-  margin-bottom: 30vw;
-}
-.main__snowball {
-  height: 20vw;
-  width: auto;
-  background-color: transparent;
-  position: absolute;
-  margin: 180vw 50vw 15vw 50vw;
-  transform: translateX(-10vw);
-  z-index: 100;
-}
-
-@keyframes snowball-animation {
-  0% {
-    height: 20vw;
-    margin: 180vw 50vw 15vw 50vw;
+@media only screen and (max-width: 900px) {
+  body {
+    max-height: 100%;
+    max-width: 100%;
+    background-color: #685370;
   }
-  50% {
+  .main {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .main__first-switch-wrapper,
+  .main .first-switch-wrapper {
+    height: 100vh;
+    width: 100vw;
+    background-color: transparent;
+  }
+  .main__first-switch-wrapper__first-switch,
+  .main .first-switch-wrapper__first-switch {
     height: 30vw;
+    width: auto;
+    margin: 10vw 40vw 0 15vw;
   }
-  100% {
+  .main__first-switch-wrapper__second-switch,
+  .main .first-switch-wrapper__second-switch {
     height: 20vw;
-    margin: -250vw 50vw 15vw 50vw;
+    width: auto;
+    margin: 20vw 30vw 0 15vw;
+  }
+  .main__first-switch-wrapper__third-switch,
+  .main .first-switch-wrapper__third-switch {
+    height: 40vw;
+    width: auto;
+    margin-right: 10vw;
+    margin-left: 55vw;
+    margin-bottom: 2vw;
+  }
+  .main__throw-mechanics-wrapper,
+  .main .throw-mechanics-wrapper {
+    width: 100vw;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: transparent;
+  }
+  .main__throw-mechanics-wrapper__directions,
+  .main__throw-mechanics-wrapper .directions,
+  .main .throw-mechanics-wrapper__directions,
+  .main .throw-mechanics-wrapper .directions {
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+  }
+  .main__throw-mechanics-wrapper__directions__arrows,
+  .main__throw-mechanics-wrapper__directions .arrows,
+  .main__throw-mechanics-wrapper .directions__arrows,
+  .main__throw-mechanics-wrapper .directions .arrows,
+  .main .throw-mechanics-wrapper__directions__arrows,
+  .main .throw-mechanics-wrapper__directions .arrows,
+  .main .throw-mechanics-wrapper .directions__arrows,
+  .main .throw-mechanics-wrapper .directions .arrows {
+    background-color: transparent;
+    margin-bottom: 30vw;
+    position: relative;
+  }
+  .main__throw-mechanics-wrapper__directions__arrows__arrow,
+  .main__throw-mechanics-wrapper__directions .arrows__arrow,
+  .main__throw-mechanics-wrapper .directions__arrows__arrow,
+  .main__throw-mechanics-wrapper .directions .arrows__arrow,
+  .main .throw-mechanics-wrapper__directions__arrows__arrow,
+  .main .throw-mechanics-wrapper__directions .arrows__arrow,
+  .main .throw-mechanics-wrapper .directions__arrows__arrow,
+  .main .throw-mechanics-wrapper .directions .arrows__arrow {
+    padding: 5vw;
+  }
+  .main__throw-mechanics-wrapper__snowball,
+  .main .throw-mechanics-wrapper__snowball {
+    height: 20vw;
+    width: auto;
+    background-color: transparent;
+    animation: snowball-animation 1.2s ease-out 1;
+    position: absolute;
+    margin: 15vw 50vw 15vw 50vw;
+    transform: translateX(-10vw);
+    z-index: 100;
+  }
+  @keyframes snowball-animation {
+    0% {
+      margin: 15vw 50vw 15vw 50vw;
+    }
+    50% {
+      height: 30vw;
+    }
+    100% {
+      margin: -300vw 50vw 15vw 50vw;
+    }
+  }
+}
+@media only screen and (min-width: 901px) {
+  body {
+    max-height: 100%;
+    max-width: 100%;
+    background-color: #685370;
+  }
+  .main {
+    height: 100vh;
+    width: 100vw;
+    border: red solid 4px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 0;
+  }
+  .main__first-switch-wrapper,
+  .main .first-switch-wrapper {
+    width: 100vw;
+    height: auto;
+    border: blue solid 4px;
+    background-color: transparent;
+    margin: 0;
+  }
+  .main__first-switch-wrapper__first-switch,
+  .main .first-switch-wrapper__first-switch {
+    height: 10vw;
+    width: auto;
+    margin: 5vw 10vw 0 20vw;
+  }
+  .main__first-switch-wrapper__second-switch,
+  .main .first-switch-wrapper__second-switch {
+    height: 8vw;
+    width: auto;
+    margin: 6vw 20vw 0 15vw;
+  }
+  .main__first-switch-wrapper__third-switch,
+  .main .first-switch-wrapper__third-switch {
+    height: 10vw;
+    width: auto;
+    margin-right: 10vw;
+    margin-left: 75vw;
+    margin-bottom: 2vw;
+  }
+  .main__throw-mechanics-wrapper,
+  .main .throw-mechanics-wrapper {
+    width: 100vw;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: transparent;
+  }
+  .main__throw-mechanics-wrapper__directions,
+  .main__throw-mechanics-wrapper .directions,
+  .main .throw-mechanics-wrapper__directions,
+  .main .throw-mechanics-wrapper .directions {
+    width: 30vw;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    margin: 5vw 50vw 20vw 50vw;
+    transform: translateX(-15vw);
+  }
+  .main__throw-mechanics-wrapper__directions__arrows,
+  .main__throw-mechanics-wrapper__directions .arrows,
+  .main__throw-mechanics-wrapper .directions__arrows,
+  .main__throw-mechanics-wrapper .directions .arrows,
+  .main .throw-mechanics-wrapper__directions__arrows,
+  .main .throw-mechanics-wrapper__directions .arrows,
+  .main .throw-mechanics-wrapper .directions__arrows,
+  .main .throw-mechanics-wrapper .directions .arrows {
+    background-color: transparent;
+  }
+  .main__throw-mechanics-wrapper__directions__arrows__arrow,
+  .main__throw-mechanics-wrapper__directions .arrows__arrow,
+  .main__throw-mechanics-wrapper .directions__arrows__arrow,
+  .main__throw-mechanics-wrapper .directions .arrows__arrow,
+  .main .throw-mechanics-wrapper__directions__arrows__arrow,
+  .main .throw-mechanics-wrapper__directions .arrows__arrow,
+  .main .throw-mechanics-wrapper .directions__arrows__arrow,
+  .main .throw-mechanics-wrapper .directions .arrows__arrow {
+    padding: 2vw;
+  }
+  .main__throw-mechanics-wrapper__snowball,
+  .main .throw-mechanics-wrapper__snowball {
+    height: 10vw;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    background-color: transparent;
+    position: relative;
+    position: absolute;
+    margin: 5vw 50vw 5vw 50vw;
+    transform: translateX(-5vw);
+    z-index: 100;
+  }
+  @keyframes snowball-animation {
+    0% {
+      margin: 5vw 50vw 5vw 50vw;
+    }
+    50% {
+      height: 14vw;
+    }
+    80% {
+      margin: -300vw 50vw 15vw 50vw;
+    }
+    84% {
+      opacity: 1;
+    }
+    85% {
+      margin: -300vw 50vw 15vw 50vw;
+      opacity: 0;
+    }
+    90% {
+      margin: 30vw 50vw 5vw 50vw;
+      opacity: 0;
+    }
+    91% {
+      opacity: 0;
+    }
+    95% {
+      margin: 15vw 50vw 5vw 50vw;
+    }
   }
 }
 

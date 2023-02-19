@@ -119,62 +119,196 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   return newRequire;
 })({"index.js":[function(require,module,exports) {
 var directionsArrows = document.querySelectorAll(".arrows__arrow");
-console.log("start");
-var pointerOverEvent = function pointerOverEvent(arrow) {
-  console.log("jestem hoover 1");
-  arrow.style.fill = "#86BAB3";
-  arrow.style.opacity = 0.6;
+var snowballThrow = document.querySelector(".throw-mechanics-wrapper__snowball");
+var arrowIsOn = false;
+var rectangleArrowAngle;
+var arrowClicked;
+var theBody = document.querySelector(".main");
+var arrowPosition;
+var arrowPositionHeight;
+var arrowPositionWidth;
+var arrowPositionLeft;
+var arrowPositionRight;
+var arrowPositionTop;
+var arrowPositionBottom;
+var rectangleArrowPosition;
+var directionsForSnowball;
+var snowballTranslateX;
+var snowballTranslateY;
+var allArrows = document.getElementById("ba079a96-df17-41b0-af0d-4c8ae237a5ac").childNodes;
+console.log(allArrows[11]);
+/// hoovering events
+
+var pointerOverEvent = function pointerOverEvent(e) {
+  e.target.style.opacity = 0.3;
 };
-var mouseLeaveEvent = function mouseLeaveEvent(arrow) {
-  console.log("jestem hoover 2");
+var mouseLeaveEvent = function mouseLeaveEvent(e) {
   setTimeout(function () {
-    arrow.style.fill = "#86BAB3";
-    arrow.style.opacity = 0.1;
+    e.target.style.opacity = 0.1;
   }, "1000");
 };
 var addHoverListeners = function addHoverListeners() {
+  arrowIsOn = false;
   directionsArrows.forEach(function (arrow) {
-    arrow.addEventListener("pointerover", function () {
-      return pointerOverEvent(arrow);
-    });
+    arrow.addEventListener("pointerover", pointerOverEvent);
   });
   directionsArrows.forEach(function (arrow) {
-    arrow.addEventListener("mouseleave", function () {
-      return mouseLeaveEvent(arrow);
-    });
+    arrow.addEventListener("mouseleave", mouseLeaveEvent);
   });
 };
 var removeHoverListeners = function removeHoverListeners() {
   directionsArrows.forEach(function (arrow) {
-    arrow.removeEventListener("pointover", function () {
-      return pointerOverEvent(arrow);
-    });
-    arrow.removeEventListener("mouseleave", function () {
-      return mouseLeaveEvent(arrow);
-    });
+    arrow.removeEventListener("pointerover", pointerOverEvent);
+    arrow.removeEventListener("mouseleave", mouseLeaveEvent);
+    arrow.style.opacity = 0.1;
   });
 };
 addHoverListeners();
+
+/// what happens when Arrow is clicked
+
 directionsArrows.forEach(function (arrow) {
-  arrow.addEventListener("click", function () {
-    console.log("zostalem klikniety");
+  arrow.addEventListener("click", function (e) {
+    arrowClicked = e.target;
+    var rectangleArrow = document.createElement("div");
+    arrowPosition = arrowClicked.getBoundingClientRect();
+    arrowPositionLeft = arrowPosition.left + "px";
+    arrowPositionRight = arrowPosition.right + "px";
+    arrowPositionTop = arrowPosition.top + "px";
+    arrowPositionBottom = arrowPosition.bottom + "px";
+    arrowPositionHeight = arrowPosition.height;
+    arrowPositionWidth = arrowPosition.width;
+    console.log(arrowPosition.height, arrowPosition.width);
+    rectangleArrow.style.transformOrigin = "left bottom";
+    rectangleArrow.style.height = arrowPosition.height + "px";
+    rectangleArrow.style.width = arrowPosition.width + "px";
+
+    // rectangleArrow.style.width =
+    //   parseFloat(rectangleArrow.style.width) + 200 + "px";
+
+    // rectangleArrow.style.height =
+    //   parseFloat(rectangleArrow.style.width) / Math.tan(rectangleArrowAngle) +
+    //   "px";
+
+    // console.log(rectangleArrow.style.height);
+
+    // rectangleArrow.style.transform = `translateY(-${arrowPositionHeight})`;
+    rectangleArrow.style.top = arrowPositionTop;
+    rectangleArrow.style.bottom = arrowPositionBottom;
+    rectangleArrow.style.left = arrowPositionLeft;
+    rectangleArrow.style.right = arrowPositionRight;
+    rectangleArrow.style.backgroundColor = "red";
+    rectangleArrow.style.opacity = 0.5;
+    // rectangleArrow.style.transform = "scale(7)";
+
+    rectangleArrow.style.position = "absolute";
+    document.querySelector(".main").append(rectangleArrow);
+    rectangleArrowPosition = rectangleArrow.getBoundingClientRect();
+    var rectangleArrowHeight = parseFloat(rectangleArrow.style.height);
+    var rectangleArrowWidth = parseFloat(rectangleArrow.style.width);
+    var result;
+    console.log(rectangleArrow.style.height, rectangleArrowHeight);
+    function getTheAngle(rectangleArrowHeight, rectangleArrowWidth) {
+      result = Math.atan(rectangleArrowHeight / rectangleArrowWidth);
+      return result;
+    }
+    getTheAngle(rectangleArrowHeight, rectangleArrowWidth);
+    console.log("this is the angle", getTheAngle(rectangleArrowHeight, rectangleArrowWidth));
+    console.log("rectangleArrowHeight", rectangleArrowHeight);
+    console.log("rectangleArrowWidth", rectangleArrowWidth);
+    // let angle = getTheAngle(rectangleArrowHeight, rectangleArrowWidth);
+    // angle = 31;
+    angle = result;
+    var newHeight = rectangleArrowHeight + 100;
+    var newWidthCalc = function newWidthCalc(newHeight, result) {
+      var newWidthResult = newHeight / Math.tan(result);
+      return newWidthResult;
+    };
+    var newWidth = newWidthCalc(newHeight, result);
+    console.log("This is new height", newHeight, "and this is new width", newWidth);
+    rectangleArrow.style.height = newHeight + "px";
+    rectangleArrow.style.width = newWidth + "px";
+    rectangleArrow.style.transform = "translateY(-".concat(newHeight - arrowPositionHeight, "px)");
+    snowballTranslateX = rectangleArrow.style.width;
+    snowballTranslateY = rectangleArrow.style.height;
+    console.log(snowballTranslateX, snowballTranslateY);
+    var directionOfThrow = function directionOfThrow() {
+      directionsForSnowball = "translateX(".concat(snowballTranslateX, ") translateY(-").concat(snowballTranslateY, ") ");
+      return directionsForSnowball;
+    };
+    var directionsForSnowballRead = directionOfThrow();
+    var throwingSnowBall = [{
+      transform: directionsForSnowball
+    }];
+    console.log(directionsForSnowball);
+    var throwingSnowBallTiming = {
+      duration: 1000,
+      iterations: 1
+    };
+    snowballThrow.addEventListener("click", function () {
+      snowballThrow.animate(throwingSnowBall, throwingSnowBallTiming);
+    });
+    for (var i = 0; i < allArrows.length; i++) {
+      if (i % 2 == !0) {
+        allArrows[i].style.opacity = "0.1";
+      } //changing all the arrows to 0.1 opacity
+    }
+
     removeHoverListeners();
     arrow.style.opacity = 1;
-    // document.querySelector(.)
   });
 });
 
-directionsArrows.forEach(function (arrow) {
-  arrow.addEventListener("doubleClick", function () {
+// unclicking the arrows
+
+function clickOutside(e) {
+  if (!e.target.classList.contains("arrows__arrow")) {
+    console.log("target doesn't include");
     removeHoverListeners();
     addHoverListeners();
-    // arrow.style.opacity = 1;
+  }
+}
+theBody.addEventListener("click", clickOutside);
+directionsArrows.forEach(function (arrow) {
+  arrow.addEventListener("dblclick", function () {
+    console.log("doubleclick");
+    removeHoverListeners();
+    addHoverListeners();
+    arrow.style.opacity = 0.1;
   });
 });
 
-//const = () => clickHandler()....#86BAB3
+// throwing a snowball // how to make the animation run every time we click
+// can i make animation dynamically choosing the direction
 
-//element.removeEventListener("click", clickHandler);
+// snowballThrow.addEventListener("click", () => {
+//   console.log("snowball clicked");
+//   if (arrowIsOn == true) {
+//     snowballThrow.style.animation = "snowball-animation 2.5s ease-out 1";
+//   } else {
+//     console.log("choose an arrow");
+//   }
+// });
+
+// const directionOfThrow = () => {
+//   directionsForSnowball = `translateX(${translateX}px) translateY(${translateY}px) scale(1)`;
+//   return directionsForSnowball;
+// };
+
+// let directionsForSnowballRead = directionOfThrow();
+
+// console.log(directionsForSnowball);
+
+// const throwingSnowBall = [{ transform: directionsForSnowball }];
+
+// const throwingSnowBallTiming = {
+//   duration: 2000,
+//   iterations: 1,
+// };
+
+// snowballThrow.addEventListener("click", () => {
+//   snowballThrow.animate(throwingSnowBall, throwingSnowBallTiming);
+// });
 },{}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -200,7 +334,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52974" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49874" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

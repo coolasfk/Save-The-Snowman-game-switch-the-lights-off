@@ -10,15 +10,14 @@
   box-sizing: border-box;
   overflow-x: hidden;
 }
+@media only screen and (max-width: 900px) {
+  body {
+    max-height: 100%;
+    max-width: 100%;
 
-body {
-  max-height: 100%;
-  max-width: 100%;
+    background-color: c.$background-color;
+  }
 
-  background-color: c.$background-color;
-}
-
-@media (max-width: 600px) {
   .header {
     display: flex;
     justify-content: center;
@@ -55,8 +54,85 @@ body {
 
         &__snowball {
           cursor: pointer;
-          margin-bottom: 20vw;
-          height: 80vw;
+          margin-bottom: 80vw;
+          height: 40vw;
+          animation: moveSnowBall 2s infinite ease-in-out;
+        }
+      }
+    }
+  }
+  .footer {
+    &__rules-wrapper,
+    .rules-wrapper {
+      &__rules {
+        font: t.$p-font;
+        color: c.$p-font-color;
+        margin: 0 10vw 0 10vw;
+        text-align: center;
+      }
+    }
+  }
+}
+
+@keyframes moveSnowBall {
+  0% {
+    transform: translateY(5vw);
+  }
+
+  50% {
+    transform: translateY(0vw);
+  }
+  100% {
+    transform: translateY(5vw);
+  }
+}
+
+@media only screen and (min-width: 901px) {
+  body {
+    max-height: 100%;
+    max-width: 100%;
+
+    background-color: c.$background-color;
+  }
+
+  .header {
+    display: flex;
+    justify-content: center;
+    &__title {
+      margin-top: 5vh;
+      margin-bottom: 10vh;
+      text-align: center;
+      font: t.$headline-font;
+      color: c.$snowman-color;
+      max-width: 80vw;
+    }
+  }
+  .main {
+    display: flex;
+    justify-content: center;
+    &__snowball-wrapper-link,
+    .snowball-wrapper-link {
+      display: flex;
+      justify-content: center;
+      &__snowball-wrapper,
+      .snowball-wrapper {
+        display: flex;
+        justify-content: center;
+
+        &__snowball-cta {
+          margin-top: 20vw;
+          position: absolute;
+          z-index: 10;
+          color: c.$background-color;
+          font: t.$h3-font;
+          cursor: pointer;
+          text-align: center;
+        }
+
+        &__snowball {
+          cursor: pointer;
+          margin-bottom: 10vw;
+          height: 40vw;
           animation: moveSnowBall 2s infinite ease-in-out;
         }
       }
