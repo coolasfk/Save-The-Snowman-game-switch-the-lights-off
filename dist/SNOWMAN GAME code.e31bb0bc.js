@@ -120,6 +120,9 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 })({"index.js":[function(require,module,exports) {
 var directionsArrows = document.querySelectorAll(".arrows__arrow");
 var snowballThrow = document.querySelector(".throw-mechanics-wrapper__snowball");
+var firstSwitch = document.getElementById("firstSwitch");
+var secondSwitch = document.getElementById("secondSwitch");
+var thirdSwitch = document.getElementById("thirdSwitch");
 var arrowIsOn = false;
 var rectangleArrowAngle;
 var arrowClicked;
@@ -135,6 +138,7 @@ var rectangleArrowPosition;
 var directionsForSnowball;
 var snowballTranslateX;
 var snowballTranslateY;
+var powerOfThrow = 330;
 var allArrows = document.getElementById("ba079a96-df17-41b0-af0d-4c8ae237a5ac").childNodes;
 
 /// hoovering events
@@ -203,10 +207,8 @@ directionsArrows.forEach(function (arrow) {
     console.log("this is the angle", getTheAngle(rectangleArrowHeight, rectangleArrowWidth));
     console.log("rectangleArrowHeight", rectangleArrowHeight);
     console.log("rectangleArrowWidth", rectangleArrowWidth);
-    // let angle = getTheAngle(rectangleArrowHeight, rectangleArrowWidth);
-    // angle = 31;
     angle = result;
-    var newHeight = rectangleArrowHeight + 100;
+    var newHeight = rectangleArrowHeight + powerOfThrow;
     var newWidthCalc = function newWidthCalc(newHeight, result) {
       var newWidthResult = newHeight / Math.tan(result);
       return newWidthResult;
@@ -218,6 +220,22 @@ directionsArrows.forEach(function (arrow) {
     rectangleArrow.style.transform = "translateY(-".concat(newHeight - arrowPositionHeight, "px)");
     snowballTranslateX = rectangleArrow.style.width;
     snowballTranslateY = rectangleArrow.style.height;
+    var fakeSnowball = document.createElement("div");
+    var snowball = document.getElementById("b5716cf9-1b3f-4ddb-b558-979ef37c5855");
+    console.log(snowball);
+    var snowballPosition = snowball.getBoundingClientRect();
+    fakeSnowball.style.top = snowballPosition.top;
+    fakeSnowball.style.height = snowballPosition.height + "px";
+    console.log(fakeSnowball.style.height);
+    fakeSnowball.style.width = snowballPosition.width + "px";
+    fakeSnowball.style.top = snowballPosition.top + "px";
+    fakeSnowball.style.bottom = snowballPosition.bottom + "px";
+    fakeSnowball.style.left = snowballPosition.left + "px";
+    fakeSnowball.style.right = snowballPosition.right + "px";
+    fakeSnowball.style.position = "absolute";
+    fakeSnowball.style.backgroundColor = "green";
+    document.querySelector(".footer").append(fakeSnowball);
+    console.log(fakeSnowball.style.height);
     console.log(snowballTranslateX, snowballTranslateY);
     console.log(arrowClicked);
     var directionOfThrow;
@@ -303,7 +321,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53977" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54623" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

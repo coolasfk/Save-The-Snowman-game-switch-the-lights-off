@@ -2,6 +2,9 @@ const directionsArrows = document.querySelectorAll(".arrows__arrow");
 const snowballThrow = document.querySelector(
   ".throw-mechanics-wrapper__snowball",
 );
+const firstSwitch = document.getElementById("firstSwitch");
+const secondSwitch = document.getElementById("secondSwitch");
+const thirdSwitch = document.getElementById("thirdSwitch");
 
 let arrowIsOn = false;
 let rectangleArrowAngle;
@@ -20,6 +23,7 @@ let rectangleArrowPosition;
 let directionsForSnowball;
 let snowballTranslateX;
 let snowballTranslateY;
+let powerOfThrow = 330;
 
 let allArrows = document.getElementById(
   "ba079a96-df17-41b0-af0d-4c8ae237a5ac",
@@ -107,10 +111,9 @@ directionsArrows.forEach((arrow) => {
 
     console.log("rectangleArrowHeight", rectangleArrowHeight);
     console.log("rectangleArrowWidth", rectangleArrowWidth);
-    // let angle = getTheAngle(rectangleArrowHeight, rectangleArrowWidth);
-    // angle = 31;
+
     angle = result;
-    let newHeight = rectangleArrowHeight + 100;
+    let newHeight = rectangleArrowHeight + powerOfThrow;
 
     const newWidthCalc = (newHeight, result) => {
       let newWidthResult = newHeight / Math.tan(result);
@@ -134,6 +137,29 @@ directionsArrows.forEach((arrow) => {
 
     snowballTranslateX = rectangleArrow.style.width;
     snowballTranslateY = rectangleArrow.style.height;
+
+    const fakeSnowball = document.createElement("div");
+    const snowball = document.getElementById(
+      "b5716cf9-1b3f-4ddb-b558-979ef37c5855",
+    );
+
+    console.log(snowball);
+    let snowballPosition = snowball.getBoundingClientRect();
+    fakeSnowball.style.top = snowballPosition.top;
+
+    fakeSnowball.style.height = snowballPosition.height + "px";
+    console.log(fakeSnowball.style.height);
+    fakeSnowball.style.width = snowballPosition.width + "px";
+    fakeSnowball.style.top = snowballPosition.top + "px";
+    fakeSnowball.style.bottom = snowballPosition.bottom + "px";
+    fakeSnowball.style.left = snowballPosition.left + "px";
+    fakeSnowball.style.right = snowballPosition.right + "px";
+    fakeSnowball.style.position = "absolute";
+
+    fakeSnowball.style.backgroundColor = "green";
+    document.querySelector(".footer").append(fakeSnowball);
+
+    console.log(fakeSnowball.style.height);
 
     console.log(snowballTranslateX, snowballTranslateY);
 
