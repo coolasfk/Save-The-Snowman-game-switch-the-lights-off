@@ -136,7 +136,7 @@ var directionsForSnowball;
 var snowballTranslateX;
 var snowballTranslateY;
 var allArrows = document.getElementById("ba079a96-df17-41b0-af0d-4c8ae237a5ac").childNodes;
-console.log(allArrows[11]);
+
 /// hoovering events
 
 var pointerOverEvent = function pointerOverEvent(e) {
@@ -182,25 +182,12 @@ directionsArrows.forEach(function (arrow) {
     rectangleArrow.style.transformOrigin = "left bottom";
     rectangleArrow.style.height = arrowPosition.height + "px";
     rectangleArrow.style.width = arrowPosition.width + "px";
-
-    // rectangleArrow.style.width =
-    //   parseFloat(rectangleArrow.style.width) + 200 + "px";
-
-    // rectangleArrow.style.height =
-    //   parseFloat(rectangleArrow.style.width) / Math.tan(rectangleArrowAngle) +
-    //   "px";
-
-    // console.log(rectangleArrow.style.height);
-
-    // rectangleArrow.style.transform = `translateY(-${arrowPositionHeight})`;
     rectangleArrow.style.top = arrowPositionTop;
     rectangleArrow.style.bottom = arrowPositionBottom;
     rectangleArrow.style.left = arrowPositionLeft;
     rectangleArrow.style.right = arrowPositionRight;
     rectangleArrow.style.backgroundColor = "red";
     rectangleArrow.style.opacity = 0.5;
-    // rectangleArrow.style.transform = "scale(7)";
-
     rectangleArrow.style.position = "absolute";
     document.querySelector(".main").append(rectangleArrow);
     rectangleArrowPosition = rectangleArrow.getBoundingClientRect();
@@ -232,10 +219,24 @@ directionsArrows.forEach(function (arrow) {
     snowballTranslateX = rectangleArrow.style.width;
     snowballTranslateY = rectangleArrow.style.height;
     console.log(snowballTranslateX, snowballTranslateY);
-    var directionOfThrow = function directionOfThrow() {
-      directionsForSnowball = "translateX(".concat(snowballTranslateX, ") translateY(-").concat(snowballTranslateY, ") ");
-      return directionsForSnowball;
-    };
+    console.log(arrowClicked);
+    var directionOfThrow;
+    for (i = 0; i < 15; i++) {
+      if (arrowClicked == allArrows[i]) {
+        directionOfThrow = function directionOfThrow() {
+          directionsForSnowball = "translateX(".concat(snowballTranslateX, ") translateY(-").concat(snowballTranslateY, ") ");
+          return directionsForSnowball;
+        };
+      }
+    }
+    for (i = 15; i < 30; i++) {
+      if (arrowClicked == allArrows[i]) {
+        directionOfThrow = function directionOfThrow() {
+          directionsForSnowball = "translateX(-".concat(snowballTranslateX, ") translateY(-").concat(snowballTranslateY, ") ");
+          return directionsForSnowball;
+        };
+      }
+    }
     var directionsForSnowballRead = directionOfThrow();
     var throwingSnowBall = [{
       transform: directionsForSnowball
@@ -248,9 +249,9 @@ directionsArrows.forEach(function (arrow) {
     snowballThrow.addEventListener("click", function () {
       snowballThrow.animate(throwingSnowBall, throwingSnowBallTiming);
     });
-    for (var i = 0; i < allArrows.length; i++) {
-      if (i % 2 == !0) {
-        allArrows[i].style.opacity = "0.1";
+    for (var _i = 0; _i < allArrows.length; _i++) {
+      if (_i % 2 == !0) {
+        allArrows[_i].style.opacity = "0.1";
       } //changing all the arrows to 0.1 opacity
     }
 
@@ -277,38 +278,6 @@ directionsArrows.forEach(function (arrow) {
     arrow.style.opacity = 0.1;
   });
 });
-
-// throwing a snowball // how to make the animation run every time we click
-// can i make animation dynamically choosing the direction
-
-// snowballThrow.addEventListener("click", () => {
-//   console.log("snowball clicked");
-//   if (arrowIsOn == true) {
-//     snowballThrow.style.animation = "snowball-animation 2.5s ease-out 1";
-//   } else {
-//     console.log("choose an arrow");
-//   }
-// });
-
-// const directionOfThrow = () => {
-//   directionsForSnowball = `translateX(${translateX}px) translateY(${translateY}px) scale(1)`;
-//   return directionsForSnowball;
-// };
-
-// let directionsForSnowballRead = directionOfThrow();
-
-// console.log(directionsForSnowball);
-
-// const throwingSnowBall = [{ transform: directionsForSnowball }];
-
-// const throwingSnowBallTiming = {
-//   duration: 2000,
-//   iterations: 1,
-// };
-
-// snowballThrow.addEventListener("click", () => {
-//   snowballThrow.animate(throwingSnowBall, throwingSnowBallTiming);
-// });
 },{}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -334,7 +303,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49874" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53977" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

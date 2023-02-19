@@ -25,7 +25,6 @@ let allArrows = document.getElementById(
   "ba079a96-df17-41b0-af0d-4c8ae237a5ac",
 ).childNodes;
 
-console.log(allArrows[11]);
 /// hoovering events
 
 const pointerOverEvent = (e) => {
@@ -77,16 +76,6 @@ directionsArrows.forEach((arrow) => {
     rectangleArrow.style.height = arrowPosition.height + "px";
     rectangleArrow.style.width = arrowPosition.width + "px";
 
-    // rectangleArrow.style.width =
-    //   parseFloat(rectangleArrow.style.width) + 200 + "px";
-
-    // rectangleArrow.style.height =
-    //   parseFloat(rectangleArrow.style.width) / Math.tan(rectangleArrowAngle) +
-    //   "px";
-
-    // console.log(rectangleArrow.style.height);
-
-    // rectangleArrow.style.transform = `translateY(-${arrowPositionHeight})`;
     rectangleArrow.style.top = arrowPositionTop;
 
     rectangleArrow.style.bottom = arrowPositionBottom;
@@ -94,7 +83,6 @@ directionsArrows.forEach((arrow) => {
     rectangleArrow.style.right = arrowPositionRight;
     rectangleArrow.style.backgroundColor = "red";
     rectangleArrow.style.opacity = 0.5;
-    // rectangleArrow.style.transform = "scale(7)";
 
     rectangleArrow.style.position = "absolute";
     document.querySelector(".main").append(rectangleArrow);
@@ -149,10 +137,24 @@ directionsArrows.forEach((arrow) => {
 
     console.log(snowballTranslateX, snowballTranslateY);
 
-    const directionOfThrow = () => {
-      directionsForSnowball = `translateX(${snowballTranslateX}) translateY(-${snowballTranslateY}) `;
-      return directionsForSnowball;
-    };
+    console.log(arrowClicked);
+    let directionOfThrow;
+    for (i = 0; i < 15; i++) {
+      if (arrowClicked == allArrows[i]) {
+        directionOfThrow = () => {
+          directionsForSnowball = `translateX(${snowballTranslateX}) translateY(-${snowballTranslateY}) `;
+          return directionsForSnowball;
+        };
+      }
+    }
+    for (i = 15; i < 30; i++) {
+      if (arrowClicked == allArrows[i]) {
+        directionOfThrow = () => {
+          directionsForSnowball = `translateX(-${snowballTranslateX}) translateY(-${snowballTranslateY}) `;
+          return directionsForSnowball;
+        };
+      }
+    }
 
     let directionsForSnowballRead = directionOfThrow();
 
@@ -201,35 +203,3 @@ directionsArrows.forEach((arrow) => {
     arrow.style.opacity = 0.1;
   });
 });
-
-// throwing a snowball // how to make the animation run every time we click
-// can i make animation dynamically choosing the direction
-
-// snowballThrow.addEventListener("click", () => {
-//   console.log("snowball clicked");
-//   if (arrowIsOn == true) {
-//     snowballThrow.style.animation = "snowball-animation 2.5s ease-out 1";
-//   } else {
-//     console.log("choose an arrow");
-//   }
-// });
-
-// const directionOfThrow = () => {
-//   directionsForSnowball = `translateX(${translateX}px) translateY(${translateY}px) scale(1)`;
-//   return directionsForSnowball;
-// };
-
-// let directionsForSnowballRead = directionOfThrow();
-
-// console.log(directionsForSnowball);
-
-// const throwingSnowBall = [{ transform: directionsForSnowball }];
-
-// const throwingSnowBallTiming = {
-//   duration: 2000,
-//   iterations: 1,
-// };
-
-// snowballThrow.addEventListener("click", () => {
-//   snowballThrow.animate(throwingSnowBall, throwingSnowBallTiming);
-// });
