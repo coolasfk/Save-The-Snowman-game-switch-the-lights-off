@@ -1,5 +1,3 @@
-// napisz komentarze
-
 const directionsArrows = document.querySelectorAll(".arrows__arrow");
 const snowballThrow = document.querySelector(
   ".throw-mechanics-wrapper__snowball",
@@ -7,33 +5,29 @@ const snowballThrow = document.querySelector(
 const firstSwitch = document.getElementById("firstSwitch");
 const secondSwitch = document.getElementById("secondSwitch");
 const thirdSwitch = document.getElementById("thirdSwitch");
-//isArrowOn is zawsze na poczatku
+
 let isArrowOn = false;
 let rectangleArrowAngle;
 
 let arrowClicked;
 const theBody = document.querySelector(".main");
-// czytelniej : przypisuj zmiennym poczatkowe wartosci
 
-let arrowPosition = 0;
-let arrowPositionHeight = 0;
-let arrowPositionWidth = 0;
-let arrowPositionLeft = 0;
-let arrowPositionRight = 0;
-let arrowPositionTop = 0;
-let arrowPositionBottom = 0;
-let rectangleArrowPosition = 0;
-let directionsForSnowball = 0;
-let snowballTranslateX = "";
-let snowballTranslateY = "";
-let powerOfThrow = 400;
-//przenies atrybut
+let arrowPosition;
+let arrowPositionHeight;
+let arrowPositionWidth;
+let arrowPositionLeft;
+let arrowPositionRight;
+let arrowPositionTop;
+let arrowPositionBottom;
+let rectangleArrowPosition;
+let directionsForSnowball;
+let snowballTranslateX;
+let snowballTranslateY;
+let powerOfThrow = 330;
+
 let allArrows = document.getElementById(
   "ba079a96-df17-41b0-af0d-4c8ae237a5ac",
 ).childNodes;
-
-// let allArrows = document.querySelector('[data-id="all-arrows"]').childNodes;
-//TODO Awpisane w zlym miejscu
 
 /// hoovering events
 
@@ -48,7 +42,7 @@ const mouseLeaveEvent = (e) => {
 };
 
 const addHoverListeners = () => {
-  isArrowOn = false; //TODO
+  isArrowOn = false;
   directionsArrows.forEach((arrow) => {
     arrow.addEventListener("pointerover", pointerOverEvent);
   });
@@ -73,11 +67,9 @@ addHoverListeners();
 directionsArrows.forEach((arrow) => {
   arrow.addEventListener("click", (e) => {
     arrowClicked = e.target;
-    // nie potrzenuje tylu zmiennych
-    //rozbic na inne funkcje
     let rectangleArrow = document.createElement("div");
     arrowPosition = arrowClicked.getBoundingClientRect();
-    arrowPositionLeft = arrowPosition.left + "px"; //TODO
+    arrowPositionLeft = arrowPosition.left + "px";
     arrowPositionRight = arrowPosition.right + "px";
     arrowPositionTop = arrowPosition.top + "px";
     arrowPositionBottom = arrowPosition.bottom + "px";
@@ -97,7 +89,7 @@ directionsArrows.forEach((arrow) => {
     rectangleArrow.style.opacity = 0.5;
 
     rectangleArrow.style.position = "absolute";
-    theBody.append(rectangleArrow);
+    document.querySelector(".main").append(rectangleArrow);
 
     rectangleArrowPosition = rectangleArrow.getBoundingClientRect();
 
@@ -105,12 +97,10 @@ directionsArrows.forEach((arrow) => {
     let rectangleArrowWidth = parseFloat(rectangleArrow.style.width);
     let result;
     console.log(rectangleArrow.style.height, rectangleArrowHeight);
-    // function getTheAngle(rectangleArrowHeight, rectangleArrowWidth) {
-    //   result = Math.atan(rectangleArrowHeight / rectangleArrowWidth);
-    //   return result;
-    // }
-    const getTheAngle = (rectangleArrowHeight, rectangleArrowWidth) =>
-      Math.atan(rectangleArrowHeight / rectangleArrowWidth); //TODO
+    function getTheAngle(rectangleArrowHeight, rectangleArrowWidth) {
+      result = Math.atan(rectangleArrowHeight / rectangleArrowWidth);
+      return result;
+    }
 
     getTheAngle(rectangleArrowHeight, rectangleArrowWidth);
 
@@ -125,10 +115,11 @@ directionsArrows.forEach((arrow) => {
     angle = result;
     let newHeight = rectangleArrowHeight + powerOfThrow;
 
-    const newWidthCalc = (
-      newHeight,
-      result, //TODO
-    ) => newHeight / Math.tan(result);
+    const newWidthCalc = (newHeight, result) => {
+      let newWidthResult = newHeight / Math.tan(result);
+
+      return newWidthResult;
+    };
 
     const newWidth = newWidthCalc(newHeight, result);
     console.log(
@@ -144,14 +135,12 @@ directionsArrows.forEach((arrow) => {
       newHeight - arrowPositionHeight
     }px)`;
 
-    //const foo = (name,age,country='Poland')=>...
-
     snowballTranslateX = rectangleArrow.style.width;
     snowballTranslateY = rectangleArrow.style.height;
 
     const fakeSnowball = document.createElement("div");
     const snowball = document.getElementById(
-      "b5716cf9-1b3f-4ddb-b558-979ef37c5855", //TODO
+      "b5716cf9-1b3f-4ddb-b558-979ef37c5855",
     );
 
     console.log(snowball);
@@ -175,18 +164,16 @@ directionsArrows.forEach((arrow) => {
     console.log(snowballTranslateX, snowballTranslateY);
 
     console.log(arrowClicked);
-    let directionOfThrow; //TODO
+    let directionOfThrow;
     for (i = 0; i < 15; i++) {
       if (arrowClicked == allArrows[i]) {
         fakeSnowball.style.transform = `translateX(${snowballTranslateX}) translateY(-${snowballTranslateY}) `;
-
         directionOfThrow = () => {
           directionsForSnowball = `translateX(${snowballTranslateX}) translateY(-${snowballTranslateY}) `;
           return directionsForSnowball;
         };
       }
     }
-    console.log("po 1 petli", directionOfThrow);
     for (i = 15; i < 30; i++) {
       if (arrowClicked == allArrows[i]) {
         fakeSnowball.style.transform = `translateX(-${snowballTranslateX}) translateY(-${snowballTranslateY}) `;
@@ -196,7 +183,6 @@ directionsArrows.forEach((arrow) => {
         };
       }
     }
-    console.log("po 2 petli", directionOfThrow);
 
     console.log("after the shoot", fakeSnowball.getBoundingClientRect());
 
@@ -208,8 +194,6 @@ directionsArrows.forEach((arrow) => {
     } else {
       console.log("miss");
     }
-
-    console.log("przed przypisaniem", directionOfThrow);
 
     let directionsForSnowballRead = directionOfThrow();
 
@@ -240,7 +224,6 @@ directionsArrows.forEach((arrow) => {
 // unclicking the arrows
 
 function clickOutside(e) {
-  //TODO
   if (!e.target.classList.contains("arrows__arrow")) {
     console.log("target doesn't include");
     removeHoverListeners();

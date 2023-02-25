@@ -117,21 +117,25 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"index.js":[function(require,module,exports) {
-// napisz komentarze
+})({"index-copy.js":[function(require,module,exports) {
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+///------------ VARIABLES ------------///
 
 var directionsArrows = document.querySelectorAll(".arrows__arrow");
 var snowballThrow = document.querySelector(".throw-mechanics-wrapper__snowball");
-var firstSwitch = document.getElementById("firstSwitch");
+var firstSwitch = document.getElementById("firstSwitch-ON");
+var firstSwitchOff = document.getElementById("firstSwitch-OFF");
 var secondSwitch = document.getElementById("secondSwitch");
 var thirdSwitch = document.getElementById("thirdSwitch");
-//isArrowOn is zawsze na poczatku
 var isArrowOn = false;
 var rectangleArrowAngle;
-var arrowClicked;
+var arrowClicked = {};
 var theBody = document.querySelector(".main");
-// czytelniej : przypisuj zmiennym poczatkowe wartosci
-
 var arrowPosition = 0;
 var arrowPositionHeight = 0;
 var arrowPositionWidth = 0;
@@ -143,14 +147,21 @@ var rectangleArrowPosition = 0;
 var directionsForSnowball = 0;
 var snowballTranslateX = "";
 var snowballTranslateY = "";
-var powerOfThrow = 400;
-//przenies atrybut
-var allArrows = document.getElementById("ba079a96-df17-41b0-af0d-4c8ae237a5ac").childNodes;
+var powerOfThrow = 300;
+var result = 0;
+var rectangleArrowHeight = 0;
+var rectangleArrowWidth = 0;
+var rectangleArrow = {};
+var newHeight = 0;
+var newWidth = 0;
+var fakeSnowballAfterThrowPosition = {};
+var directionOfThrow; /// how to show function
+var distanceBetweenSnowballAndSwitch = 0;
+var snowball = document.querySelector("[data-id = \"snowball\"]");
+var fakeSnowball = document.createElement("div");
+var allArrows = document.querySelector("[data-id=\"allArrows\"]").childNodes;
 
-// let allArrows = document.querySelector('[data-id="all-arrows"]').childNodes;
-//TODO Awpisane w zlym miejscu
-
-/// hoovering events
+///------------ FUNCTIONS HOOVERING EVENTS ------------///
 
 var pointerOverEvent = function pointerOverEvent(e) {
   e.target.style.opacity = 0.3;
@@ -161,7 +172,7 @@ var mouseLeaveEvent = function mouseLeaveEvent(e) {
   }, "1000");
 };
 var addHoverListeners = function addHoverListeners() {
-  isArrowOn = false; //TODO
+  isArrowOn = false;
   directionsArrows.forEach(function (arrow) {
     arrow.addEventListener("pointerover", pointerOverEvent);
   });
@@ -173,165 +184,197 @@ var removeHoverListeners = function removeHoverListeners() {
   directionsArrows.forEach(function (arrow) {
     arrow.removeEventListener("pointerover", pointerOverEvent);
     arrow.removeEventListener("mouseleave", mouseLeaveEvent);
-    arrow.style.opacity = 0.1;
   });
 };
 addHoverListeners();
+///------------ FUNCTIONS FOR ARROW CLICKED ------------///
+var addingRectangleForSnowballDirection = function addingRectangleForSnowballDirection(arrowClicked) {
+  rectangleArrow = document.createElement("div");
+  arrowPosition = arrowClicked.getBoundingClientRect();
+  arrowPositionHeight = arrowPosition.height;
+  arrowPositionWidth = arrowPosition.width;
+  rectangleArrow.style.transformOrigin = "left bottom";
+  rectangleArrow.style.height = arrowPosition.height + "px";
+  rectangleArrow.style.width = arrowPosition.width + "px";
+  rectangleArrow.style.top = arrowPosition.top + "px";
+  rectangleArrow.style.bottom = arrowPosition.bottom + "px";
+  rectangleArrow.style.left = arrowPosition.left + "px";
+  rectangleArrow.style.right = arrowPosition.right + "px";
+  rectangleArrow.style.backgroundColor = "red";
+  rectangleArrow.style.opacity = 0.2;
+  rectangleArrow.style.position = "absolute";
+  document.querySelector(".main").append(rectangleArrow);
+  rectangleArrowPosition = rectangleArrow.getBoundingClientRect();
+  rectangleArrowHeight = parseFloat(rectangleArrow.style.height);
+  rectangleArrowWidth = parseFloat(rectangleArrow.style.width);
+};
+var getTheAngle = function getTheAngle(rectangleArrowHeight, rectangleArrowWidth) {
+  return angle = Math.atan(rectangleArrowHeight / rectangleArrowWidth);
+};
+var createFakeSnowball = function createFakeSnowball() {
+  var snowballPosition = snowball.getBoundingClientRect();
+  fakeSnowball.style.top = snowballPosition.top;
+  fakeSnowball.style.height = snowballPosition.height + "px";
+  fakeSnowball.style.width = snowballPosition.width + "px";
+  fakeSnowball.style.top = snowballPosition.top + "px";
+  fakeSnowball.style.bottom = snowballPosition.bottom + "px";
+  fakeSnowball.style.left = snowballPosition.left + "px";
+  fakeSnowball.style.right = snowballPosition.right + "px";
+  fakeSnowball.style.position = "absolute";
+  fakeSnowball.style.opacity = 0.1;
+  fakeSnowball.style.backgroundColor = "green";
+  document.querySelector(".footer").append(fakeSnowball);
+};
+var newWidthCalc = function newWidthCalc(angle) {
+  newHeight = rectangleArrowHeight + powerOfThrow;
+  newWidth = newHeight / Math.tan(angle);
+  return newWidth;
+};
+var changeAllArrowsOpacity = function changeAllArrowsOpacity() {
+  for (var _i = 0; _i < allArrows.length; _i++) {
+    if (_i % 2 == !0) {
+      allArrows[_i].style.opacity = "0.1";
+    }
+  }
+};
+var definingDirectionOfThrow = function definingDirectionOfThrow(newWidth) {
+  rectangleArrow.style.height = newHeight + "px";
+  rectangleArrow.style.width = newWidth + "px";
+  rectangleArrow.style.transform = "translateY(-".concat(newHeight - arrowPositionHeight, "px)");
+  snowballTranslateX = rectangleArrow.style.width;
+  snowballTranslateY = rectangleArrow.style.height;
+  for (i = 0; i < 15; i++) {
+    if (arrowClicked == allArrows[i]) {
+      fakeSnowball.style.transform = "translateX(".concat(snowballTranslateX, ") translateY(-").concat(snowballTranslateY, ") ");
+      directionOfThrow = function directionOfThrow() {
+        directionsForSnowball = [parseFloat(snowballTranslateX), -parseFloat(snowballTranslateY)];
+        return directionsForSnowball;
+      };
+    }
+  }
+  for (i = 15; i < 30; i++) {
+    if (arrowClicked == allArrows[i]) {
+      fakeSnowball.style.transform = "translateX(-".concat(snowballTranslateX, ") translateY(-").concat(snowballTranslateY, ") ");
+      directionOfThrow = function directionOfThrow() {
+        directionsForSnowball = [-parseFloat(snowballTranslateX), -parseFloat(snowballTranslateY)];
+        return directionsForSnowball;
+      };
+    }
+  }
+};
+var animationSnowball = function animationSnowball() {
+  var _directionOfThrow = directionOfThrow(),
+    _directionOfThrow2 = _slicedToArray(_directionOfThrow, 2),
+    finalMoveX = _directionOfThrow2[0],
+    finalMoveY = _directionOfThrow2[1];
+  var throwingSnowBall = [{
+    transform: "scale(1)"
+  }, {
+    transform: "translateX(".concat(finalMoveX / 2, "px) translateY(").concat(finalMoveY / 2, "px) scale(1.5)")
+  }, {
+    transform: "translateX(".concat(finalMoveX, "px) translateY(").concat(finalMoveY, "px) scale(0.8)")
+  }];
+  var throwingSnowBallTiming = {
+    duration: 1000,
+    iterations: 1
+  };
 
-/// what happens when Arrow is clicked
+  // ??????????? why this does not work ??????;
+  snowballThrow.style.animationTimingFunction = "ease-out";
+  snowballThrow.addEventListener("click", function () {
+    snowballThrow.animate(throwingSnowBall, throwingSnowBallTiming);
+  });
+};
+var checkingIfSwitchGotHit = function checkingIfSwitchGotHit(switches) {
+  console.log(switches);
+  fakeSnowballAfterThrowPosition = fakeSnowball.getBoundingClientRect();
+  switchPosition = switches.getBoundingClientRect();
+  var xSideSnowball = fakeSnowballAfterThrowPosition.left;
+  var ySideSnowball = fakeSnowballAfterThrowPosition.top;
+  var xSideSwitch = switchPosition.left;
+  var ySideSwitch = switchPosition.top;
+  var xTriangleBetweenSnowballAndSwitch;
+  var yTriangleBetweenSnowballAndSwitch;
+  if (xSideSnowball > xSideSwitch) {
+    xTriangleBetweenSnowballAndSwitch = xSideSnowball - xSideSwitch;
+  } else if (xSideSnowball < xSideSwitch) {
+    xTriangleBetweenSnowballAndSwitch = xSideSwitch - xSideSnowball;
+  }
+  if (ySideSnowball > ySideSwitch) {
+    yTriangleBetweenSnowballAndSwitch = ySideSnowball - ySideSwitch;
+  } else if (ySideSnowball < ySideSwitch) {
+    yTriangleBetweenSnowballAndSwitch = ySideSwitch - ySideSnowball;
+  }
+  distanceBetweenSnowballAndSwitch = Math.sqrt(Math.pow(xTriangleBetweenSnowballAndSwitch, 2) + Math.pow(yTriangleBetweenSnowballAndSwitch, 2));
+  return distanceBetweenSnowballAndSwitch;
+};
+console.log(isArrowOn);
+snowball.addEventListener("click", function () {
+  console.log(isArrowOn);
+  if (isArrowOn == true) {
+    fireSnowball();
+  }
+});
+var fireSnowball = function fireSnowball() {
+  console.log(distanceBetweenSnowballAndSwitch);
+  if (distanceBetweenSnowballAndSwitch < 400) {
+    console.log("hit");
+    switchIsHit();
+  } else {
+    console.log("miss");
+  }
+};
+
+///------------ ARROW CLICKED MAIN FUNCTION ------------///
 
 directionsArrows.forEach(function (arrow) {
   arrow.addEventListener("click", function (e) {
+    changeAllArrowsOpacity();
     arrowClicked = e.target;
-    // nie potrzenuje tylu zmiennych
-    //rozbic na inne funkcje
-    var rectangleArrow = document.createElement("div");
-    arrowPosition = arrowClicked.getBoundingClientRect();
-    arrowPositionLeft = arrowPosition.left + "px"; //TODO
-    arrowPositionRight = arrowPosition.right + "px";
-    arrowPositionTop = arrowPosition.top + "px";
-    arrowPositionBottom = arrowPosition.bottom + "px";
-    arrowPositionHeight = arrowPosition.height;
-    arrowPositionWidth = arrowPosition.width;
-    console.log(arrowPosition.height, arrowPosition.width);
-    rectangleArrow.style.transformOrigin = "left bottom";
-    rectangleArrow.style.height = arrowPosition.height + "px";
-    rectangleArrow.style.width = arrowPosition.width + "px";
-    rectangleArrow.style.top = arrowPositionTop;
-    rectangleArrow.style.bottom = arrowPositionBottom;
-    rectangleArrow.style.left = arrowPositionLeft;
-    rectangleArrow.style.right = arrowPositionRight;
-    rectangleArrow.style.backgroundColor = "red";
-    rectangleArrow.style.opacity = 0.5;
-    rectangleArrow.style.position = "absolute";
-    theBody.append(rectangleArrow);
-    rectangleArrowPosition = rectangleArrow.getBoundingClientRect();
-    var rectangleArrowHeight = parseFloat(rectangleArrow.style.height);
-    var rectangleArrowWidth = parseFloat(rectangleArrow.style.width);
-    var result;
-    console.log(rectangleArrow.style.height, rectangleArrowHeight);
-    // function getTheAngle(rectangleArrowHeight, rectangleArrowWidth) {
-    //   result = Math.atan(rectangleArrowHeight / rectangleArrowWidth);
-    //   return result;
-    // }
-    var getTheAngle = function getTheAngle(rectangleArrowHeight, rectangleArrowWidth) {
-      return Math.atan(rectangleArrowHeight / rectangleArrowWidth);
-    }; //TODO
-
+    arrowClicked.style.opacity = 1;
+    isArrowOn = true;
+    addingRectangleForSnowballDirection(arrowClicked);
     getTheAngle(rectangleArrowHeight, rectangleArrowWidth);
-    console.log("this is the angle", getTheAngle(rectangleArrowHeight, rectangleArrowWidth));
-    console.log("rectangleArrowHeight", rectangleArrowHeight);
-    console.log("rectangleArrowWidth", rectangleArrowWidth);
-    angle = result;
-    var newHeight = rectangleArrowHeight + powerOfThrow;
-    var newWidthCalc = function newWidthCalc(newHeight, result //TODO
-    ) {
-      return newHeight / Math.tan(result);
-    };
-    var newWidth = newWidthCalc(newHeight, result);
-    console.log("This is new height", newHeight, "and this is new width", newWidth);
-    rectangleArrow.style.height = newHeight + "px";
-    rectangleArrow.style.width = newWidth + "px";
-    rectangleArrow.style.transform = "translateY(-".concat(newHeight - arrowPositionHeight, "px)");
-
-    //const foo = (name,age,country='Poland')=>...
-
-    snowballTranslateX = rectangleArrow.style.width;
-    snowballTranslateY = rectangleArrow.style.height;
-    var fakeSnowball = document.createElement("div");
-    var snowball = document.getElementById("b5716cf9-1b3f-4ddb-b558-979ef37c5855" //TODO
-    );
-
-    console.log(snowball);
-    var snowballPosition = snowball.getBoundingClientRect();
-    fakeSnowball.style.top = snowballPosition.top;
-    fakeSnowball.style.height = snowballPosition.height + "px";
-    console.log(fakeSnowball.style.height);
-    fakeSnowball.style.width = snowballPosition.width + "px";
-    fakeSnowball.style.top = snowballPosition.top + "px";
-    fakeSnowball.style.bottom = snowballPosition.bottom + "px";
-    fakeSnowball.style.left = snowballPosition.left + "px";
-    fakeSnowball.style.right = snowballPosition.right + "px";
-    fakeSnowball.style.position = "absolute";
-    fakeSnowball.style.backgroundColor = "green";
-    document.querySelector(".footer").append(fakeSnowball);
-    console.log(fakeSnowball.style.height);
-    console.log("before the shoot", fakeSnowball.getBoundingClientRect());
-    console.log(snowballTranslateX, snowballTranslateY);
-    console.log(arrowClicked);
-    var directionOfThrow; //TODO
-    for (i = 0; i < 15; i++) {
-      if (arrowClicked == allArrows[i]) {
-        fakeSnowball.style.transform = "translateX(".concat(snowballTranslateX, ") translateY(-").concat(snowballTranslateY, ") ");
-        directionOfThrow = function directionOfThrow() {
-          directionsForSnowball = "translateX(".concat(snowballTranslateX, ") translateY(-").concat(snowballTranslateY, ") ");
-          return directionsForSnowball;
-        };
-      }
-    }
-    console.log("po 1 petli", directionOfThrow);
-    for (i = 15; i < 30; i++) {
-      if (arrowClicked == allArrows[i]) {
-        fakeSnowball.style.transform = "translateX(-".concat(snowballTranslateX, ") translateY(-").concat(snowballTranslateY, ") ");
-        directionOfThrow = function directionOfThrow() {
-          directionsForSnowball = "translateX(-".concat(snowballTranslateX, ") translateY(-").concat(snowballTranslateY, ") ");
-          return directionsForSnowball;
-        };
-      }
-    }
-    console.log("po 2 petli", directionOfThrow);
-    console.log("after the shoot", fakeSnowball.getBoundingClientRect());
-    var fakeSnowballAfterThrowPosition = fakeSnowball.getBoundingClientRect();
-    var switchPosition = firstSwitch.getBoundingClientRect();
-    console.log(fakeSnowballAfterThrowPosition.top, switchPosition.top);
-    if (fakeSnowballAfterThrowPosition.top == switchPosition.top) {
-      console.log("hit");
-    } else {
-      console.log("miss");
-    }
-    console.log("przed przypisaniem", directionOfThrow);
-    var directionsForSnowballRead = directionOfThrow();
-    var throwingSnowBall = [{
-      transform: directionsForSnowball
-    }];
-    console.log(directionsForSnowball);
-    var throwingSnowBallTiming = {
-      duration: 1000,
-      iterations: 1
-    };
-    snowballThrow.addEventListener("click", function () {
-      snowballThrow.animate(throwingSnowBall, throwingSnowBallTiming);
-    });
-    for (var _i = 0; _i < allArrows.length; _i++) {
-      if (_i % 2 == !0) {
-        allArrows[_i].style.opacity = "0.1";
-      } //changing all the arrows to 0.1 opacity
-    }
-
+    newWidthCalc(angle);
+    createFakeSnowball();
+    definingDirectionOfThrow(newWidth);
+    animationSnowball();
+    checkingIfSwitchGotHit(firstSwitch, secondSwitch, thirdSwitch);
+    // checkingIfSwitchGotHit(secondSwitch);
+    // checkingIfSwitchGotHit(thirdSwitch);
     removeHoverListeners();
-    arrow.style.opacity = 1;
   });
 });
 
-// unclicking the arrows
+///------------ UNCLICKING ARROWS ------------///
 
-function clickOutside(e) {
-  //TODO
+var clickOutside = function clickOutside(e) {
   if (!e.target.classList.contains("arrows__arrow")) {
     console.log("target doesn't include");
     removeHoverListeners();
     addHoverListeners();
+    directionsArrows.forEach(function (arrow) {
+      arrow.style.opacity = 0.1;
+    });
   }
-}
+};
 theBody.addEventListener("click", clickOutside);
 directionsArrows.forEach(function (arrow) {
   arrow.addEventListener("dblclick", function () {
-    console.log("doubleclick");
     removeHoverListeners();
     addHoverListeners();
     arrow.style.opacity = 0.1;
   });
 });
+///------------ SWITCH IS HIT ------------///
+
+var switchIsHit = function switchIsHit() {
+  setTimeout(function () {
+    theBody.style.backgroundColor = "#57495c";
+    firstSwitch.classList.add("notactive");
+    firstSwitchOff.classList.remove("notactive");
+  }, 1000);
+};
 },{}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -501,5 +544,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.js"], null)
-//# sourceMappingURL=/SNOWMAN%20GAME%20code.e31bb0bc.js.map
+},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index-copy.js"], null)
+//# sourceMappingURL=/index-copy.740fb90c.js.map
