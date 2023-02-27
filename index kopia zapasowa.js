@@ -1,35 +1,55 @@
+///------------ VARIABLES ------------///
+
 const directionsArrows = document.querySelectorAll(".arrows__arrow");
 const snowballThrow = document.querySelector(
   ".throw-mechanics-wrapper__snowball",
 );
-const firstSwitch = document.getElementById("firstSwitch");
+const firstSwitch = document.getElementById("firstSwitch-ON");
+const firstSwitchOff = document.getElementById("firstSwitch-OFF");
 const secondSwitch = document.getElementById("secondSwitch");
 const thirdSwitch = document.getElementById("thirdSwitch");
 
 let isArrowOn = false;
 let rectangleArrowAngle;
 
-let arrowClicked;
+let arrowClicked = {};
+
 const theBody = document.querySelector(".main");
 
-let arrowPosition;
-let arrowPositionHeight;
-let arrowPositionWidth;
-let arrowPositionLeft;
-let arrowPositionRight;
-let arrowPositionTop;
-let arrowPositionBottom;
-let rectangleArrowPosition;
-let directionsForSnowball;
-let snowballTranslateX;
-let snowballTranslateY;
-let powerOfThrow = 330;
+let arrowPosition = 0;
+let arrowPositionHeight = 0;
+let arrowPositionWidth = 0;
+let arrowPositionLeft = 0;
+let arrowPositionRight = 0;
+let arrowPositionTop = 0;
+let arrowPositionBottom = 0;
+let rectangleArrowPosition = 0;
+let directionsForSnowball = 0;
+let snowballTranslateX = "";
+let snowballTranslateY = "";
+let powerOfThrow = 300;
+let result = 0;
+let rectangleArrowHeight = 0;
+let rectangleArrowWidth = 0;
+let rectangleArrow = {};
+let newHeight = 0;
 
-let allArrows = document.getElementById(
-  "ba079a96-df17-41b0-af0d-4c8ae237a5ac",
-).childNodes;
+let newWidth = 0;
+let fakeSnowballAfterThrowPosition = {};
 
-/// hoovering events
+const distancesBallToSwitch = {
+  1: 0,
+  2: 0,
+  3: 0,
+};
+let directionOfThrow; /// how to show function
+
+const snowball = document.querySelector(`[data-id = "snowball"]`);
+const fakeSnowball = document.createElement("div");
+
+let allArrows = document.querySelector(`[data-id="allArrows"]`).childNodes;
+
+///------------ FUNCTIONS HOOVERING EVENTS ------------///
 
 const pointerOverEvent = (e) => {
   e.target.style.opacity = 0.3;
@@ -56,189 +76,307 @@ const removeHoverListeners = () => {
   directionsArrows.forEach((arrow) => {
     arrow.removeEventListener("pointerover", pointerOverEvent);
     arrow.removeEventListener("mouseleave", mouseLeaveEvent);
-    arrow.style.opacity = 0.1;
   });
 };
-
 addHoverListeners();
+///------------ FUNCTIONS FOR ARROW CLICKED ------------///
+const addingRectangleForSnowballDirection = (arrowClicked) => {
+  rectangleArrow = document.createElement("div");
+  arrowPosition = arrowClicked.getBoundingClientRect();
 
-/// what happens when Arrow is clicked
+  arrowPositionHeight = arrowPosition.height;
+  arrowPositionWidth = arrowPosition.width;
+
+  rectangleArrow.style.transformOrigin = "left bottom";
+  rectangleArrow.style.height = arrowPosition.height + "px";
+  rectangleArrow.style.width = arrowPosition.width + "px";
+
+  rectangleArrow.style.top = arrowPosition.top + "px";
+
+  rectangleArrow.style.bottom = arrowPosition.bottom + "px";
+  rectangleArrow.style.left = arrowPosition.left + "px";
+  rectangleArrow.style.right = arrowPosition.right + "px";
+  rectangleArrow.style.backgroundColor = "red";
+  rectangleArrow.style.opacity = 0.2;
+
+  rectangleArrow.style.position = "absolute";
+  document.querySelector(".main").append(rectangleArrow);
+
+  rectangleArrowPosition = rectangleArrow.getBoundingClientRect();
+
+  rectangleArrowHeight = parseFloat(rectangleArrow.style.height);
+  rectangleArrowWidth = parseFloat(rectangleArrow.style.width);
+};
+
+const getTheAngle = (rectangleArrowHeight, rectangleArrowWidth) =>
+  (angle = Math.atan(rectangleArrowHeight / rectangleArrowWidth));
+
+const createFakeSnowball = () => {
+  let snowballPosition = snowball.getBoundingClientRect();
+  fakeSnowball.style.top = snowballPosition.top;
+
+  fakeSnowball.style.height = snowballPosition.height + "px";
+
+  fakeSnowball.style.width = snowballPosition.width + "px";
+  fakeSnowball.style.top = snowballPosition.top + "px";
+  fakeSnowball.style.bottom = snowballPosition.bottom + "px";
+  fakeSnowball.style.left = snowballPosition.left + "px";
+  fakeSnowball.style.right = snowballPosition.right + "px";
+  fakeSnowball.style.position = "absolute";
+  fakeSnowball.style.opacity = 0.1;
+
+  fakeSnowball.style.backgroundColor = "green";
+  document.querySelector(".footer").append(fakeSnowball);
+};
+
+const newWidthCalc = (angle) => {
+  newHeight = rectangleArrowHeight + powerOfThrow;
+  newWidth = newHeight / Math.tan(angle);
+
+  return newWidth;
+};
+
+const changeAllArrowsOpacity = () => {
+  for (let i = 0; i < allArrows.length; i++) {
+    if (i % 2 == !0) {
+      allArrows[i].style.opacity = "0.1";
+    }
+  }
+};
+
+const definingDirectionOfThrow = (newWidth) => {
+  rectangleArrow.style.height = newHeight + "px";
+  rectangleArrow.style.width = newWidth + "px";
+  rectangleArrow.style.transform = `translateY(-${
+    newHeight - arrowPositionHeight
+  }px)`;
+
+  snowballTranslateX = rectangleArrow.style.width;
+  snowballTranslateY = rectangleArrow.style.height;
+
+  for (i = 0; i < 15; i++) {
+    if (arrowClicked == allArrows[i]) {
+      fakeSnowball.style.transform = `translateX(${snowballTranslateX}) translateY(-${snowballTranslateY}) `;
+      directionOfThrow = () => {
+        directionsForSnowball = [
+          parseFloat(snowballTranslateX),
+          -parseFloat(snowballTranslateY),
+        ];
+        return directionsForSnowball;
+      };
+    }
+  }
+  for (i = 15; i < 30; i++) {
+    if (arrowClicked == allArrows[i]) {
+      fakeSnowball.style.transform = `translateX(-${snowballTranslateX}) translateY(-${snowballTranslateY}) `;
+      directionOfThrow = () => {
+        directionsForSnowball = [
+          -parseFloat(snowballTranslateX),
+          -parseFloat(snowballTranslateY),
+        ];
+        return directionsForSnowball;
+      };
+    }
+  }
+};
+
+const animationSnowball = () => {
+  let [finalMoveX, finalMoveY] = directionOfThrow();
+
+  const throwingSnowBall = [
+    { transform: "scale(1)" },
+
+    {
+      transform: `translateX(${finalMoveX / 2}px) translateY(${
+        finalMoveY / 2
+      }px) scale(1.5)`,
+    },
+    {
+      transform: `translateX(${finalMoveX}px) translateY(${finalMoveY}px) scale(0.8)`,
+    },
+  ];
+
+  const throwingSnowBallTiming = {
+    duration: 1000,
+    iterations: 1,
+  };
+
+  // ??????????? why this does not work ??????;
+  snowballThrow.style.animationTimingFunction = "ease-out";
+
+  snowballThrow.addEventListener("click", () => {
+    snowballThrow.animate(throwingSnowBall, throwingSnowBallTiming);
+  });
+};
+const checkingIfSwitchGotHit = (switchON, snowball) => {
+  let switchPosition = switchON.getBoundingClientRect();
+  let xSideSwitch = switchPosition.left;
+  let ySideSwitch = switchPosition.top;
+
+  fakeSnowballAfterThrowPosition = snowball.getBoundingClientRect();
+
+  let xSideSnowball = fakeSnowballAfterThrowPosition.left;
+
+  let ySideSnowball = fakeSnowballAfterThrowPosition.top;
+
+  let xTriangleBetweenSnowballAndSwitch;
+  let yTriangleBetweenSnowballAndSwitch;
+
+  if (xSideSnowball > xSideSwitch) {
+    xTriangleBetweenSnowballAndSwitch = xSideSnowball - xSideSwitch;
+  } else if (xSideSnowball < xSideSwitch) {
+    xTriangleBetweenSnowballAndSwitch = xSideSwitch - xSideSnowball;
+  }
+
+  if (ySideSnowball > ySideSwitch) {
+    yTriangleBetweenSnowballAndSwitch = ySideSnowball - ySideSwitch;
+  } else if (ySideSnowball < ySideSwitch) {
+    yTriangleBetweenSnowballAndSwitch = ySideSwitch - ySideSnowball;
+  }
+
+  const distanceBetweenSnowballAndSwitch = Math.sqrt(
+    Math.pow(xTriangleBetweenSnowballAndSwitch, 2) +
+      Math.pow(yTriangleBetweenSnowballAndSwitch, 2),
+  );
+
+  return distanceBetweenSnowballAndSwitch;
+};
+/// blad do zmiany >>
+
+snowball.addEventListener("click", () => {
+  console.log(isArrowOn);
+  if (isArrowOn == true) {
+    // wywolywac funkcje checkingIfSwitchGotHit + przekazac strzalke
+    // distancesBallToSwitch
+    fireSnowball(distancesBallToSwitch[1]);
+    fireSnowball(distancesBallToSwitch[2]);
+    fireSnowball(distancesBallToSwitch[3]);
+  }
+});
+const fireSnowball = (distance) => {
+  //dystans 621
+  //TODO nazwenictwo
+  // console.log(distanceBetweenSnowballAndSwitch);
+  if (distance < 400) {
+    console.log("hit");
+    switchIsHit();
+  } else {
+    console.log("miss");
+  }
+};
+//prezdyent -> generał -> dowódców -> zólnierzy -> czołg
+
+//// do zmiany ^^^^
+const snowballOpacity = (element) => {
+  let increment = 0.025;
+  let opacity = 0;
+  let instance = window.setInterval(() => {
+    element.style.opacity = opacity;
+    opacity = opacity + increment;
+    if (opacity > 1) {
+      window.clearInterval(instance);
+    }
+  }, 30);
+};
+
+///------------ ARROW CLICKED MAIN FUNCTION ------------///
 
 directionsArrows.forEach((arrow) => {
   arrow.addEventListener("click", (e) => {
+    changeAllArrowsOpacity();
+
     arrowClicked = e.target;
-    let rectangleArrow = document.createElement("div");
-    arrowPosition = arrowClicked.getBoundingClientRect();
-    arrowPositionLeft = arrowPosition.left + "px";
-    arrowPositionRight = arrowPosition.right + "px";
-    arrowPositionTop = arrowPosition.top + "px";
-    arrowPositionBottom = arrowPosition.bottom + "px";
-    arrowPositionHeight = arrowPosition.height;
-    arrowPositionWidth = arrowPosition.width;
-    console.log(arrowPosition.height, arrowPosition.width);
-    rectangleArrow.style.transformOrigin = "left bottom";
-    rectangleArrow.style.height = arrowPosition.height + "px";
-    rectangleArrow.style.width = arrowPosition.width + "px";
 
-    rectangleArrow.style.top = arrowPositionTop;
+    arrowClicked.style.opacity = 1;
+    isArrowOn = true;
 
-    rectangleArrow.style.bottom = arrowPositionBottom;
-    rectangleArrow.style.left = arrowPositionLeft;
-    rectangleArrow.style.right = arrowPositionRight;
-    rectangleArrow.style.backgroundColor = "red";
-    rectangleArrow.style.opacity = 0.5;
-
-    rectangleArrow.style.position = "absolute";
-    document.querySelector(".main").append(rectangleArrow);
-
-    rectangleArrowPosition = rectangleArrow.getBoundingClientRect();
-
-    let rectangleArrowHeight = parseFloat(rectangleArrow.style.height);
-    let rectangleArrowWidth = parseFloat(rectangleArrow.style.width);
-    let result;
-    console.log(rectangleArrow.style.height, rectangleArrowHeight);
-    function getTheAngle(rectangleArrowHeight, rectangleArrowWidth) {
-      result = Math.atan(rectangleArrowHeight / rectangleArrowWidth);
-      return result;
-    }
+    addingRectangleForSnowballDirection(arrowClicked);
 
     getTheAngle(rectangleArrowHeight, rectangleArrowWidth);
+    newWidthCalc(angle);
+    createFakeSnowball();
 
-    console.log(
-      "this is the angle",
-      getTheAngle(rectangleArrowHeight, rectangleArrowWidth),
+    definingDirectionOfThrow(newWidth);
+
+    animationSnowball();
+    const distanceBetweenSnowballAndSwitch1 = checkingIfSwitchGotHit(
+      firstSwitch,
+      fakeSnowball,
+    );
+    const distanceBetweenSnowballAndSwitch2 = checkingIfSwitchGotHit(
+      secondSwitch,
+      fakeSnowball,
+    );
+    const distanceBetweenSnowballAndSwitch3 = checkingIfSwitchGotHit(
+      thirdSwitch,
+      fakeSnowball,
     );
 
-    console.log("rectangleArrowHeight", rectangleArrowHeight);
-    console.log("rectangleArrowWidth", rectangleArrowWidth);
+    // distancesBallToSwitch={
+    //   1:dista..
+    //   2:distance..
 
-    angle = result;
-    let newHeight = rectangleArrowHeight + powerOfThrow;
+    // }
 
-    const newWidthCalc = (newHeight, result) => {
-      let newWidthResult = newHeight / Math.tan(result);
+    distancesBallToSwitch[1] = distanceBetweenSnowballAndSwitch1;
+    distancesBallToSwitch[2] = distanceBetweenSnowballAndSwitch2;
+    distancesBallToSwitch[3] = distanceBetweenSnowballAndSwitch3;
 
-      return newWidthResult;
-    };
+    // main
+    // develop
+    // git checkout -b develop
+    //git merge develop main
+    //git checkout main
 
-    const newWidth = newWidthCalc(newHeight, result);
-    console.log(
-      "This is new height",
-      newHeight,
-      "and this is new width",
-      newWidth,
-    );
-
-    rectangleArrow.style.height = newHeight + "px";
-    rectangleArrow.style.width = newWidth + "px";
-    rectangleArrow.style.transform = `translateY(-${
-      newHeight - arrowPositionHeight
-    }px)`;
-
-    snowballTranslateX = rectangleArrow.style.width;
-    snowballTranslateY = rectangleArrow.style.height;
-
-    const fakeSnowball = document.createElement("div");
-    const snowball = document.getElementById(
-      "b5716cf9-1b3f-4ddb-b558-979ef37c5855",
-    );
-
-    console.log(snowball);
-    let snowballPosition = snowball.getBoundingClientRect();
-    fakeSnowball.style.top = snowballPosition.top;
-
-    fakeSnowball.style.height = snowballPosition.height + "px";
-    console.log(fakeSnowball.style.height);
-    fakeSnowball.style.width = snowballPosition.width + "px";
-    fakeSnowball.style.top = snowballPosition.top + "px";
-    fakeSnowball.style.bottom = snowballPosition.bottom + "px";
-    fakeSnowball.style.left = snowballPosition.left + "px";
-    fakeSnowball.style.right = snowballPosition.right + "px";
-    fakeSnowball.style.position = "absolute";
-
-    fakeSnowball.style.backgroundColor = "green";
-    document.querySelector(".footer").append(fakeSnowball);
-
-    console.log(fakeSnowball.style.height);
-    console.log("before the shoot", fakeSnowball.getBoundingClientRect());
-    console.log(snowballTranslateX, snowballTranslateY);
-
-    console.log(arrowClicked);
-    let directionOfThrow;
-    for (i = 0; i < 15; i++) {
-      if (arrowClicked == allArrows[i]) {
-        fakeSnowball.style.transform = `translateX(${snowballTranslateX}) translateY(-${snowballTranslateY}) `;
-        directionOfThrow = () => {
-          directionsForSnowball = `translateX(${snowballTranslateX}) translateY(-${snowballTranslateY}) `;
-          return directionsForSnowball;
-        };
-      }
-    }
-    for (i = 15; i < 30; i++) {
-      if (arrowClicked == allArrows[i]) {
-        fakeSnowball.style.transform = `translateX(-${snowballTranslateX}) translateY(-${snowballTranslateY}) `;
-        directionOfThrow = () => {
-          directionsForSnowball = `translateX(-${snowballTranslateX}) translateY(-${snowballTranslateY}) `;
-          return directionsForSnowball;
-        };
-      }
-    }
-
-    console.log("after the shoot", fakeSnowball.getBoundingClientRect());
-
-    let fakeSnowballAfterThrowPosition = fakeSnowball.getBoundingClientRect();
-    let switchPosition = firstSwitch.getBoundingClientRect();
-    console.log(fakeSnowballAfterThrowPosition.top, switchPosition.top);
-    if (fakeSnowballAfterThrowPosition.top == switchPosition.top) {
-      console.log("hit");
-    } else {
-      console.log("miss");
-    }
-
-    let directionsForSnowballRead = directionOfThrow();
-
-    const throwingSnowBall = [{ transform: directionsForSnowball }];
-
-    console.log(directionsForSnowball);
-    const throwingSnowBallTiming = {
-      duration: 1000,
-      iterations: 1,
-    };
-
-    snowballThrow.addEventListener("click", () => {
-      snowballThrow.animate(throwingSnowBall, throwingSnowBallTiming);
-    });
-
-    for (let i = 0; i < allArrows.length; i++) {
-      if (i % 2 == !0) {
-        allArrows[i].style.opacity = "0.1";
-      } //changing all the arrows to 0.1 opacity
-    }
-
+    //const foo = (a,b) => a + b
+    // foo(1,2,3,4,5,6)
+    // checkingIfSwitchGotHit(secondSwitch);
+    // checkingIfSwitchGotHit(thirdSwitch);
     removeHoverListeners();
-
-    arrow.style.opacity = 1;
   });
 });
 
-// unclicking the arrows
+///------------ UNCLICKING ARROWS ------------///
 
-function clickOutside(e) {
+const clickOutside = (e) => {
   if (!e.target.classList.contains("arrows__arrow")) {
     console.log("target doesn't include");
     removeHoverListeners();
     addHoverListeners();
+    directionsArrows.forEach((arrow) => {
+      arrow.style.opacity = 0.1;
+    });
   }
-}
+};
 
 theBody.addEventListener("click", clickOutside);
 
 directionsArrows.forEach((arrow) => {
   arrow.addEventListener("dblclick", () => {
-    console.log("doubleclick");
     removeHoverListeners();
     addHoverListeners();
 
     arrow.style.opacity = 0.1;
   });
 });
+///------------ SWITCH IS HIT ------------///
+
+const switchIsHit = () => {
+  setTimeout(() => {
+    theBody.style.backgroundColor = "#57495c";
+    snowball.style.opacity = 0;
+    snowballOpacity(snowball);
+
+    firstSwitch.classList.add("notactive");
+    firstSwitchOff.classList.remove("notactive");
+  }, 1000);
+};
+
+//dlaczego to nie dziala
+let setOpacitySnowball = () => {
+  //   snowball.style.opacity;
+  for (let i = 0; i <= 1; i = i + 0.1) {
+    setTimeout(() => (snowball.style.opacity = i), 100);
+    console.log(snowball.style.opacity);
+  }
+};

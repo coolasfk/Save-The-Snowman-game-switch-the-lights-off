@@ -126,7 +126,7 @@ var firstSwitch = document.getElementById("firstSwitch");
 var secondSwitch = document.getElementById("secondSwitch");
 var thirdSwitch = document.getElementById("thirdSwitch");
 //isArrowOn is zawsze na poczatku
-var isArrowOn = false;
+var arrowIsOn = false;
 var rectangleArrowAngle;
 var arrowClicked;
 var theBody = document.querySelector(".main");
@@ -161,7 +161,7 @@ var mouseLeaveEvent = function mouseLeaveEvent(e) {
   }, "1000");
 };
 var addHoverListeners = function addHoverListeners() {
-  isArrowOn = false; //TODO
+  arrowIsOn = false; //TODO
   directionsArrows.forEach(function (arrow) {
     arrow.addEventListener("pointerover", pointerOverEvent);
   });
@@ -282,9 +282,9 @@ directionsArrows.forEach(function (arrow) {
     console.log("po 2 petli", directionOfThrow);
     console.log("after the shoot", fakeSnowball.getBoundingClientRect());
     var fakeSnowballAfterThrowPosition = fakeSnowball.getBoundingClientRect();
-    var switchPosition = firstSwitch.getBoundingClientRect();
-    console.log(fakeSnowballAfterThrowPosition.top, switchPosition.top);
-    if (fakeSnowballAfterThrowPosition.top == switchPosition.top) {
+    var firstSwitchPosition = firstSwitch.getBoundingClientRect();
+    console.log(fakeSnowballAfterThrowPosition.top, firstSwitchPosition.top);
+    if (fakeSnowballAfterThrowPosition.top == firstSwitchPosition.top) {
       console.log("hit");
     } else {
       console.log("miss");
@@ -357,7 +357,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55764" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50962" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

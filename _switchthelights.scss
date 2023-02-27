@@ -105,7 +105,7 @@
   }
 }
 
-@media only screen and (min-width: 901px) {
+@media only screen and (min-width: 901px) and (max-width: 1200px) {
   body {
     max-height: 100%;
     max-width: 100%;
@@ -116,7 +116,7 @@
   .main {
     height: 100vh;
     width: 100vw;
-    border: red solid 4px;
+
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -124,21 +124,20 @@
     &__first-switch-wrapper,
     .first-switch-wrapper {
       width: 100vw;
-      height: auto;
+      height: 40vw;
 
-      border: blue solid 4px;
       background-color: transparent;
       margin: 0;
 
       &__first-switch {
         height: 10vw;
         width: auto;
-        margin: 5vw 10vw 0 20vw;
+        margin: 5vw 10vw 2vw 20vw;
       }
       &__second-switch {
         height: 8vw;
         width: auto;
-        margin: 6vw 20vw 0 15vw;
+        margin: 6vw 20vw 2vw 15vw;
       }
       &__third-switch {
         height: 10vw;
@@ -160,11 +159,12 @@
       &__directions,
       .directions {
         width: 30vw;
+
         background-color: transparent;
 
         display: flex;
         justify-content: center;
-        margin: 5vw 50vw 20vw 50vw;
+        margin: 2vw 50vw 6vw 50vw;
         transform: translateX(-15vw);
 
         &__arrows,
@@ -178,7 +178,7 @@
       }
       &__snowball {
         height: 10vw;
-        margin: 0;
+        margin: 2vw;
         padding: 0;
         width: auto;
         background-color: transparent;
@@ -186,45 +186,91 @@
         // animation: snowball-animation 1.2s ease-out 1;
         position: absolute;
 
-        margin: 5vw 50vw 5vw 50vw;
+        margin: 15vw 50vw 5vw 50vw;
         transform: translateX(-5vw);
         z-index: 100;
       }
     }
+    &__choose-power-wrapper,
+    .choose-power-wrapper {
+      width: 100vw;
+      margin: 2vw 0 2vw 0;
+      display: flex;
+
+      justify-content: center;
+      &__minus {
+        width: 2vw;
+        height: auto;
+      }
+
+      &__slider {
+        margin: 5vw 2vw 5vw 2vw;
+        -webkit-appearance: none; /* Override default CSS styles */
+        width: 20vw;
+        height: 0.5vw;
+        border-radius: 50vw;
+        background: c.$slider-color;
+        outline: none;
+        // opacity: 0.7;
+        // -webkit-transition: 0.2s;
+        // transition: opacity 0.2s;
+      }
+      // &__slider::-webkit-slider-ethumb {
+      //   -webkit-appearance: none;
+      //   appearance: none;
+      //   width: 10vw;
+      //   height: 10vw;
+      //   border-radius: 50px;
+      //   background: c.$snowman-color;
+      //   cursor: pointer;
+      // }
+      &__slider::-moz-range-thumb {
+        -webkit-appearance: none;
+        width: 2vw;
+        height: 2vw;
+        border-radius: 5vw;
+        background: c.$snowman-color;
+        cursor: pointer;
+      }
+      &__plus {
+        width: 2vw;
+        height: auto;
+      }
+    }
   }
 
-  @keyframes snowball-animation {
-    0% {
-      // height: 20vw;
-      margin: 5vw 50vw 5vw 50vw;
-    }
-    50% {
-      height: 14vw;
-      // margin: 100vw 50vw 15vw 50vw;
-    }
-    80% {
-      // height: 20vw;
-      margin: -300vw 50vw 15vw 50vw;
-    }
-    84% {
-      opacity: 1;
-    }
-    85% {
-      margin: -300vw 50vw 15vw 50vw;
-      opacity: 0;
-    }
+  //   @keyframes snowball-animation {
+  //     0% {
+  //       // height: 20vw;
+  //       margin: 5vw 50vw 5vw 50vw;
+  //     }
+  //     50% {
+  //       height: 14vw;
+  //       // margin: 100vw 50vw 15vw 50vw;
+  //     }
+  //     80% {
+  //       // height: 20vw;
+  //       margin: -300vw 50vw 15vw 50vw;
+  //     }
+  //     84% {
+  //       opacity: 1;
+  //     }
+  //     85% {
+  //       margin: -300vw 50vw 15vw 50vw;
+  //       opacity: 0;
+  //     }
 
-    90% {
-      margin: 30vw 50vw 5vw 50vw;
-      opacity: 0;
-    }
-    91% {
-      opacity: 0;
-    }
-    95% {
-      margin: 15vw 50vw 5vw 50vw;
-    }
-  }
+  //     90% {
+  //       margin: 30vw 50vw 5vw 50vw;
+  //       opacity: 0;
+  //     }
+  //     91% {
+  //       opacity: 0;
+  //     }
+  //     95% {
+  //       margin: 15vw 50vw 5vw 50vw;
+  //     }
+  //   }
 }
 
 .notactive {

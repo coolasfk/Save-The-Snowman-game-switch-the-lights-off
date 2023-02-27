@@ -5,9 +5,12 @@ const snowballThrow = document.querySelector(
   ".throw-mechanics-wrapper__snowball",
 );
 const firstSwitch = document.getElementById("firstSwitch-ON");
-const firstSwitchOff = document.getElementById("firstSwitch-OFF");
+
 const secondSwitch = document.getElementById("secondSwitch");
 const thirdSwitch = document.getElementById("thirdSwitch");
+const firstSwitchOff = document.getElementById("firstSwitch-OFF");
+const secondSwitchOff = document.getElementById("secondSwitch-OFF");
+const thirdSwitchOff = document.getElementById("thirdSwitch-OFF");
 
 let isArrowOn = false;
 let rectangleArrowAngle;
@@ -27,18 +30,23 @@ let rectangleArrowPosition = 0;
 let directionsForSnowball = 0;
 let snowballTranslateX = "";
 let snowballTranslateY = "";
-let powerOfThrow = 300;
+let powerOfThrow = 200;
 let result = 0;
 let rectangleArrowHeight = 0;
 let rectangleArrowWidth = 0;
 let rectangleArrow = {};
 let newHeight = 0;
+let counterHits = 0;
 
 let newWidth = 0;
 let fakeSnowballAfterThrowPosition = {};
 
+const distancesBallToSwitch = {
+  1: 0,
+  2: 0,
+  3: 0,
+};
 let directionOfThrow; /// how to show function
-let distanceBetweenSnowballAndSwitch = 0;
 
 const snowball = document.querySelector(`[data-id = "snowball"]`);
 const fakeSnowball = document.createElement("div");
@@ -93,9 +101,10 @@ const addingRectangleForSnowballDirection = (arrowClicked) => {
   rectangleArrow.style.left = arrowPosition.left + "px";
   rectangleArrow.style.right = arrowPosition.right + "px";
   rectangleArrow.style.backgroundColor = "red";
-  rectangleArrow.style.opacity = 0.2;
+  rectangleArrow.style.opacity = 0;
 
   rectangleArrow.style.position = "absolute";
+  rectangleArrow.style.zIndex = -100;
   document.querySelector(".main").append(rectangleArrow);
 
   rectangleArrowPosition = rectangleArrow.getBoundingClientRect();
@@ -119,7 +128,7 @@ const createFakeSnowball = () => {
   fakeSnowball.style.left = snowballPosition.left + "px";
   fakeSnowball.style.right = snowballPosition.right + "px";
   fakeSnowball.style.position = "absolute";
-  fakeSnowball.style.opacity = 0.1;
+  fakeSnowball.style.opacity = 0;
 
   fakeSnowball.style.backgroundColor = "green";
   document.querySelector(".footer").append(fakeSnowball);
@@ -204,17 +213,16 @@ const animationSnowball = () => {
     snowballThrow.animate(throwingSnowBall, throwingSnowBallTiming);
   });
 };
-const checkingIfSwitchGotHit = (switches) => {
-  console.log(switches);
-  fakeSnowballAfterThrowPosition = fakeSnowball.getBoundingClientRect();
-  switchPosition = switches.getBoundingClientRect();
+const checkingIfSwitchGotHit = (switchON, snowball) => {
+  let switchPosition = switchON.getBoundingClientRect();
+  let xSideSwitch = switchPosition.left;
+  let ySideSwitch = switchPosition.top;
+
+  fakeSnowballAfterThrowPosition = snowball.getBoundingClientRect();
 
   let xSideSnowball = fakeSnowballAfterThrowPosition.left;
 
   let ySideSnowball = fakeSnowballAfterThrowPosition.top;
-
-  let xSideSwitch = switchPosition.left;
-  let ySideSwitch = switchPosition.top;
 
   let xTriangleBetweenSnowballAndSwitch;
   let yTriangleBetweenSnowballAndSwitch;
@@ -230,29 +238,42 @@ const checkingIfSwitchGotHit = (switches) => {
   } else if (ySideSnowball < ySideSwitch) {
     yTriangleBetweenSnowballAndSwitch = ySideSwitch - ySideSnowball;
   }
-  distanceBetweenSnowballAndSwitch = Math.sqrt(
+
+  const distanceBetweenSnowballAndSwitch = Math.sqrt(
     Math.pow(xTriangleBetweenSnowballAndSwitch, 2) +
       Math.pow(yTriangleBetweenSnowballAndSwitch, 2),
   );
 
-  return distanceBetweenSnowballAndSwitch;
+  if (distanceBetweenSnowballAndSwitch < 200) {
+    switchIsHit(switchON);
+  }
 };
+/// blad do zmiany >>
 
-console.log(isArrowOn);
 snowball.addEventListener("click", () => {
   console.log(isArrowOn);
   if (isArrowOn == true) {
-    fireSnowball();
+    // wywolywac funkcje checkingIfSwitchGotHit + przekazac strzalke
+    // distancesBallToSwitch
+    checkingIfSwitchGotHit(firstSwitch, fakeSnowball);
+    checkingIfSwitchGotHit(secondSwitch, fakeSnowball);
+    checkingIfSwitchGotHit(thirdSwitch, fakeSnowball);
   }
 });
-const fireSnowball = () => {
-  console.log(distanceBetweenSnowballAndSwitch);
-  if (distanceBetweenSnowballAndSwitch < 400) {
-    console.log("hit");
-    switchIsHit();
-  } else {
-    console.log("miss");
-  }
+
+//prezdyent -> generał -> dowódców -> zólnierzy -> czołg
+
+//// do zmiany ^^^^
+const snowballOpacity = (element) => {
+  let increment = 0.025;
+  let opacity = 0;
+  let instance = window.setInterval(() => {
+    element.style.opacity = opacity;
+    opacity = opacity + increment;
+    if (opacity > 1) {
+      window.clearInterval(instance);
+    }
+  }, 30);
 };
 
 ///------------ ARROW CLICKED MAIN FUNCTION ------------///
@@ -275,7 +296,37 @@ directionsArrows.forEach((arrow) => {
     definingDirectionOfThrow(newWidth);
 
     animationSnowball();
-    checkingIfSwitchGotHit(firstSwitch, secondSwitch, thirdSwitch);
+    // const distanceBetweenSnowballAndSwitch1 = checkingIfSwitchGotHit(
+    //   firstSwitch,
+    //   fakeSnowball,
+    // );
+    // const distanceBetweenSnowballAndSwitch2 = checkingIfSwitchGotHit(
+    //   secondSwitch,
+    //   fakeSnowball,
+    // );
+    // const distanceBetweenSnowballAndSwitch3 = checkingIfSwitchGotHit(
+    //   thirdSwitch,
+    //   fakeSnowball,
+    // );
+
+    // distancesBallToSwitch={
+    //   1:dista..
+    //   2:distance..
+
+    // }
+
+    // distancesBallToSwitch[1] = distanceBetweenSnowballAndSwitch1;
+    // distancesBallToSwitch[2] = distanceBetweenSnowballAndSwitch2;
+    // distancesBallToSwitch[3] = distanceBetweenSnowballAndSwitch3;
+
+    // main
+    // develop
+    // git checkout -b develop
+    //git merge develop main
+    //git checkout main
+
+    //const foo = (a,b) => a + b
+    // foo(1,2,3,4,5,6)
     // checkingIfSwitchGotHit(secondSwitch);
     // checkingIfSwitchGotHit(thirdSwitch);
     removeHoverListeners();
@@ -307,11 +358,29 @@ directionsArrows.forEach((arrow) => {
 });
 ///------------ SWITCH IS HIT ------------///
 
-const switchIsHit = () => {
+const switchIsHit = (switchHit) => {
   setTimeout(() => {
-    theBody.style.backgroundColor = "#57495c";
+    snowball.style.opacity = 0;
+    snowballOpacity(snowball);
+    counterHits++;
 
-    firstSwitch.classList.add("notactive");
-    firstSwitchOff.classList.remove("notactive");
+    if (counterHits == 1) {
+      theBody.style.backgroundColor = "#57495c";
+    } else if (counterHits == 2) {
+      theBody.style.backgroundColor = "#2e292f";
+    } else if (counterHits == 3) {
+      theBody.style.backgroundColor = "#221f23";
+    }
+
+    console.log(counterHits);
+    switchHit.classList.add("notactive");
+    console.log(switchHit);
+    if (switchHit == firstSwitch) {
+      firstSwitchOff.classList.remove("notactive");
+    } else if (switchHit == secondSwitch) {
+      secondSwitchOff.classList.remove("notactive");
+    } else if (switchHit == thirdSwitch) {
+      thirdSwitchOff.classList.remove("notactive");
+    }
   }, 1000);
 };

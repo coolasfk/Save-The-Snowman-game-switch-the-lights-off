@@ -129,9 +129,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var directionsArrows = document.querySelectorAll(".arrows__arrow");
 var snowballThrow = document.querySelector(".throw-mechanics-wrapper__snowball");
 var firstSwitch = document.getElementById("firstSwitch-ON");
-var firstSwitchOff = document.getElementById("firstSwitch-OFF");
 var secondSwitch = document.getElementById("secondSwitch");
 var thirdSwitch = document.getElementById("thirdSwitch");
+var firstSwitchOff = document.getElementById("firstSwitch-OFF");
+var secondSwitchOff = document.getElementById("secondSwitch-OFF");
+var thirdSwitchOff = document.getElementById("thirdSwitch-OFF");
 var isArrowOn = false;
 var rectangleArrowAngle;
 var arrowClicked = {};
@@ -147,16 +149,22 @@ var rectangleArrowPosition = 0;
 var directionsForSnowball = 0;
 var snowballTranslateX = "";
 var snowballTranslateY = "";
-var powerOfThrow = 300;
+var powerOfThrow = 200;
 var result = 0;
 var rectangleArrowHeight = 0;
 var rectangleArrowWidth = 0;
 var rectangleArrow = {};
 var newHeight = 0;
+var counterHits = 0;
 var newWidth = 0;
 var fakeSnowballAfterThrowPosition = {};
+var distancesBallToSwitch = {
+  1: 0,
+  2: 0,
+  3: 0
+};
 var directionOfThrow; /// how to show function
-var distanceBetweenSnowballAndSwitch = 0;
+
 var snowball = document.querySelector("[data-id = \"snowball\"]");
 var fakeSnowball = document.createElement("div");
 var allArrows = document.querySelector("[data-id=\"allArrows\"]").childNodes;
@@ -201,8 +209,9 @@ var addingRectangleForSnowballDirection = function addingRectangleForSnowballDir
   rectangleArrow.style.left = arrowPosition.left + "px";
   rectangleArrow.style.right = arrowPosition.right + "px";
   rectangleArrow.style.backgroundColor = "red";
-  rectangleArrow.style.opacity = 0.2;
+  rectangleArrow.style.opacity = 0;
   rectangleArrow.style.position = "absolute";
+  rectangleArrow.style.zIndex = -100;
   document.querySelector(".main").append(rectangleArrow);
   rectangleArrowPosition = rectangleArrow.getBoundingClientRect();
   rectangleArrowHeight = parseFloat(rectangleArrow.style.height);
@@ -221,7 +230,7 @@ var createFakeSnowball = function createFakeSnowball() {
   fakeSnowball.style.left = snowballPosition.left + "px";
   fakeSnowball.style.right = snowballPosition.right + "px";
   fakeSnowball.style.position = "absolute";
-  fakeSnowball.style.opacity = 0.1;
+  fakeSnowball.style.opacity = 0;
   fakeSnowball.style.backgroundColor = "green";
   document.querySelector(".footer").append(fakeSnowball);
 };
@@ -285,14 +294,13 @@ var animationSnowball = function animationSnowball() {
     snowballThrow.animate(throwingSnowBall, throwingSnowBallTiming);
   });
 };
-var checkingIfSwitchGotHit = function checkingIfSwitchGotHit(switches) {
-  console.log(switches);
-  fakeSnowballAfterThrowPosition = fakeSnowball.getBoundingClientRect();
-  switchPosition = switches.getBoundingClientRect();
-  var xSideSnowball = fakeSnowballAfterThrowPosition.left;
-  var ySideSnowball = fakeSnowballAfterThrowPosition.top;
+var checkingIfSwitchGotHit = function checkingIfSwitchGotHit(switchON, snowball) {
+  var switchPosition = switchON.getBoundingClientRect();
   var xSideSwitch = switchPosition.left;
   var ySideSwitch = switchPosition.top;
+  fakeSnowballAfterThrowPosition = snowball.getBoundingClientRect();
+  var xSideSnowball = fakeSnowballAfterThrowPosition.left;
+  var ySideSnowball = fakeSnowballAfterThrowPosition.top;
   var xTriangleBetweenSnowballAndSwitch;
   var yTriangleBetweenSnowballAndSwitch;
   if (xSideSnowball > xSideSwitch) {
@@ -305,24 +313,37 @@ var checkingIfSwitchGotHit = function checkingIfSwitchGotHit(switches) {
   } else if (ySideSnowball < ySideSwitch) {
     yTriangleBetweenSnowballAndSwitch = ySideSwitch - ySideSnowball;
   }
-  distanceBetweenSnowballAndSwitch = Math.sqrt(Math.pow(xTriangleBetweenSnowballAndSwitch, 2) + Math.pow(yTriangleBetweenSnowballAndSwitch, 2));
-  return distanceBetweenSnowballAndSwitch;
+  var distanceBetweenSnowballAndSwitch = Math.sqrt(Math.pow(xTriangleBetweenSnowballAndSwitch, 2) + Math.pow(yTriangleBetweenSnowballAndSwitch, 2));
+  if (distanceBetweenSnowballAndSwitch < 200) {
+    switchIsHit(switchON);
+  }
 };
-console.log(isArrowOn);
+/// blad do zmiany >>
+
 snowball.addEventListener("click", function () {
   console.log(isArrowOn);
   if (isArrowOn == true) {
-    fireSnowball();
+    // wywolywac funkcje checkingIfSwitchGotHit + przekazac strzalke
+    // distancesBallToSwitch
+    checkingIfSwitchGotHit(firstSwitch, fakeSnowball);
+    checkingIfSwitchGotHit(secondSwitch, fakeSnowball);
+    checkingIfSwitchGotHit(thirdSwitch, fakeSnowball);
   }
 });
-var fireSnowball = function fireSnowball() {
-  console.log(distanceBetweenSnowballAndSwitch);
-  if (distanceBetweenSnowballAndSwitch < 400) {
-    console.log("hit");
-    switchIsHit();
-  } else {
-    console.log("miss");
-  }
+
+//prezdyent -> generał -> dowódców -> zólnierzy -> czołg
+
+//// do zmiany ^^^^
+var snowballOpacity = function snowballOpacity(element) {
+  var increment = 0.025;
+  var opacity = 0;
+  var instance = window.setInterval(function () {
+    element.style.opacity = opacity;
+    opacity = opacity + increment;
+    if (opacity > 1) {
+      window.clearInterval(instance);
+    }
+  }, 30);
 };
 
 ///------------ ARROW CLICKED MAIN FUNCTION ------------///
@@ -339,7 +360,37 @@ directionsArrows.forEach(function (arrow) {
     createFakeSnowball();
     definingDirectionOfThrow(newWidth);
     animationSnowball();
-    checkingIfSwitchGotHit(firstSwitch, secondSwitch, thirdSwitch);
+    // const distanceBetweenSnowballAndSwitch1 = checkingIfSwitchGotHit(
+    //   firstSwitch,
+    //   fakeSnowball,
+    // );
+    // const distanceBetweenSnowballAndSwitch2 = checkingIfSwitchGotHit(
+    //   secondSwitch,
+    //   fakeSnowball,
+    // );
+    // const distanceBetweenSnowballAndSwitch3 = checkingIfSwitchGotHit(
+    //   thirdSwitch,
+    //   fakeSnowball,
+    // );
+
+    // distancesBallToSwitch={
+    //   1:dista..
+    //   2:distance..
+
+    // }
+
+    // distancesBallToSwitch[1] = distanceBetweenSnowballAndSwitch1;
+    // distancesBallToSwitch[2] = distanceBetweenSnowballAndSwitch2;
+    // distancesBallToSwitch[3] = distanceBetweenSnowballAndSwitch3;
+
+    // main
+    // develop
+    // git checkout -b develop
+    //git merge develop main
+    //git checkout main
+
+    //const foo = (a,b) => a + b
+    // foo(1,2,3,4,5,6)
     // checkingIfSwitchGotHit(secondSwitch);
     // checkingIfSwitchGotHit(thirdSwitch);
     removeHoverListeners();
@@ -368,11 +419,28 @@ directionsArrows.forEach(function (arrow) {
 });
 ///------------ SWITCH IS HIT ------------///
 
-var switchIsHit = function switchIsHit() {
+var switchIsHit = function switchIsHit(switchHit) {
   setTimeout(function () {
-    theBody.style.backgroundColor = "#57495c";
-    firstSwitch.classList.add("notactive");
-    firstSwitchOff.classList.remove("notactive");
+    snowball.style.opacity = 0;
+    snowballOpacity(snowball);
+    counterHits++;
+    if (counterHits == 1) {
+      theBody.style.backgroundColor = "#57495c";
+    } else if (counterHits == 2) {
+      theBody.style.backgroundColor = "#2e292f";
+    } else if (counterHits == 3) {
+      theBody.style.backgroundColor = "#221f23";
+    }
+    console.log(counterHits);
+    switchHit.classList.add("notactive");
+    console.log(switchHit);
+    if (switchHit == firstSwitch) {
+      firstSwitchOff.classList.remove("notactive");
+    } else if (switchHit == secondSwitch) {
+      secondSwitchOff.classList.remove("notactive");
+    } else if (switchHit == thirdSwitch) {
+      thirdSwitchOff.classList.remove("notactive");
+    }
   }, 1000);
 };
 },{}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
@@ -400,7 +468,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55764" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50962" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

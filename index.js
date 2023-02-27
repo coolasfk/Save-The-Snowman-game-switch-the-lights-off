@@ -8,7 +8,7 @@ const firstSwitch = document.getElementById("firstSwitch");
 const secondSwitch = document.getElementById("secondSwitch");
 const thirdSwitch = document.getElementById("thirdSwitch");
 //isArrowOn is zawsze na poczatku
-let isArrowOn = false;
+let arrowIsOn = false;
 let rectangleArrowAngle;
 
 let arrowClicked;
@@ -48,7 +48,7 @@ const mouseLeaveEvent = (e) => {
 };
 
 const addHoverListeners = () => {
-  isArrowOn = false; //TODO
+  arrowIsOn = false; //TODO
   directionsArrows.forEach((arrow) => {
     arrow.addEventListener("pointerover", pointerOverEvent);
   });
@@ -201,9 +201,9 @@ directionsArrows.forEach((arrow) => {
     console.log("after the shoot", fakeSnowball.getBoundingClientRect());
 
     let fakeSnowballAfterThrowPosition = fakeSnowball.getBoundingClientRect();
-    let switchPosition = firstSwitch.getBoundingClientRect();
-    console.log(fakeSnowballAfterThrowPosition.top, switchPosition.top);
-    if (fakeSnowballAfterThrowPosition.top == switchPosition.top) {
+    let firstSwitchPosition = firstSwitch.getBoundingClientRect();
+    console.log(fakeSnowballAfterThrowPosition.top, firstSwitchPosition.top);
+    if (fakeSnowballAfterThrowPosition.top == firstSwitchPosition.top) {
       console.log("hit");
     } else {
       console.log("miss");
