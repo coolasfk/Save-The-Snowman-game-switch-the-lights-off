@@ -12,7 +12,7 @@
   body {
     max-height: 100%;
     max-width: 100%;
-    background-color: #685370;
+    background-color: #616b84;
   }
   .header__logo-wrapper__logo,
   .header .logo-wrapper__logo {
@@ -48,6 +48,7 @@
     transform: translateX(50vw);
     margin-top: 0vw;
     background-color: transparent;
+    border: 1vw solid #bdefea;
   }
   .main__backdrop-wrapper,
   .main .backdrop-wrapper {
@@ -67,7 +68,7 @@
 body {
   max-height: 100%;
   max-width: 100%;
-  background-color: #685370;
+  background-color: #616b84;
 }
 
 @media (min-width: 901px) {
@@ -105,6 +106,12 @@ body {
     margin-left: 25vw;
     margin-top: -15vw;
     background-color: transparent;
+    border: 1vw solid #bdefea;
+    font-family: 700 normal 3rem program, sans-serif;
+    padding: 2vw 3vw;
+    border-radius: 8vw;
+    font-size: 1rem;
+    color: #bdefea;
   }
   .main__backdrop-wrapper,
   .main .backdrop-wrapper {

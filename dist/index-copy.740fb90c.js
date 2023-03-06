@@ -149,7 +149,7 @@ var rectangleArrowPosition = 0;
 var directionsForSnowball = 0;
 var snowballTranslateX = "";
 var snowballTranslateY = "";
-var powerOfThrow = 200;
+var powerOfThrow = 400;
 var result = 0;
 var rectangleArrowHeight = 0;
 var rectangleArrowWidth = 0;
@@ -158,6 +158,13 @@ var newHeight = 0;
 var counterHits = 0;
 var newWidth = 0;
 var fakeSnowballAfterThrowPosition = {};
+var sliderPower = document.querySelector(".choose-power-wrapper__slider");
+powerOfThrow = Math.round(sliderPower.value);
+console.log(powerOfThrow);
+sliderPower.addEventListener("change", function () {
+  powerOfThrow = Math.round(sliderPower.value);
+  console.log(powerOfThrow);
+});
 var distancesBallToSwitch = {
   1: 0,
   2: 0,
@@ -291,7 +298,9 @@ var animationSnowball = function animationSnowball() {
   // ??????????? why this does not work ??????;
   snowballThrow.style.animationTimingFunction = "ease-out";
   snowballThrow.addEventListener("click", function () {
-    snowballThrow.animate(throwingSnowBall, throwingSnowBallTiming);
+    if (isArrowOn == true) {
+      snowballThrow.animate(throwingSnowBall, throwingSnowBallTiming);
+    }
   });
 };
 var checkingIfSwitchGotHit = function checkingIfSwitchGotHit(switchON, snowball) {
@@ -314,26 +323,18 @@ var checkingIfSwitchGotHit = function checkingIfSwitchGotHit(switchON, snowball)
     yTriangleBetweenSnowballAndSwitch = ySideSwitch - ySideSnowball;
   }
   var distanceBetweenSnowballAndSwitch = Math.sqrt(Math.pow(xTriangleBetweenSnowballAndSwitch, 2) + Math.pow(yTriangleBetweenSnowballAndSwitch, 2));
-  if (distanceBetweenSnowballAndSwitch < 200) {
+  if (distanceBetweenSnowballAndSwitch < 50) {
     switchIsHit(switchON);
   }
 };
-/// blad do zmiany >>
-
 snowball.addEventListener("click", function () {
   console.log(isArrowOn);
   if (isArrowOn == true) {
-    // wywolywac funkcje checkingIfSwitchGotHit + przekazac strzalke
-    // distancesBallToSwitch
     checkingIfSwitchGotHit(firstSwitch, fakeSnowball);
     checkingIfSwitchGotHit(secondSwitch, fakeSnowball);
     checkingIfSwitchGotHit(thirdSwitch, fakeSnowball);
   }
 });
-
-//prezdyent -> generał -> dowódców -> zólnierzy -> czołg
-
-//// do zmiany ^^^^
 var snowballOpacity = function snowballOpacity(element) {
   var increment = 0.025;
   var opacity = 0;
@@ -418,23 +419,27 @@ directionsArrows.forEach(function (arrow) {
   });
 });
 ///------------ SWITCH IS HIT ------------///
-
+console.log(document.querySelector(".lamps__first"));
 var switchIsHit = function switchIsHit(switchHit) {
   setTimeout(function () {
     snowball.style.opacity = 0;
     snowballOpacity(snowball);
     counterHits++;
     if (counterHits == 1) {
-      theBody.style.backgroundColor = "#57495c";
+      theBody.style.backgroundColor = "#616b84";
     } else if (counterHits == 2) {
       theBody.style.backgroundColor = "#2e292f";
     } else if (counterHits == 3) {
       theBody.style.backgroundColor = "#221f23";
     }
-    console.log(counterHits);
+    console.log(document.querySelector(".lamps__first"));
     switchHit.classList.add("notactive");
     console.log(switchHit);
     if (switchHit == firstSwitch) {
+      console.log(document.querySelector(".lamps__first"));
+      document.querySelector(".lamps__first").style.height = "800px";
+      document.querySelector(".lamps__first").style.opacity = 1;
+      document.querySelector(".lamps__first").remove("notactive");
       firstSwitchOff.classList.remove("notactive");
     } else if (switchHit == secondSwitch) {
       secondSwitchOff.classList.remove("notactive");
@@ -468,7 +473,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50962" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51681" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

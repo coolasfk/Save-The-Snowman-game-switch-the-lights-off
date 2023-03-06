@@ -30,7 +30,7 @@ let rectangleArrowPosition = 0;
 let directionsForSnowball = 0;
 let snowballTranslateX = "";
 let snowballTranslateY = "";
-let powerOfThrow = 200;
+let powerOfThrow = 400;
 let result = 0;
 let rectangleArrowHeight = 0;
 let rectangleArrowWidth = 0;
@@ -40,6 +40,15 @@ let counterHits = 0;
 
 let newWidth = 0;
 let fakeSnowballAfterThrowPosition = {};
+let sliderPower = document.querySelector(".choose-power-wrapper__slider");
+powerOfThrow = Math.round(sliderPower.value);
+
+console.log(powerOfThrow);
+
+sliderPower.addEventListener("change", () => {
+  powerOfThrow = Math.round(sliderPower.value);
+  console.log(powerOfThrow);
+});
 
 const distancesBallToSwitch = {
   1: 0,
@@ -210,7 +219,9 @@ const animationSnowball = () => {
   snowballThrow.style.animationTimingFunction = "ease-out";
 
   snowballThrow.addEventListener("click", () => {
-    snowballThrow.animate(throwingSnowBall, throwingSnowBallTiming);
+    if (isArrowOn == true) {
+      snowballThrow.animate(throwingSnowBall, throwingSnowBallTiming);
+    }
   });
 };
 const checkingIfSwitchGotHit = (switchON, snowball) => {
@@ -244,26 +255,20 @@ const checkingIfSwitchGotHit = (switchON, snowball) => {
       Math.pow(yTriangleBetweenSnowballAndSwitch, 2),
   );
 
-  if (distanceBetweenSnowballAndSwitch < 200) {
+  if (distanceBetweenSnowballAndSwitch < 50) {
     switchIsHit(switchON);
   }
 };
-/// blad do zmiany >>
 
 snowball.addEventListener("click", () => {
   console.log(isArrowOn);
   if (isArrowOn == true) {
-    // wywolywac funkcje checkingIfSwitchGotHit + przekazac strzalke
-    // distancesBallToSwitch
     checkingIfSwitchGotHit(firstSwitch, fakeSnowball);
     checkingIfSwitchGotHit(secondSwitch, fakeSnowball);
     checkingIfSwitchGotHit(thirdSwitch, fakeSnowball);
   }
 });
 
-//prezdyent -> generał -> dowódców -> zólnierzy -> czołg
-
-//// do zmiany ^^^^
 const snowballOpacity = (element) => {
   let increment = 0.025;
   let opacity = 0;
@@ -357,6 +362,7 @@ directionsArrows.forEach((arrow) => {
   });
 });
 ///------------ SWITCH IS HIT ------------///
+console.log(document.querySelector(".lamps__first"));
 
 const switchIsHit = (switchHit) => {
   setTimeout(() => {
@@ -365,17 +371,22 @@ const switchIsHit = (switchHit) => {
     counterHits++;
 
     if (counterHits == 1) {
-      theBody.style.backgroundColor = "#57495c";
+      theBody.style.backgroundColor = "#616b84";
     } else if (counterHits == 2) {
       theBody.style.backgroundColor = "#2e292f";
     } else if (counterHits == 3) {
       theBody.style.backgroundColor = "#221f23";
     }
+    console.log(document.querySelector(".lamps__first"));
 
-    console.log(counterHits);
     switchHit.classList.add("notactive");
     console.log(switchHit);
     if (switchHit == firstSwitch) {
+      console.log(document.querySelector(".lamps__first"));
+
+      document.querySelector(".lamps__first").style.height = "800px";
+      document.querySelector(".lamps__first").style.opacity = 1;
+      document.querySelector(".lamps__first").remove("notactive");
       firstSwitchOff.classList.remove("notactive");
     } else if (switchHit == secondSwitch) {
       secondSwitchOff.classList.remove("notactive");

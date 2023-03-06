@@ -1,4 +1,5 @@
 @use "modules_scss/_colors.scss" as c;
+@use "modules_scss/fonts" as t;
 
 *,
 *::before,
@@ -58,6 +59,7 @@
 
         margin-top: 0vw;
         background-color: transparent;
+        border: 1vw solid c.$snowman-color;
       }
     }
     &__backdrop-wrapper,
@@ -125,6 +127,12 @@ body {
 
         margin-top: -15vw;
         background-color: transparent;
+        border: 1vw solid c.$snowman-color;
+        font-family: t.$headline-font;
+        padding: 2vw 3vw;
+        border-radius: 8vw;
+        font-size: 1rem;
+        color: c.$snowman-color;
       }
     }
     &__backdrop-wrapper,

@@ -34,12 +34,12 @@
       &__first-switch {
         height: 30vw;
         width: auto;
-        margin: 10vw 40vw 0 15vw;
+        margin: 20vw 40vw 0 15vw;
       }
       &__second-switch {
         height: 20vw;
         width: auto;
-        margin: 20vw 30vw 0 15vw;
+        margin: 30vw 30vw 0 15vw;
       }
       &__third-switch {
         height: 40vw;
@@ -105,7 +105,7 @@
   }
 }
 
-@media only screen and (min-width: 901px) and (max-width: 1200px) {
+@media only screen and (min-width: 701px) and (max-width: 1200px) {
   body {
     max-height: 100%;
     max-width: 100%;
@@ -121,30 +121,59 @@
     justify-content: center;
     flex-direction: column;
     margin-top: 0;
+    &__lamps,
+    .lamps {
+      display: flex;
+      // position: absolute;
+      z-index: -120;
+      &__first {
+        position: absolute;
+        height: 40vw;
+        width: auto;
+        margin-top: 0vw;
+
+        margin-left: 5vw;
+      }
+      &__second {
+        position: absolute;
+        height: 40vw;
+        width: auto;
+        margin-top: -20vw;
+
+        margin-left: 35vw;
+      }
+      &__third {
+        position: absolute;
+        height: 40vw;
+        width: auto;
+        margin-top: -8vw;
+
+        margin-left: 85vw;
+      }
+    }
     &__first-switch-wrapper,
     .first-switch-wrapper {
       width: 100vw;
-      height: 40vw;
+      height: 60vh;
 
       background-color: transparent;
-      margin: 0;
 
       &__first-switch {
-        height: 10vw;
+        height: 13vw;
         width: auto;
-        margin: 5vw 10vw 2vw 20vw;
+        margin: 12vw 10vw 2vw 15vw;
       }
       &__second-switch {
-        height: 8vw;
+        height: 13vw;
         width: auto;
-        margin: 6vw 20vw 2vw 15vw;
+        margin: 4vw 20vw 6vw 15vw;
       }
       &__third-switch {
-        height: 10vw;
+        height: 13vw;
         width: auto;
-        margin-right: 10vw;
-        margin-left: 75vw;
-        margin-bottom: 2vw;
+        margin-right: 20vw;
+        margin-left: 70vw;
+        margin-top: -7vw;
       }
     }
     &__throw-mechanics-wrapper,
@@ -155,6 +184,8 @@
       flex-direction: column;
       justify-content: center;
       background-color: transparent;
+      // border: 4px green solid;
+      margin-top: 10vw;
 
       &__directions,
       .directions {
@@ -178,8 +209,9 @@
       }
       &__snowball {
         height: 10vw;
-        margin: 2vw;
-        padding: 0;
+        width: 10vw;
+        margin: 0vw;
+        padding: 1vw;
         width: auto;
         background-color: transparent;
         position: relative;
@@ -201,6 +233,7 @@
       &__minus {
         width: 2vw;
         height: auto;
+        margin-top: 2vw;
       }
 
       &__slider {
@@ -235,43 +268,62 @@
       &__plus {
         width: 2vw;
         height: auto;
+        margin-top: 2vw;
+      }
+    }
+    &__meltedSnowman,
+    .meltedSnowman {
+      display: flex;
+      height: 20vw;
+      margin: 2vw;
+      position: absolute;
+      // position: relative;
+      margin: 50vw 5vw 10vw 80vw;
+      &__stage0 {
+        height: 17vw;
+
+        // position: absolute;
+      }
+      &__stage1 {
+        height: 15vw;
+        // position: absolute;
       }
     }
   }
-
-  //   @keyframes snowball-animation {
-  //     0% {
-  //       // height: 20vw;
-  //       margin: 5vw 50vw 5vw 50vw;
-  //     }
-  //     50% {
-  //       height: 14vw;
-  //       // margin: 100vw 50vw 15vw 50vw;
-  //     }
-  //     80% {
-  //       // height: 20vw;
-  //       margin: -300vw 50vw 15vw 50vw;
-  //     }
-  //     84% {
-  //       opacity: 1;
-  //     }
-  //     85% {
-  //       margin: -300vw 50vw 15vw 50vw;
-  //       opacity: 0;
-  //     }
-
-  //     90% {
-  //       margin: 30vw 50vw 5vw 50vw;
-  //       opacity: 0;
-  //     }
-  //     91% {
-  //       opacity: 0;
-  //     }
-  //     95% {
-  //       margin: 15vw 50vw 5vw 50vw;
-  //     }
-  //   }
 }
+
+//   @keyframes snowball-animation {
+//     0% {
+//       // height: 20vw;
+//       margin: 5vw 50vw 5vw 50vw;
+//     }
+//     50% {
+//       height: 14vw;
+//       // margin: 100vw 50vw 15vw 50vw;
+//     }
+//     80% {
+//       // height: 20vw;
+//       margin: -300vw 50vw 15vw 50vw;
+//     }
+//     84% {
+//       opacity: 1;
+//     }
+//     85% {
+//       margin: -300vw 50vw 15vw 50vw;
+//       opacity: 0;
+//     }
+
+//     90% {
+//       margin: 30vw 50vw 5vw 50vw;
+//       opacity: 0;
+//     }
+//     91% {
+//       opacity: 0;
+//     }
+//     95% {
+//       margin: 15vw 50vw 5vw 50vw;
+//     }
+//   }
 
 .notactive {
   display: none;
