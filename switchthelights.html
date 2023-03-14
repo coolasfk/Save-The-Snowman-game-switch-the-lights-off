@@ -11,24 +11,63 @@
   <body>
     <header class="header"></header>
     <main class="main">
+      <div class="main__text-info-wrapper text-info-wrapper">
+        <h3 id="text-info" class="text-info-wrapper__text-info">Hit the light switch with the snowball.</h3>
+      </div>
       <div class="main__lamps lamps">
-        <img src="./assets/SVG/lamp-ON.svg" alt="" class="lamps__first" />
+        <img
+          src="./assets/SVG/lamp-ON.svg"
+          id="lamp-first-on"
+          alt=""
+          class="lamps__first"
+        />
         <img
           src="./assets/SVG/lamp-OFF.svg"
           alt=""
           class="lamps__first notactive"
+          id="lamp-first-off"
         />
-        <img src="./assets/SVG/lamp-ON.svg" alt="" class="lamps__second" />
+        <img
+          src="./assets/SVG/broken-bulb.svg"
+          alt=""
+          class="lamps__first notactive"
+          id="lamp-first-broken"
+        />
+        <img
+          src="./assets/SVG/lamp-ON.svg"
+          id="lamp-second-on"
+          alt=""
+          class="lamps__second"
+        />
         <img
           src="./assets/SVG/lamp-OFF.svg"
           alt=""
           class="lamps__second notactive"
+          id="lamp-second-off"
         />
-        <img src="./assets/SVG/lamp-ON.svg" alt="" class="lamps__third" />
+        <img
+          src="./assets/SVG/broken-bulb.svg"
+          alt=""
+          class="lamps__second notactive"
+          id="lamp-second-broken"
+        />
+        <img
+          src="./assets/SVG/lamp-ON.svg"
+          id="lamp-third-on"
+          alt=""
+          class="lamps__third"
+        />
         <img
           src="./assets/SVG/lamp-OFF.svg"
           alt=""
           class="lamps__third notactive"
+          id="lamp-third-off"
+        />
+        <img
+          src="./assets/SVG/broken-bulb.svg"
+          alt=""
+          class="lamps__third notactive"
+          id="lamp-third-broken"
         />
       </div>
       <div class="main__first-switch-wrapper first-switch-wrapper">
@@ -78,7 +117,10 @@
           class="first-switch-wrapper__third-switch notactive"
         />
       </div>
-      <div class="main__throw-mechanics-wrapper throw-mechanics-wrapper">
+      <div
+        class="main__throw-mechanics-wrapper throw-mechanics-wrapper"
+        id="throw-mechanics-wrapper"
+      >
         <div class="throw-mechanics-wrapper__directions directions">
           <svg
             class="directions__arrows arrows"
@@ -174,7 +216,6 @@
           </svg>
         </div>
 
-       
         <img
           class="throw-mechanics-wrapper__snowball"
           src="./assets/SVG/snowball.svg"
@@ -184,7 +225,8 @@
       </div>
       <div class="main__choose-power-wrapper choose-power-wrapper">
         <svg
-          class="choose-power-wrapper__minus"
+          class="choose-power-wrapper__minus do-not-unclick-arrow"
+          data-clickable-arrow="false"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 78.6 13"
         >
@@ -198,7 +240,8 @@
           </g>
         </svg>
         <input
-          class="choose-power-wrapper__slider"
+          class="choose-power-wrapper__slider do-not-unclick-arrow"
+          data-clickable-arrow="false"
           type="range"
           min="100"
           max="900"
@@ -206,6 +249,7 @@
         />
         <svg
           class="choose-power-wrapper__plus"
+          data-clickable-arrow="false"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 78.6 78.6"
         >
@@ -219,18 +263,39 @@
           </g>
         </svg>
       </div>
-      <!-- <div class="main__meltedSnowman meltedSnowman">
+
+      <div class="main__meltedSnowman meltedSnowman">
         <img
-          class="meltedSnowman__stage0"
-          src="./assets/SVG/snowman.svg"
+          class="meltedSnowman__meltedSnowman1"
+          src="./assets/snowman melting/snowman-melt1.svg"
           alt=""
         />
         <img
-          class="meltedSnowman__stage1 notactive"
-          src="./assets/SVG/SVG/snowmanMeltingStage1.svg"
+          class="meltedSnowman__meltedSnowman2 meltedSnowmanAll notactive"
+          src="./assets/snowman melting/snowman-melt2.svg"
           alt=""
         />
-      </div> -->
+        <img
+          class="meltedSnowman__meltedSnowman3 meltedSnowmanAll notactive"
+          src="./assets/snowman melting/snowman-melt3.svg"
+          alt=""
+        />
+        <img
+          class="meltedSnowman__meltedSnowman4 meltedSnowmanAll notactive"
+          src="./assets/snowman melting/snowman-melt4.svg"
+          alt=""
+        />
+        <img
+          class="meltedSnowman__meltedSnowman5 meltedSnowmanAll notactive"
+          src="./assets/snowman melting/snowman-melt5.svg"
+          alt=""
+        />
+        <img
+          class="meltedSnowman__meltedSnowman6 meltedSnowmanAll notactive"
+          src="./assets/snowman melting/snowman-melt6.svg"
+          alt=""
+        />
+      </div>
     </main>
     <footer class="footer"></footer>
   </body>

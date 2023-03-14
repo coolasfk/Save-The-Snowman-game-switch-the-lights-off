@@ -83,49 +83,27 @@ body {
     position: absolute;
     background-color: transparent;
   }
-  .main__snowman-wrapper__snowman,
-  .main .snowman-wrapper__snowman {
-    z-index: 5;
-    width: 35vw;
-    margin-left: 50vw;
-    margin-top: 2vw;
-  }
-  .main__play-btn-wrapper,
-  .main .play-btn-wrapper {
-    width: 100vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .main__play-btn-wrapper__play-btn,
-  .main .play-btn-wrapper__play-btn {
+  .header__logo-wrapper__play-btn,
+  .header .logo-wrapper__play-btn {
     width: 15vw;
-    height: auto;
+    height: 15vw;
     position: absolute;
     z-index: 20;
-    margin-left: 25vw;
-    margin-top: -15vw;
+    margin-left: 20vw;
+    margin-top: 30vw;
     background-color: transparent;
     border: 1vw solid #bdefea;
     font-family: 700 normal 3rem program, sans-serif;
     padding: 2vw 3vw;
-    border-radius: 8vw;
+    border-radius: 80vw;
     font-size: 1rem;
     color: #bdefea;
   }
-  .main__backdrop-wrapper,
-  .main .backdrop-wrapper {
-    display: flex;
-    justify-content: center;
-    width: 400vw;
-    height: 400vw;
-    margin-left: -100vw;
-    margin-top: -8vw;
-  }
-  .main__backdrop-wrapper__backdrop,
-  .main .backdrop-wrapper__backdrop {
-    width: 400vw;
-    height: 400vw;
+  .main__snowman-wrapper__snowman,
+  .main .snowman-wrapper__snowman {
+    width: 200vw;
+    margin-left: -53vw;
+    margin-top: 12vw;
   }
 }
 

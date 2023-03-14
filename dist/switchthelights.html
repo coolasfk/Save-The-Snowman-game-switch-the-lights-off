@@ -11,13 +11,19 @@
   <body>
     <header class="header"></header>
     <main class="main">
+      <div class="main__text-info-wrapper text-info-wrapper">
+        <h3 id="text-info" class="text-info-wrapper__text-info">Hit the light switch with the snowball.</h3>
+      </div>
       <div class="main__lamps lamps">
-        <img src="/lamp-ON.f1328657.svg" alt="" class="lamps__first">
-        <img src="/lamp-OFF.980d234d.svg" alt="" class="lamps__first notactive">
-        <img src="/lamp-ON.f1328657.svg" alt="" class="lamps__second">
-        <img src="/lamp-OFF.980d234d.svg" alt="" class="lamps__second notactive">
-        <img src="/lamp-ON.f1328657.svg" alt="" class="lamps__third">
-        <img src="/lamp-OFF.980d234d.svg" alt="" class="lamps__third notactive">
+        <img src="/lamp-ON.f1328657.svg" id="lamp-first-on" alt="" class="lamps__first">
+        <img src="/lamp-OFF.980d234d.svg" alt="" class="lamps__first notactive" id="lamp-first-off">
+        <img src="/broken-bulb.6de099c8.svg" alt="" class="lamps__first notactive" id="lamp-first-broken">
+        <img src="/lamp-ON.f1328657.svg" id="lamp-second-on" alt="" class="lamps__second">
+        <img src="/lamp-OFF.980d234d.svg" alt="" class="lamps__second notactive" id="lamp-second-off">
+        <img src="/broken-bulb.6de099c8.svg" alt="" class="lamps__second notactive" id="lamp-second-broken">
+        <img src="/lamp-ON.f1328657.svg" id="lamp-third-on" alt="" class="lamps__third">
+        <img src="/lamp-OFF.980d234d.svg" alt="" class="lamps__third notactive" id="lamp-third-off">
+        <img src="/broken-bulb.6de099c8.svg" alt="" class="lamps__third notactive" id="lamp-third-broken">
       </div>
       <div class="main__first-switch-wrapper first-switch-wrapper">
         <!-- class="first-switch-wrapper__first-switch"
@@ -36,7 +42,7 @@
         <img src="/switch-ON.30e019fb.svg" alt="" class="first-switch-wrapper__third-switch" id="thirdSwitch">
         <img src="/switch-OFF.3535824e.svg" alt="" id="thirdSwitch-OFF" class="first-switch-wrapper__third-switch notactive">
       </div>
-      <div class="main__throw-mechanics-wrapper throw-mechanics-wrapper">
+      <div class="main__throw-mechanics-wrapper throw-mechanics-wrapper" id="throw-mechanics-wrapper">
         <div class="throw-mechanics-wrapper__directions directions">
           <svg class="directions__arrows arrows" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1085.62 464.77">
             <g id="b5a19af9-2cbf-4acb-a076-d442674995d3" data-name="Layer 2">
@@ -59,19 +65,18 @@
           </svg>
         </div>
 
-       
         <img class="throw-mechanics-wrapper__snowball" src="/snowball.b64f51f5.svg" alt="" data-id="snowball">
       </div>
       <div class="main__choose-power-wrapper choose-power-wrapper">
-        <svg class="choose-power-wrapper__minus" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 78.6 13">
+        <svg class="choose-power-wrapper__minus do-not-unclick-arrow" data-clickable-arrow="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 78.6 13">
           <g id="e2f2392e-b7c0-4b1a-bfb9-8d485dc111d7" data-name="Layer 2">
             <g id="bce37dda-c5f9-4a7f-bcdc-92c4978b5663" data-name="Layer 1">
               <path d="M72.1,0H6.5a6.5,6.5,0,0,0,0,13H72.1a6.5,6.5,0,0,0,0-13Z" style="fill: #d9f4f1"></path>
             </g>
           </g>
         </svg>
-        <input class="choose-power-wrapper__slider" type="range" min="100" max="900" value="450">
-        <svg class="choose-power-wrapper__plus" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 78.6 78.6">
+        <input class="choose-power-wrapper__slider do-not-unclick-arrow" data-clickable-arrow="false" type="range" min="100" max="900" value="450">
+        <svg class="choose-power-wrapper__plus" data-clickable-arrow="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 78.6 78.6">
           <g id="bfc00e51-4944-464c-a33a-77ccc8acaccb" data-name="Layer 2">
             <g id="f8101da3-a0fa-4378-bb85-483672178114" data-name="Layer 1">
               <path d="M72.1,32.8H45.8V6.5a6.5,6.5,0,0,0-13,0V32.8H6.5a6.5,6.5,0,0,0,0,13H32.8V72.1a6.5,6.5,0,0,0,13,0V45.8H72.1a6.5,6.5,0,0,0,0-13Z" style="fill: #d9f4f1"></path>
@@ -79,18 +84,15 @@
           </g>
         </svg>
       </div>
-      <!-- <div class="main__meltedSnowman meltedSnowman">
-        <img
-          class="meltedSnowman__stage0"
-          src="./assets/SVG/snowman.svg"
-          alt=""
-        />
-        <img
-          class="meltedSnowman__stage1 notactive"
-          src="./assets/SVG/SVG/snowmanMeltingStage1.svg"
-          alt=""
-        />
-      </div> -->
+
+      <div class="main__meltedSnowman meltedSnowman">
+        <img class="meltedSnowman__meltedSnowman1" src="/snowman-melt1.23b0921f.svg" alt="">
+        <img class="meltedSnowman__meltedSnowman2 meltedSnowmanAll notactive" src="/snowman-melt2.2a5c57cf.svg" alt="">
+        <img class="meltedSnowman__meltedSnowman3 meltedSnowmanAll notactive" src="/snowman-melt3.0c1f51c3.svg" alt="">
+        <img class="meltedSnowman__meltedSnowman4 meltedSnowmanAll notactive" src="/snowman-melt4.992b7eb2.svg" alt="">
+        <img class="meltedSnowman__meltedSnowman5 meltedSnowmanAll notactive" src="/snowman-melt5.c071ac3f.svg" alt="">
+        <img class="meltedSnowman__meltedSnowman6 meltedSnowmanAll notactive" src="/snowman-melt6.22f52803.svg" alt="">
+      </div>
     </main>
     <footer class="footer"></footer>
   </body>

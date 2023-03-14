@@ -127,6 +127,18 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 ///------------ VARIABLES ------------///
 
 var directionsArrows = document.querySelectorAll(".arrows__arrow");
+var meltedSnowman1 = document.querySelector(".meltedSnowman__meltedSnowman1");
+var meltedSnowman2 = document.querySelector(".meltedSnowman__meltedSnowman2");
+var meltedSnowman3 = document.querySelector(".meltedSnowman__meltedSnowman3");
+var meltedSnowman4 = document.querySelector(".meltedSnowman__meltedSnowman4");
+var meltedSnowman5 = document.querySelector(".meltedSnowman__meltedSnowman5");
+var meltedSnowman6 = document.querySelector(".meltedSnowman__meltedSnowman6");
+var firstLampON = document.getElementById("lamp-first-on");
+var secondLampON = document.getElementById("lamp-second-on");
+var thirdLampON = document.getElementById("lamp-third-on");
+var firstLampOFF = document.getElementById("lamp-first-off");
+var secondLampOFF = document.getElementById("lamp-second-off");
+var thirdLampOFF = document.getElementById("lamp-third-off");
 var snowballThrow = document.querySelector(".throw-mechanics-wrapper__snowball");
 var firstSwitch = document.getElementById("firstSwitch-ON");
 var secondSwitch = document.getElementById("secondSwitch");
@@ -134,6 +146,13 @@ var thirdSwitch = document.getElementById("thirdSwitch");
 var firstSwitchOff = document.getElementById("firstSwitch-OFF");
 var secondSwitchOff = document.getElementById("secondSwitch-OFF");
 var thirdSwitchOff = document.getElementById("thirdSwitch-OFF");
+var firstLampBroken = document.getElementById("lamp-first-broken");
+var secondLampBroken = document.getElementById("lamp-second-broken");
+var thirdLampBroken = document.getElementById("lamp-third-broken");
+var textInfo = document.getElementById("text-info");
+textInfo.textContent = "Hit the light switch with the snowball! Before it melts!";
+var throwMechanicsWrapper = document.getElementById("throw-mechanics-wrapper");
+var sliderWrapper = document.querySelector(".choose-power-wrapper");
 var isArrowOn = false;
 var rectangleArrowAngle;
 var arrowClicked = {};
@@ -156,15 +175,12 @@ var rectangleArrowWidth = 0;
 var rectangleArrow = {};
 var newHeight = 0;
 var counterHits = 0;
+var requiredDistanceBallSwitch = 150;
+var counterMeltingSnowman = 0;
+var counterMiss;
 var newWidth = 0;
-var fakeSnowballAfterThrowPosition = {};
+var isSnowballAnimationOn = false;
 var sliderPower = document.querySelector(".choose-power-wrapper__slider");
-powerOfThrow = Math.round(sliderPower.value);
-console.log(powerOfThrow);
-sliderPower.addEventListener("change", function () {
-  powerOfThrow = Math.round(sliderPower.value);
-  console.log(powerOfThrow);
-});
 var distancesBallToSwitch = {
   1: 0,
   2: 0,
@@ -202,7 +218,26 @@ var removeHoverListeners = function removeHoverListeners() {
   });
 };
 addHoverListeners();
-///------------ FUNCTIONS FOR ARROW CLICKED ------------///
+
+///------------ SLIDER-POWER ------------///
+
+sliderPower.addEventListener("change", function () {
+  powerOfThrow = Math.round(sliderPower.value);
+  console.log(powerOfThrow);
+});
+
+///------------ INFO-TEXT ------------///
+
+var textInfoDisappearing = function textInfoDisappearing() {
+  textInfo.style.animation = "opacityAnimation 4s ease-in 1";
+  setTimeout(function () {
+    textInfo.textContent = "";
+  }, 4000);
+};
+textInfoDisappearing();
+
+///------------ FUNCTIONS FOR ARROW CLICKED - HANDLING SNOWBALL ------------///
+
 var addingRectangleForSnowballDirection = function addingRectangleForSnowballDirection(arrowClicked) {
   rectangleArrow = document.createElement("div");
   arrowPosition = arrowClicked.getBoundingClientRect();
@@ -238,6 +273,7 @@ var createFakeSnowball = function createFakeSnowball() {
   fakeSnowball.style.right = snowballPosition.right + "px";
   fakeSnowball.style.position = "absolute";
   fakeSnowball.style.opacity = 0;
+  fakeSnowball.style.zIndex = 900;
   fakeSnowball.style.backgroundColor = "green";
   document.querySelector(".footer").append(fakeSnowball);
 };
@@ -279,6 +315,7 @@ var definingDirectionOfThrow = function definingDirectionOfThrow(newWidth) {
   }
 };
 var animationSnowball = function animationSnowball() {
+  isSnowballAnimationOn = true;
   var _directionOfThrow = directionOfThrow(),
     _directionOfThrow2 = _slicedToArray(_directionOfThrow, 2),
     finalMoveX = _directionOfThrow2[0],
@@ -294,8 +331,6 @@ var animationSnowball = function animationSnowball() {
     duration: 1000,
     iterations: 1
   };
-
-  // ??????????? why this does not work ??????;
   snowballThrow.style.animationTimingFunction = "ease-out";
   snowballThrow.addEventListener("click", function () {
     if (isArrowOn == true) {
@@ -304,35 +339,41 @@ var animationSnowball = function animationSnowball() {
   });
 };
 var checkingIfSwitchGotHit = function checkingIfSwitchGotHit(switchON, snowball) {
+  console.log(switchON);
   var switchPosition = switchON.getBoundingClientRect();
   var xSideSwitch = switchPosition.left;
-  var ySideSwitch = switchPosition.top;
-  fakeSnowballAfterThrowPosition = snowball.getBoundingClientRect();
+  var ySideSwitch = switchPosition.bottom;
+  var fakeSnowballAfterThrowPosition = snowball.getBoundingClientRect();
   var xSideSnowball = fakeSnowballAfterThrowPosition.left;
-  var ySideSnowball = fakeSnowballAfterThrowPosition.top;
+  var ySideSnowball = fakeSnowballAfterThrowPosition.bottom;
   var xTriangleBetweenSnowballAndSwitch;
   var yTriangleBetweenSnowballAndSwitch;
-  if (xSideSnowball > xSideSwitch) {
-    xTriangleBetweenSnowballAndSwitch = xSideSnowball - xSideSwitch;
-  } else if (xSideSnowball < xSideSwitch) {
-    xTriangleBetweenSnowballAndSwitch = xSideSwitch - xSideSnowball;
-  }
-  if (ySideSnowball > ySideSwitch) {
-    yTriangleBetweenSnowballAndSwitch = ySideSnowball - ySideSwitch;
-  } else if (ySideSnowball < ySideSwitch) {
-    yTriangleBetweenSnowballAndSwitch = ySideSwitch - ySideSnowball;
-  }
+  xTriangleBetweenSnowballAndSwitch = xSideSwitch - xSideSnowball;
+  yTriangleBetweenSnowballAndSwitch = ySideSwitch - ySideSnowball;
   var distanceBetweenSnowballAndSwitch = Math.sqrt(Math.pow(xTriangleBetweenSnowballAndSwitch, 2) + Math.pow(yTriangleBetweenSnowballAndSwitch, 2));
-  if (distanceBetweenSnowballAndSwitch < 50) {
-    switchIsHit(switchON);
+  if (distanceBetweenSnowballAndSwitch < requiredDistanceBallSwitch) {
+    switchIsHit(switchON, firstLampON, firstLampOFF, secondLampON, secondLampOFF, thirdLampON, thirdLampOFF, firstSwitch, secondSwitch, thirdSwitch, firstLampBroken, secondLampBroken, thirdLampBroken, snowball);
+    console.log("hit");
+  } else if (isSnowballAnimationOn = true && distanceBetweenSnowballAndSwitch > requiredDistanceBallSwitch) {
+    // isSnowballAnimationOn = false;
+    counterMiss++;
   }
+  if (counterMiss == 6) {
+    counterMeltingSnowman++;
+    console.log("miss");
+  }
+  meltSnowmaGraphicsSteps(counterMeltingSnowman);
 };
 snowball.addEventListener("click", function () {
   console.log(isArrowOn);
   if (isArrowOn == true) {
-    checkingIfSwitchGotHit(firstSwitch, fakeSnowball);
-    checkingIfSwitchGotHit(secondSwitch, fakeSnowball);
-    checkingIfSwitchGotHit(thirdSwitch, fakeSnowball);
+    counterMiss = 0;
+    checkingIfSwitchGotHit(firstSwitch, fakeSnowball, switchIsHit);
+    checkingIfSwitchGotHit(secondSwitch, fakeSnowball, switchIsHit);
+    checkingIfSwitchGotHit(thirdSwitch, fakeSnowball, switchIsHit);
+    checkingIfSwitchGotHit(firstLampON, fakeSnowball, switchIsHit);
+    checkingIfSwitchGotHit(secondLampON, fakeSnowball, switchIsHit);
+    checkingIfSwitchGotHit(thirdLampON, fakeSnowball, switchIsHit);
   }
 });
 var snowballOpacity = function snowballOpacity(element) {
@@ -361,39 +402,6 @@ directionsArrows.forEach(function (arrow) {
     createFakeSnowball();
     definingDirectionOfThrow(newWidth);
     animationSnowball();
-    // const distanceBetweenSnowballAndSwitch1 = checkingIfSwitchGotHit(
-    //   firstSwitch,
-    //   fakeSnowball,
-    // );
-    // const distanceBetweenSnowballAndSwitch2 = checkingIfSwitchGotHit(
-    //   secondSwitch,
-    //   fakeSnowball,
-    // );
-    // const distanceBetweenSnowballAndSwitch3 = checkingIfSwitchGotHit(
-    //   thirdSwitch,
-    //   fakeSnowball,
-    // );
-
-    // distancesBallToSwitch={
-    //   1:dista..
-    //   2:distance..
-
-    // }
-
-    // distancesBallToSwitch[1] = distanceBetweenSnowballAndSwitch1;
-    // distancesBallToSwitch[2] = distanceBetweenSnowballAndSwitch2;
-    // distancesBallToSwitch[3] = distanceBetweenSnowballAndSwitch3;
-
-    // main
-    // develop
-    // git checkout -b develop
-    //git merge develop main
-    //git checkout main
-
-    //const foo = (a,b) => a + b
-    // foo(1,2,3,4,5,6)
-    // checkingIfSwitchGotHit(secondSwitch);
-    // checkingIfSwitchGotHit(thirdSwitch);
     removeHoverListeners();
   });
 });
@@ -401,8 +409,7 @@ directionsArrows.forEach(function (arrow) {
 ///------------ UNCLICKING ARROWS ------------///
 
 var clickOutside = function clickOutside(e) {
-  if (!e.target.classList.contains("arrows__arrow")) {
-    console.log("target doesn't include");
+  if (!e.target.classList.contains("arrows__arrow") && !(e.target.getAttribute("data-clickable-arrow") == "false")) {
     removeHoverListeners();
     addHoverListeners();
     directionsArrows.forEach(function (arrow) {
@@ -419,34 +426,105 @@ directionsArrows.forEach(function (arrow) {
   });
 });
 ///------------ SWITCH IS HIT ------------///
-console.log(document.querySelector(".lamps__first"));
-var switchIsHit = function switchIsHit(switchHit) {
+
+var switchIsHit = function switchIsHit(switchHit, firstLampON, firstLampOFF, secondLampON, secondLampOFF, thirdLampON, thirdLampOFF, firstSwitch, secondSwitch, thirdSwitch, firstLampBroken, secondLampBroken, thirdLampBroken, snowball) {
+  console.log(switchHit);
   setTimeout(function () {
     snowball.style.opacity = 0;
-    snowballOpacity(snowball);
     counterHits++;
     if (counterHits == 1) {
-      theBody.style.backgroundColor = "#616b84";
+      textInfo.textContent = "One down! Two more to go!";
+      textInfoDisappearing();
+      theBody.style.backgroundColor = "#474c59";
     } else if (counterHits == 2) {
-      theBody.style.backgroundColor = "#2e292f";
+      textInfo.textContent = "Yay snowman is really happy! Hit one more!";
+      textInfoDisappearing();
+      theBody.style.backgroundColor = "#3a3e46";
     } else if (counterHits == 3) {
-      theBody.style.backgroundColor = "#221f23";
+      snowball.style.opacity = 0;
+      throwMechanicsWrapper.style.opacity = 0;
+      throwMechanicsWrapper.style.zIndex = -100;
+      sliderWrapper.style.opacity = 0;
+      textInfo.textContent = "congrats! By saving electricity you contribute to less global warming and more snow!";
+      textInfoDisappearing();
     }
-    console.log(document.querySelector(".lamps__first"));
+    // console.log(document.querySelector(".lamps__first"));
+
     switchHit.classList.add("notactive");
-    console.log(switchHit);
     if (switchHit == firstSwitch) {
-      console.log(document.querySelector(".lamps__first"));
-      document.querySelector(".lamps__first").style.height = "800px";
-      document.querySelector(".lamps__first").style.opacity = 1;
-      document.querySelector(".lamps__first").remove("notactive");
+      // console.log(document.querySelector(".lamps__first"));
+
+      // textInfo.textContent = "you are doing great!";
+      firstLampON.classList.add("notactive");
+      firstLampOFF.classList.remove("notactive");
+      // document.querySelector(".lamps__first").classList.remove("notactive");
       firstSwitchOff.classList.remove("notactive");
     } else if (switchHit == secondSwitch) {
+      secondLampON.classList.add("notactive");
+      secondLampOFF.classList.remove("notactive");
       secondSwitchOff.classList.remove("notactive");
     } else if (switchHit == thirdSwitch) {
+      thirdLampON.classList.add("notactive");
+      thirdLampOFF.classList.remove("notactive");
       thirdSwitchOff.classList.remove("notactive");
+    } else if (switchHit == firstLampON) {
+      counterMeltingSnowman = 5;
+      console.log("lamp got hit");
+      firstLampON.classList.add("notactive");
+      firstLampBroken.classList.remove("notactive");
+      gameOver();
+    } else if (switchHit == secondLampON) {
+      console.log("lamp got hit");
+      secondLampON.classList.add("notactive");
+      secondLampBroken.classList.remove("notactive");
+      gameOver();
+    } else if (switchHit == thirdLampON) {
+      console.log("lamp got hit");
+      thirdLampON.classList.add("notactive");
+      thirdLampBroken.classList.remove("notactive");
+      gameOver();
     }
   }, 1000);
+};
+
+///------------ SWITCH IS NOT HIT ------------///
+
+var meltSnowmaGraphicsSteps = function meltSnowmaGraphicsSteps(count) {
+  if (count == 1) {
+    setTimeout(function () {
+      textInfo.textContent = "Oh no! Snowman is melting! Aim at the switches to save it!";
+      textInfoDisappearing();
+    }, 1000);
+    meltedSnowman1.classList.add("notactive");
+    meltedSnowman2.classList.remove("notactive");
+  } else if (count == 2) {
+    textInfo.textContent = "Try harder! You can do it!";
+    textInfoDisappearing();
+    meltedSnowman2.classList.add("notactive");
+    meltedSnowman3.classList.remove("notactive");
+  } else if (count == 3) {
+    meltedSnowman3.classList.add("notactive");
+    meltedSnowman4.classList.remove("notactive");
+  } else if (count == 4) {
+    meltedSnowman4.classList.add("notactive");
+    meltedSnowman5.classList.remove("notactive");
+  } else if (count == 5) {
+    gameOver();
+  }
+};
+var gameOver = function gameOver() {
+  meltedSnowman1.classList.add("notactive");
+  meltedSnowman2.classList.add("notactive");
+  meltedSnowman3.classList.add("notactive");
+  meltedSnowman4.classList.add("notactive");
+  meltedSnowman5.classList.add("notactive");
+  meltedSnowman6.classList.remove("notactive");
+  snowball.style.opacity = 0;
+  throwMechanicsWrapper.style.opacity = 0;
+  throwMechanicsWrapper.style.zIndex = -100;
+  sliderWrapper.style.opacity = 0;
+  textInfo.textContent = "GAME OVER";
+  textInfo.style.opacity = 1;
 };
 },{}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
@@ -473,7 +551,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51681" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54311" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

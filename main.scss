@@ -99,54 +99,47 @@ body {
         position: absolute;
         background-color: transparent;
       }
+      &__play-btn {
+        width: 15vw;
+        height: 15vw;
+        position: absolute;
+        z-index: 20;
+        margin-left: 20vw;
+
+        margin-top: 30vw;
+        background-color: transparent;
+        border: 1vw solid c.$snowman-color;
+        font-family: t.$headline-font;
+        padding: 2vw 3vw;
+        border-radius: 80vw;
+        font-size: 1rem;
+        color: c.$snowman-color;
+      }
     }
   }
   .main {
     &__snowman-wrapper,
     .snowman-wrapper {
       &__snowman {
-        z-index: 5;
-        width: 35vw;
-        margin-left: 50vw;
-        margin-top: 2vw;
+        // z-index: 120;
+        width: 200vw;
+        margin-left: -53vw;
+        margin-top: 12vw;
       }
     }
-    &__play-btn-wrapper,
-    .play-btn-wrapper {
-      width: 100vw;
-      display: flex;
-      justify-content: center;
-      align-items: center;
 
-      &__play-btn {
-        width: 15vw;
-        height: auto;
-        position: absolute;
-        z-index: 20;
-        margin-left: 25vw;
-
-        margin-top: -15vw;
-        background-color: transparent;
-        border: 1vw solid c.$snowman-color;
-        font-family: t.$headline-font;
-        padding: 2vw 3vw;
-        border-radius: 8vw;
-        font-size: 1rem;
-        color: c.$snowman-color;
-      }
-    }
-    &__backdrop-wrapper,
-    .backdrop-wrapper {
-      display: flex;
-      justify-content: center;
-      width: 400vw;
-      height: 400vw;
-      margin-left: -100vw;
-      margin-top: -8vw;
-      &__backdrop {
-        width: 400vw;
-        height: 400vw;
-      }
-    }
+    // &__backdrop-wrapper,
+    // .backdrop-wrapper {
+    //   display: flex;
+    //   justify-content: center;
+    //   width: 500vw;
+    //   height: 500vw;
+    //   margin-left: -155vw;
+    //   margin-top: -6vw;
+    //   &__backdrop {
+    //     width: 500vw;
+    //     height: 500vw;
+    //   }
+    // }
   }
 }
