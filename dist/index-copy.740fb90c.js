@@ -149,8 +149,10 @@ var thirdSwitchOff = document.getElementById("thirdSwitch-OFF");
 var firstLampBroken = document.getElementById("lamp-first-broken");
 var secondLampBroken = document.getElementById("lamp-second-broken");
 var thirdLampBroken = document.getElementById("lamp-third-broken");
+console.log("before showing textinfo");
 var textInfo = document.getElementById("text-info");
 textInfo.textContent = "Hit the light switch with the snowball! Before it melts!";
+console.log(textInfo);
 var throwMechanicsWrapper = document.getElementById("throw-mechanics-wrapper");
 var sliderWrapper = document.querySelector(".choose-power-wrapper");
 var isArrowOn = false;
@@ -202,22 +204,22 @@ var mouseLeaveEvent = function mouseLeaveEvent(e) {
     e.target.style.opacity = 0.1;
   }, "1000");
 };
-var addHoverListeners = function addHoverListeners() {
+var addHoverListeners = function addHoverListeners(element) {
   isArrowOn = false;
-  directionsArrows.forEach(function (arrow) {
+  element.forEach(function (arrow) {
     arrow.addEventListener("pointerover", pointerOverEvent);
   });
-  directionsArrows.forEach(function (arrow) {
+  element.forEach(function (arrow) {
     arrow.addEventListener("mouseleave", mouseLeaveEvent);
   });
 };
-var removeHoverListeners = function removeHoverListeners() {
-  directionsArrows.forEach(function (arrow) {
+var removeHoverListeners = function removeHoverListeners(element) {
+  element.forEach(function (arrow) {
     arrow.removeEventListener("pointerover", pointerOverEvent);
     arrow.removeEventListener("mouseleave", mouseLeaveEvent);
   });
 };
-addHoverListeners();
+addHoverListeners(directionsArrows);
 
 ///------------ SLIDER-POWER ------------///
 
@@ -228,13 +230,14 @@ sliderPower.addEventListener("change", function () {
 
 ///------------ INFO-TEXT ------------///
 
-var textInfoDisappearing = function textInfoDisappearing() {
-  textInfo.style.animation = "opacityAnimation 4s ease-in 1";
+var textOpacityToggle = function textOpacityToggle(item) {
+  //setTimeout(())
+  item.classList.add("active");
   setTimeout(function () {
-    textInfo.textContent = "";
-  }, 4000);
+    return item.classList.remove("active");
+  }, 2000);
 };
-textInfoDisappearing();
+// textOpacityToggle(textInfo);
 
 ///------------ FUNCTIONS FOR ARROW CLICKED - HANDLING SNOWBALL ------------///
 
@@ -402,7 +405,7 @@ directionsArrows.forEach(function (arrow) {
     createFakeSnowball();
     definingDirectionOfThrow(newWidth);
     animationSnowball();
-    removeHoverListeners();
+    removeHoverListeners(directionsArrows);
   });
 });
 
@@ -410,8 +413,8 @@ directionsArrows.forEach(function (arrow) {
 
 var clickOutside = function clickOutside(e) {
   if (!e.target.classList.contains("arrows__arrow") && !(e.target.getAttribute("data-clickable-arrow") == "false")) {
-    removeHoverListeners();
-    addHoverListeners();
+    removeHoverListeners(directionsArrows);
+    addHoverListeners(directionsArrows);
     directionsArrows.forEach(function (arrow) {
       arrow.style.opacity = 0.1;
     });
@@ -420,8 +423,8 @@ var clickOutside = function clickOutside(e) {
 theBody.addEventListener("click", clickOutside);
 directionsArrows.forEach(function (arrow) {
   arrow.addEventListener("dblclick", function () {
-    removeHoverListeners();
-    addHoverListeners();
+    removeHoverListeners(directionsArrows);
+    addHoverListeners(directionsArrows);
     arrow.style.opacity = 0.1;
   });
 });
@@ -433,20 +436,21 @@ var switchIsHit = function switchIsHit(switchHit, firstLampON, firstLampOFF, sec
     snowball.style.opacity = 0;
     counterHits++;
     if (counterHits == 1) {
+      textOpacityToggle(textInfo);
       textInfo.textContent = "One down! Two more to go!";
-      textInfoDisappearing();
+      // setTimeout(() => textOpacityToggle(textInfo), 2000);
       theBody.style.backgroundColor = "#474c59";
     } else if (counterHits == 2) {
+      textOpacityToggle(textInfo);
       textInfo.textContent = "Yay snowman is really happy! Hit one more!";
-      textInfoDisappearing();
       theBody.style.backgroundColor = "#3a3e46";
     } else if (counterHits == 3) {
       snowball.style.opacity = 0;
       throwMechanicsWrapper.style.opacity = 0;
       throwMechanicsWrapper.style.zIndex = -100;
       sliderWrapper.style.opacity = 0;
+      textOpacityToggle(textInfo);
       textInfo.textContent = "congrats! By saving electricity you contribute to less global warming and more snow!";
-      textInfoDisappearing();
     }
     // console.log(document.querySelector(".lamps__first"));
 
@@ -491,21 +495,23 @@ var switchIsHit = function switchIsHit(switchHit, firstLampON, firstLampOFF, sec
 
 var meltSnowmaGraphicsSteps = function meltSnowmaGraphicsSteps(count) {
   if (count == 1) {
-    setTimeout(function () {
-      textInfo.textContent = "Oh no! Snowman is melting! Aim at the switches to save it!";
-      textInfoDisappearing();
-    }, 1000);
+    textOpacityToggle(textInfo);
+    textInfo.textContent = "Oh no! Snowman is melting! Aim at the switches to save it!";
     meltedSnowman1.classList.add("notactive");
     meltedSnowman2.classList.remove("notactive");
   } else if (count == 2) {
     textInfo.textContent = "Try harder! You can do it!";
-    textInfoDisappearing();
+    textOpacityToggle(textInfo);
     meltedSnowman2.classList.add("notactive");
     meltedSnowman3.classList.remove("notactive");
   } else if (count == 3) {
+    textInfo.textContent = "Try harder! You can do it!";
+    textOpacityToggle(textInfo);
     meltedSnowman3.classList.add("notactive");
     meltedSnowman4.classList.remove("notactive");
   } else if (count == 4) {
+    textInfo.textContent = "Try harder! You can do it!";
+    textOpacityToggle(textInfo);
     meltedSnowman4.classList.add("notactive");
     meltedSnowman5.classList.remove("notactive");
   } else if (count == 5) {
