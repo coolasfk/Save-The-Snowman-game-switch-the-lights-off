@@ -124,7 +124,7 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-///------------ VARIABLES ------------///
+///------------ VARIABLES ITEMS FROM DOM ------------///
 
 var directionsArrows = document.querySelectorAll(".arrows__arrow");
 var meltedSnowman1 = document.querySelector(".meltedSnowman__meltedSnowman1");
@@ -151,14 +151,19 @@ var secondLampBroken = document.getElementById("lamp-second-broken");
 var thirdLampBroken = document.getElementById("lamp-third-broken");
 console.log("before showing textinfo");
 var textInfo = document.getElementById("text-info");
-textInfo.textContent = "Hit the light switch with the snowball! Before it melts!";
-console.log(textInfo);
+var sliderPower = document.querySelector(".choose-power-wrapper__slider");
+var snowball = document.querySelector("[data-id = \"snowball\"]");
+var fakeSnowball = document.createElement("div");
+var allArrows = document.querySelector("[data-id=\"allArrows\"]").childNodes;
 var throwMechanicsWrapper = document.getElementById("throw-mechanics-wrapper");
 var sliderWrapper = document.querySelector(".choose-power-wrapper");
+var theBody = document.querySelector(".main");
+
+///------------ GLOBAL VARIABLES ------------///
+
 var isArrowOn = false;
 var rectangleArrowAngle;
 var arrowClicked = {};
-var theBody = document.querySelector(".main");
 var arrowPosition = 0;
 var arrowPositionHeight = 0;
 var arrowPositionWidth = 0;
@@ -180,22 +185,19 @@ var counterHits = 0;
 var requiredDistanceBallSwitch = 150;
 var counterMeltingSnowman = 0;
 var counterMiss;
+var directionOfThrow; /// how to show function
 var newWidth = 0;
 var isSnowballAnimationOn = false;
-var sliderPower = document.querySelector(".choose-power-wrapper__slider");
-var distancesBallToSwitch = {
-  1: 0,
-  2: 0,
-  3: 0
-};
-var directionOfThrow; /// how to show function
-
-var snowball = document.querySelector("[data-id = \"snowball\"]");
-var fakeSnowball = document.createElement("div");
-var allArrows = document.querySelector("[data-id=\"allArrows\"]").childNodes;
 
 ///------------ FUNCTIONS HOOVERING EVENTS ------------///
 
+var changeAllArrowsOpacity = function changeAllArrowsOpacity(item) {
+  for (var _i = 0; _i < item.length; _i++) {
+    if (_i % 2 == !0) {
+      item[_i].style.opacity = "0.1";
+    }
+  }
+};
 var pointerOverEvent = function pointerOverEvent(e) {
   e.target.style.opacity = 0.3;
 };
@@ -224,18 +226,26 @@ addHoverListeners(directionsArrows);
 ///------------ SLIDER-POWER ------------///
 
 sliderPower.addEventListener("change", function () {
-  powerOfThrow = Math.round(sliderPower.value);
-  console.log(powerOfThrow);
+  readPowerOfThrow(sliderPower);
 });
+var readPowerOfThrow = function readPowerOfThrow(item) {
+  powerOfThrow = Math.round(item.value);
+};
 
-///------------ INFO-TEXT ------------///
+///------------ INFO-TEXT FUNCTIONS ------------///
 
+window.addEventListener("load", function () {
+  textOpacityToggle(textInfo);
+});
 var textOpacityToggle = function textOpacityToggle(item) {
   //setTimeout(())
-  item.classList.add("active");
+
+  setTimeout(function () {
+    return item.classList.add("active");
+  }, 500);
   setTimeout(function () {
     return item.classList.remove("active");
-  }, 2000);
+  }, 2500);
 };
 // textOpacityToggle(textInfo);
 
@@ -284,13 +294,6 @@ var newWidthCalc = function newWidthCalc(angle) {
   newHeight = rectangleArrowHeight + powerOfThrow;
   newWidth = newHeight / Math.tan(angle);
   return newWidth;
-};
-var changeAllArrowsOpacity = function changeAllArrowsOpacity() {
-  for (var _i = 0; _i < allArrows.length; _i++) {
-    if (_i % 2 == !0) {
-      allArrows[_i].style.opacity = "0.1";
-    }
-  }
 };
 var definingDirectionOfThrow = function definingDirectionOfThrow(newWidth) {
   rectangleArrow.style.height = newHeight + "px";
@@ -395,7 +398,7 @@ var snowballOpacity = function snowballOpacity(element) {
 
 directionsArrows.forEach(function (arrow) {
   arrow.addEventListener("click", function (e) {
-    changeAllArrowsOpacity();
+    changeAllArrowsOpacity(allArrows);
     arrowClicked = e.target;
     arrowClicked.style.opacity = 1;
     isArrowOn = true;
@@ -438,7 +441,6 @@ var switchIsHit = function switchIsHit(switchHit, firstLampON, firstLampOFF, sec
     if (counterHits == 1) {
       textOpacityToggle(textInfo);
       textInfo.textContent = "One down! Two more to go!";
-      // setTimeout(() => textOpacityToggle(textInfo), 2000);
       theBody.style.backgroundColor = "#474c59";
     } else if (counterHits == 2) {
       textOpacityToggle(textInfo);
@@ -452,16 +454,10 @@ var switchIsHit = function switchIsHit(switchHit, firstLampON, firstLampOFF, sec
       textOpacityToggle(textInfo);
       textInfo.textContent = "congrats! By saving electricity you contribute to less global warming and more snow!";
     }
-    // console.log(document.querySelector(".lamps__first"));
-
     switchHit.classList.add("notactive");
     if (switchHit == firstSwitch) {
-      // console.log(document.querySelector(".lamps__first"));
-
-      // textInfo.textContent = "you are doing great!";
       firstLampON.classList.add("notactive");
       firstLampOFF.classList.remove("notactive");
-      // document.querySelector(".lamps__first").classList.remove("notactive");
       firstSwitchOff.classList.remove("notactive");
     } else if (switchHit == secondSwitch) {
       secondLampON.classList.add("notactive");
@@ -529,7 +525,7 @@ var gameOver = function gameOver() {
   throwMechanicsWrapper.style.opacity = 0;
   throwMechanicsWrapper.style.zIndex = -100;
   sliderWrapper.style.opacity = 0;
-  textInfo.textContent = "GAME OVER";
+  textInfo.textContent = "GAME OVER\nhitting lamps is not a solution!";
   textInfo.style.opacity = 1;
 };
 },{}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
@@ -557,7 +553,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54311" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64850" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

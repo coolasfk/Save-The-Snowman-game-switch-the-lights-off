@@ -1,4 +1,4 @@
-///------------ VARIABLES ------------///
+///------------ VARIABLES ITEMS FROM DOM ------------///
 
 const directionsArrows = document.querySelectorAll(".arrows__arrow");
 
@@ -35,20 +35,25 @@ const thirdLampBroken = document.getElementById("lamp-third-broken");
 
 console.log("before showing textinfo");
 const textInfo = document.getElementById("text-info");
-textInfo.textContent =
-  "Hit the light switch with the snowball! Before it melts!";
-console.log(textInfo);
+let sliderPower = document.querySelector(".choose-power-wrapper__slider");
+
+const snowball = document.querySelector(`[data-id = "snowball"]`);
+const fakeSnowball = document.createElement("div");
+
+let allArrows = document.querySelector(`[data-id="allArrows"]`).childNodes;
+
 const throwMechanicsWrapper = document.getElementById(
   "throw-mechanics-wrapper",
 );
 const sliderWrapper = document.querySelector(".choose-power-wrapper");
+const theBody = document.querySelector(".main");
+
+///------------ GLOBAL VARIABLES ------------///
 
 let isArrowOn = false;
 let rectangleArrowAngle;
 
 let arrowClicked = {};
-
-const theBody = document.querySelector(".main");
 
 let arrowPosition = 0;
 let arrowPositionHeight = 0;
@@ -72,25 +77,19 @@ let requiredDistanceBallSwitch = 150;
 let counterMeltingSnowman = 0;
 
 let counterMiss;
-
+let directionOfThrow; /// how to show function
 let newWidth = 0;
 let isSnowballAnimationOn = false;
 
-let sliderPower = document.querySelector(".choose-power-wrapper__slider");
-
-const distancesBallToSwitch = {
-  1: 0,
-  2: 0,
-  3: 0,
-};
-let directionOfThrow; /// how to show function
-
-const snowball = document.querySelector(`[data-id = "snowball"]`);
-const fakeSnowball = document.createElement("div");
-
-let allArrows = document.querySelector(`[data-id="allArrows"]`).childNodes;
-
 ///------------ FUNCTIONS HOOVERING EVENTS ------------///
+
+const changeAllArrowsOpacity = (item) => {
+  for (let i = 0; i < item.length; i++) {
+    if (i % 2 == !0) {
+      item[i].style.opacity = "0.1";
+    }
+  }
+};
 
 const pointerOverEvent = (e) => {
   e.target.style.opacity = 0.3;
@@ -124,16 +123,25 @@ addHoverListeners(directionsArrows);
 ///------------ SLIDER-POWER ------------///
 
 sliderPower.addEventListener("change", () => {
-  powerOfThrow = Math.round(sliderPower.value);
-  console.log(powerOfThrow);
+  readPowerOfThrow(sliderPower);
 });
 
-///------------ INFO-TEXT ------------///
+const readPowerOfThrow = (item) => {
+  powerOfThrow = Math.round(item.value);
+};
+
+///------------ INFO-TEXT FUNCTIONS ------------///
+
+window.addEventListener("load", () => {
+  textOpacityToggle(textInfo);
+});
 
 const textOpacityToggle = (item) => {
   //setTimeout(())
-  item.classList.add("active");
-  setTimeout(() => item.classList.remove("active"), 2000);
+
+  setTimeout(() => item.classList.add("active"), 500);
+
+  setTimeout(() => item.classList.remove("active"), 2500);
 };
 // textOpacityToggle(textInfo);
 
@@ -195,14 +203,6 @@ const newWidthCalc = (angle) => {
   newWidth = newHeight / Math.tan(angle);
 
   return newWidth;
-};
-
-const changeAllArrowsOpacity = () => {
-  for (let i = 0; i < allArrows.length; i++) {
-    if (i % 2 == !0) {
-      allArrows[i].style.opacity = "0.1";
-    }
-  }
 };
 
 const definingDirectionOfThrow = (newWidth) => {
@@ -357,7 +357,7 @@ const snowballOpacity = (element) => {
 
 directionsArrows.forEach((arrow) => {
   arrow.addEventListener("click", (e) => {
-    changeAllArrowsOpacity();
+    changeAllArrowsOpacity(allArrows);
 
     arrowClicked = e.target;
 
@@ -429,7 +429,7 @@ const switchIsHit = (
     if (counterHits == 1) {
       textOpacityToggle(textInfo);
       textInfo.textContent = "One down! Two more to go!";
-      // setTimeout(() => textOpacityToggle(textInfo), 2000);
+
       theBody.style.backgroundColor = "#474c59";
     } else if (counterHits == 2) {
       textOpacityToggle(textInfo);
@@ -445,17 +445,13 @@ const switchIsHit = (
       textInfo.textContent =
         "congrats! By saving electricity you contribute to less global warming and more snow!";
     }
-    // console.log(document.querySelector(".lamps__first"));
 
     switchHit.classList.add("notactive");
 
     if (switchHit == firstSwitch) {
-      // console.log(document.querySelector(".lamps__first"));
-
-      // textInfo.textContent = "you are doing great!";
       firstLampON.classList.add("notactive");
       firstLampOFF.classList.remove("notactive");
-      // document.querySelector(".lamps__first").classList.remove("notactive");
+
       firstSwitchOff.classList.remove("notactive");
     } else if (switchHit == secondSwitch) {
       secondLampON.classList.add("notactive");
@@ -527,6 +523,6 @@ const gameOver = () => {
   throwMechanicsWrapper.style.opacity = 0;
   throwMechanicsWrapper.style.zIndex = -100;
   sliderWrapper.style.opacity = 0;
-  textInfo.textContent = "GAME OVER";
+  textInfo.textContent = "GAME OVER\nhitting lamps is not a solution!";
   textInfo.style.opacity = 1;
 };
