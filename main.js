@@ -1,4 +1,8 @@
-///------------ VARIABLES ITEMS FROM DOM ------------///
+import { changeAllArrowsOpacity } from "./hovers.js";
+import { addHoverListeners } from "./hovers.js";
+import { removeHoverListeners } from "./hovers.js";
+
+///------------ DOM ITEMS ------------///
 
 const directionsArrows = document.querySelectorAll(".arrows__arrow");
 
@@ -18,9 +22,7 @@ const firstLampOFF = document.getElementById("lamp-first-off");
 const secondLampOFF = document.getElementById("lamp-second-off");
 const thirdLampOFF = document.getElementById("lamp-third-off");
 
-const snowballThrow = document.querySelector(
-  ".throw-mechanics-wrapper__snowball",
-);
+const snowballThrow = document.querySelector(".snowball-wrapper__snowball");
 const firstSwitch = document.getElementById("firstSwitch-ON");
 
 const secondSwitch = document.getElementById("secondSwitch");
@@ -33,11 +35,16 @@ const firstLampBroken = document.getElementById("lamp-first-broken");
 const secondLampBroken = document.getElementById("lamp-second-broken");
 const thirdLampBroken = document.getElementById("lamp-third-broken");
 
-console.log("before showing textinfo");
 const textInfo = document.getElementById("text-info");
+const textSlider = document.querySelector(".choose-power-wrapper__power-text");
+
 let sliderPower = document.querySelector(".choose-power-wrapper__slider");
 
 const snowball = document.querySelector(`[data-id = "snowball"]`);
+const textOnSnowball = document.querySelector(`[data-id = "snowball-text"]`);
+
+const sliderBall = document.querySelector(".choose-power-wrapper__slider");
+
 const fakeSnowball = document.createElement("div");
 
 let allArrows = document.querySelector(`[data-id="allArrows"]`).childNodes;
@@ -51,27 +58,11 @@ const theBody = document.querySelector(".main");
 ///------------ GLOBAL VARIABLES ------------///
 
 let isArrowOn = false;
-let rectangleArrowAngle;
 
-let arrowClicked = {};
-
-let arrowPosition = 0;
-let arrowPositionHeight = 0;
-let arrowPositionWidth = 0;
-let arrowPositionLeft = 0;
-let arrowPositionRight = 0;
-let arrowPositionTop = 0;
-let arrowPositionBottom = 0;
-let rectangleArrowPosition = 0;
-let directionsForSnowball = 0;
 let snowballTranslateX = "";
 let snowballTranslateY = "";
 let powerOfThrow = 400;
-let result = 0;
-let rectangleArrowHeight = 0;
-let rectangleArrowWidth = 0;
-let rectangleArrow = {};
-let newHeight = 0;
+
 let counterHits = 0;
 let requiredDistanceBallSwitch = 150;
 let counterMeltingSnowman = 0;
@@ -80,47 +71,34 @@ let counterMiss;
 let directionOfThrow; /// how to show function
 let newWidth = 0;
 let isSnowballAnimationOn = false;
+let arrowClicked = false;
+let rectangleArrowPosition = {};
+let newHeight = 0;
 
 ///------------ FUNCTIONS HOOVERING EVENTS ------------///
 
-const changeAllArrowsOpacity = (item) => {
-  for (let i = 0; i < item.length; i++) {
-    if (i % 2 == !0) {
-      item[i].style.opacity = "0.1";
-    }
-  }
-};
+// const pointerOverEvent = (e) => {
+//   e.target.style.opacity = 0.3;
+// };
 
-const pointerOverEvent = (e) => {
-  e.target.style.opacity = 0.3;
-};
+// const mouseLeaveEvent = (e) => {
+//   setTimeout(() => {
+//     e.target.style.opacity = 0.1;
+//   }, "1000");
+// };
 
-const mouseLeaveEvent = (e) => {
-  setTimeout(() => {
-    e.target.style.opacity = 0.1;
-  }, "1000");
-};
+// const addHoverListeners = (element) => {
+//   element.forEach((arrow) => {
+//     arrow.addEventListener("pointerover", pointerOverEvent);
+//     arrow.addEventListener("mouseleave", mouseLeaveEvent);
+//   });
 
-const addHoverListeners = (element) => {
-  isArrowOn = false;
-  element.forEach((arrow) => {
-    arrow.addEventListener("pointerover", pointerOverEvent);
-  });
+//   return false;
+// };
 
-  element.forEach((arrow) => {
-    arrow.addEventListener("mouseleave", mouseLeaveEvent);
-  });
-};
+isArrowOn = addHoverListeners(directionsArrows);
 
-const removeHoverListeners = (element) => {
-  element.forEach((arrow) => {
-    arrow.removeEventListener("pointerover", pointerOverEvent);
-    arrow.removeEventListener("mouseleave", mouseLeaveEvent);
-  });
-};
-addHoverListeners(directionsArrows);
-
-///------------ SLIDER-POWER ------------///
+// /------------ SLIDER-POWER ------------/
 
 sliderPower.addEventListener("change", () => {
   readPowerOfThrow(sliderPower);
@@ -128,31 +106,28 @@ sliderPower.addEventListener("change", () => {
 
 const readPowerOfThrow = (item) => {
   powerOfThrow = Math.round(item.value);
+  textSlider.textContent = `your power is: ${Math.round(powerOfThrow / 10)} `;
 };
 
 ///------------ INFO-TEXT FUNCTIONS ------------///
 
 window.addEventListener("load", () => {
-  textOpacityToggle(textInfo);
+  textOpacityToggle(textInfo, 500, 5000);
 });
 
-const textOpacityToggle = (item) => {
-  //setTimeout(())
+const textOpacityToggle = (item, time1, time2) => {
+  setTimeout(() => item.classList.add("active"), time1);
 
-  setTimeout(() => item.classList.add("active"), 500);
-
-  setTimeout(() => item.classList.remove("active"), 2500);
+  setTimeout(() => item.classList.remove("active"), time2);
 };
-// textOpacityToggle(textInfo);
 
 ///------------ FUNCTIONS FOR ARROW CLICKED - HANDLING SNOWBALL ------------///
 
-const addingRectangleForSnowballDirection = (arrowClicked) => {
-  rectangleArrow = document.createElement("div");
-  arrowPosition = arrowClicked.getBoundingClientRect();
+const definingDirectionOfThrow = (arrowClicked) => {
+  let rectangleArrow = document.createElement("div");
+  let arrowPosition = arrowClicked.getBoundingClientRect();
 
-  arrowPositionHeight = arrowPosition.height;
-  arrowPositionWidth = arrowPosition.width;
+  let arrowPositionHeight = arrowPosition.height;
 
   rectangleArrow.style.transformOrigin = "left bottom";
   rectangleArrow.style.height = arrowPosition.height + "px";
@@ -172,14 +147,10 @@ const addingRectangleForSnowballDirection = (arrowClicked) => {
 
   rectangleArrowPosition = rectangleArrow.getBoundingClientRect();
 
-  rectangleArrowHeight = parseFloat(rectangleArrow.style.height);
-  rectangleArrowWidth = parseFloat(rectangleArrow.style.width);
-};
+  let rectangleArrowHeight = parseFloat(rectangleArrow.style.height);
+  let rectangleArrowWidth = parseFloat(rectangleArrow.style.width);
+  let angle = Math.atan(rectangleArrowHeight / rectangleArrowWidth);
 
-const getTheAngle = (rectangleArrowHeight, rectangleArrowWidth) =>
-  (angle = Math.atan(rectangleArrowHeight / rectangleArrowWidth));
-
-const createFakeSnowball = () => {
   let snowballPosition = snowball.getBoundingClientRect();
   fakeSnowball.style.top = snowballPosition.top;
 
@@ -196,16 +167,9 @@ const createFakeSnowball = () => {
 
   fakeSnowball.style.backgroundColor = "green";
   document.querySelector(".footer").append(fakeSnowball);
-};
-
-const newWidthCalc = (angle) => {
   newHeight = rectangleArrowHeight + powerOfThrow;
   newWidth = newHeight / Math.tan(angle);
 
-  return newWidth;
-};
-
-const definingDirectionOfThrow = (newWidth) => {
   rectangleArrow.style.height = newHeight + "px";
   rectangleArrow.style.width = newWidth + "px";
   rectangleArrow.style.transform = `translateY(-${
@@ -215,11 +179,11 @@ const definingDirectionOfThrow = (newWidth) => {
   snowballTranslateX = rectangleArrow.style.width;
   snowballTranslateY = rectangleArrow.style.height;
 
-  for (i = 0; i < 15; i++) {
+  for (let i = 0; i < 15; i++) {
     if (arrowClicked == allArrows[i]) {
       fakeSnowball.style.transform = `translateX(${snowballTranslateX}) translateY(-${snowballTranslateY}) `;
       directionOfThrow = () => {
-        directionsForSnowball = [
+        let directionsForSnowball = [
           parseFloat(snowballTranslateX),
           -parseFloat(snowballTranslateY),
         ];
@@ -227,11 +191,11 @@ const definingDirectionOfThrow = (newWidth) => {
       };
     }
   }
-  for (i = 15; i < 30; i++) {
+  for (let i = 15; i < 30; i++) {
     if (arrowClicked == allArrows[i]) {
       fakeSnowball.style.transform = `translateX(-${snowballTranslateX}) translateY(-${snowballTranslateY}) `;
       directionOfThrow = () => {
-        directionsForSnowball = [
+        let directionsForSnowball = [
           -parseFloat(snowballTranslateX),
           -parseFloat(snowballTranslateY),
         ];
@@ -316,7 +280,6 @@ const checkingIfSwitchGotHit = (switchON, snowball) => {
     (isSnowballAnimationOn =
       true && distanceBetweenSnowballAndSwitch > requiredDistanceBallSwitch)
   ) {
-    // isSnowballAnimationOn = false;
     counterMiss++;
   }
 
@@ -338,6 +301,9 @@ snowball.addEventListener("click", () => {
     checkingIfSwitchGotHit(firstLampON, fakeSnowball, switchIsHit);
     checkingIfSwitchGotHit(secondLampON, fakeSnowball, switchIsHit);
     checkingIfSwitchGotHit(thirdLampON, fakeSnowball, switchIsHit);
+  } else if (isArrowOn == false) {
+    textInfo.textContent = "click the direction arrows first";
+    textOpacityToggle(textInfo, 500, 3000);
   }
 });
 
@@ -362,15 +328,11 @@ directionsArrows.forEach((arrow) => {
     arrowClicked = e.target;
 
     arrowClicked.style.opacity = 1;
+    arrowClicked.style.stroke = "white";
+    arrowClicked.style.strokeWidth = "1vw";
     isArrowOn = true;
 
-    addingRectangleForSnowballDirection(arrowClicked);
-
-    getTheAngle(rectangleArrowHeight, rectangleArrowWidth);
-    newWidthCalc(angle);
-    createFakeSnowball();
-
-    definingDirectionOfThrow(newWidth);
+    definingDirectionOfThrow(arrowClicked);
 
     animationSnowball();
 
@@ -386,9 +348,11 @@ const clickOutside = (e) => {
     !(e.target.getAttribute("data-clickable-arrow") == "false")
   ) {
     removeHoverListeners(directionsArrows);
-    addHoverListeners(directionsArrows);
+    isArrowOn = addHoverListeners(directionsArrows);
     directionsArrows.forEach((arrow) => {
       arrow.style.opacity = 0.1;
+      arrow.style.stroke = "unset";
+      arrow.style.stoke = "transparent";
     });
   }
 };
@@ -422,17 +386,20 @@ const switchIsHit = (
   snowball,
 ) => {
   console.log(switchHit);
+  textOnSnowball.style.opacity = 0;
   setTimeout(() => {
     snowball.style.opacity = 0;
+    textOnSnowball.style.opacity = 1;
+
     counterHits++;
 
     if (counterHits == 1) {
-      textOpacityToggle(textInfo);
+      textOpacityToggle(textInfo, 500, 3000);
       textInfo.textContent = "One down! Two more to go!";
 
       theBody.style.backgroundColor = "#474c59";
     } else if (counterHits == 2) {
-      textOpacityToggle(textInfo);
+      textOpacityToggle(textInfo, 500, 3000);
       textInfo.textContent = "Yay snowman is really happy! Hit one more!";
 
       theBody.style.backgroundColor = "#3a3e46";
@@ -441,7 +408,7 @@ const switchIsHit = (
       throwMechanicsWrapper.style.opacity = 0;
       throwMechanicsWrapper.style.zIndex = -100;
       sliderWrapper.style.opacity = 0;
-      textOpacityToggle(textInfo);
+      textOpacityToggle(textInfo, 500, 3000);
       textInfo.textContent =
         "congrats! By saving electricity you contribute to less global warming and more snow!";
     }
@@ -466,17 +433,17 @@ const switchIsHit = (
       console.log("lamp got hit");
       firstLampON.classList.add("notactive");
       firstLampBroken.classList.remove("notactive");
-      gameOver();
+      gameOver("Game over! Hitting lamps is not a solution!");
     } else if (switchHit == secondLampON) {
       console.log("lamp got hit");
       secondLampON.classList.add("notactive");
       secondLampBroken.classList.remove("notactive");
-      gameOver();
+      gameOver("Game over! Hitting lamps is not a solution!");
     } else if (switchHit == thirdLampON) {
       console.log("lamp got hit");
       thirdLampON.classList.add("notactive");
       thirdLampBroken.classList.remove("notactive");
-      gameOver();
+      gameOver("Game over! Hitting lamps is not a solution!");
     }
   }, 1000);
 };
@@ -485,7 +452,7 @@ const switchIsHit = (
 
 const meltSnowmaGraphicsSteps = (count) => {
   if (count == 1) {
-    textOpacityToggle(textInfo);
+    textOpacityToggle(textInfo, 500, 3000);
     textInfo.textContent =
       "Oh no! Snowman is melting! Aim at the switches to save it!";
 
@@ -493,25 +460,25 @@ const meltSnowmaGraphicsSteps = (count) => {
     meltedSnowman2.classList.remove("notactive");
   } else if (count == 2) {
     textInfo.textContent = "Try harder! You can do it!";
-    textOpacityToggle(textInfo);
+    textOpacityToggle(textInfo, 500, 3000);
     meltedSnowman2.classList.add("notactive");
     meltedSnowman3.classList.remove("notactive");
   } else if (count == 3) {
     textInfo.textContent = "Try harder! You can do it!";
-    textOpacityToggle(textInfo);
+    textOpacityToggle(textInfo, 500, 3000);
     meltedSnowman3.classList.add("notactive");
     meltedSnowman4.classList.remove("notactive");
   } else if (count == 4) {
     textInfo.textContent = "Try harder! You can do it!";
-    textOpacityToggle(textInfo);
+    textOpacityToggle(textInfo, 500, 3000);
     meltedSnowman4.classList.add("notactive");
     meltedSnowman5.classList.remove("notactive");
   } else if (count == 5) {
-    gameOver();
+    gameOver("Game over! The snowman melted :/. Try again!");
   }
 };
 
-const gameOver = () => {
+const gameOver = (text) => {
   meltedSnowman1.classList.add("notactive");
   meltedSnowman2.classList.add("notactive");
   meltedSnowman3.classList.add("notactive");
@@ -523,6 +490,6 @@ const gameOver = () => {
   throwMechanicsWrapper.style.opacity = 0;
   throwMechanicsWrapper.style.zIndex = -100;
   sliderWrapper.style.opacity = 0;
-  textInfo.textContent = "GAME OVER\nhitting lamps is not a solution!";
+  textInfo.textContent = text;
   textInfo.style.opacity = 1;
 };

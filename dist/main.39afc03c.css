@@ -93,7 +93,7 @@ body {
     margin-top: 30vw;
     background-color: transparent;
     border: 1vw solid #bdefea;
-    font-family: 700 normal 3rem program, sans-serif;
+    font-family: 700 normal 3rem "program", sans-serif;
     padding: 2vw 3vw;
     border-radius: 80vw;
     font-size: 1rem;

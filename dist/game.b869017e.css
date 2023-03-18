@@ -22,7 +22,7 @@
     margin-top: 5vh;
     margin-bottom: 10vh;
     text-align: center;
-    font: 700 normal 3rem program, sans-serif;
+    font: 700 normal 3rem "program", sans-serif;
     color: #bdefea;
     max-width: 80vw;
   }
@@ -65,7 +65,7 @@
   }
   .footer__rules-wrapper__rules,
   .footer .rules-wrapper__rules {
-    font: 300 normal 1.5rem program, sans-serif;
+    font: 300 normal 1.5rem "program", sans-serif;
     color: #f2ecf4;
     margin: 0 10vw 0 10vw;
     text-align: center;
@@ -96,7 +96,7 @@
     margin-top: 5vh;
     margin-bottom: 10vh;
     text-align: center;
-    font: 700 normal 3rem program, sans-serif;
+    font: 700 normal 3rem "program", sans-serif;
     color: #bdefea;
     max-width: 80vw;
   }
@@ -139,7 +139,7 @@
   }
   .footer__rules-wrapper__rules,
   .footer .rules-wrapper__rules {
-    font: 300 normal 1.5rem program, sans-serif;
+    font: 300 normal 1.5rem "program", sans-serif;
     color: #f2ecf4;
     margin: 0 10vw 0 10vw;
     text-align: center;

@@ -5,7 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/_switchthelights.1f23941e.css">
-    <script src="/index-copy.740fb90c.js" defer=""></script>
+    <link rel="stylesheet" href="https://use.typekit.net/mcb7pgg.css">
+    <script src="/main.1f19ae8e.js" defer=""></script>
     <title>switchTheLights</title>
   <script src="/_switchthelights.1f23941e.js"></script></head>
   <body>
@@ -14,7 +15,8 @@
       <!-- wystarczu tsawic stalego maina (lub zalzeznego od device) -->
       <div class="main__text-info-wrapper text-info-wrapper">
         <h3 id="text-info" class="text-info-wrapper__text-info text-info">
-          Hit the light switch with the snowball! Before it melts!
+          Choose the direction. Choose the power. Hit the switches with a
+          snowball!
         </h3>
       </div>
       <div class="main__lamps lamps">
@@ -29,13 +31,8 @@
         <img src="/broken-bulb.6de099c8.svg" alt="" class="lamps__third notactive" id="lamp-third-broken">
       </div>
       <div class="main__first-switch-wrapper first-switch-wrapper">
-        <!-- class="first-switch-wrapper__first-switch"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 415 436"
-          id="firstSwitch-ON" -->
         <img src="/switch-ON.30e019fb.svg" alt="" class="first-switch-wrapper__first-switch" id="firstSwitch-ON">
-        <!-- id="firstSwitch-OFF"
-          class="first-switch-wrapper__first-switch notactive" -->
+
         <img src="/switch-OFF.3535824e.svg" alt="" id="firstSwitch-OFF" class="first-switch-wrapper__first-switch notactive">
 
         <img src="/switch-ON.30e019fb.svg" alt="" class="first-switch-wrapper__second-switch" id="secondSwitch">
@@ -67,25 +64,31 @@
             </g>
           </svg>
         </div>
-
-        <img class="throw-mechanics-wrapper__snowball" src="/snowball.b64f51f5.svg" alt="" data-id="snowball">
+        <div throw-mechanics-wrapper__snowball-wrapper="" snowball-wrapper="">
+          <h3 class="snowball-wrapper__text" data-id="snowball-text">hit me</h3>
+          <img class="snowball-wrapper__snowball" src="/snowball.b64f51f5.svg" alt="" data-id="snowball">
+        </div>
       </div>
       <div class="main__choose-power-wrapper choose-power-wrapper">
-        <svg class="choose-power-wrapper__minus do-not-unclick-arrow" data-clickable-arrow="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 78.6 13">
-          <g id="e2f2392e-b7c0-4b1a-bfb9-8d485dc111d7" data-name="Layer 2">
-            <g id="bce37dda-c5f9-4a7f-bcdc-92c4978b5663" data-name="Layer 1">
-              <path d="M72.1,0H6.5a6.5,6.5,0,0,0,0,13H72.1a6.5,6.5,0,0,0,0-13Z" style="fill: #d9f4f1"></path>
-            </g>
-          </g>
-        </svg>
-        <input class="choose-power-wrapper__slider do-not-unclick-arrow" data-clickable-arrow="false" type="range" min="100" max="900" value="550">
-        <svg class="choose-power-wrapper__plus" data-clickable-arrow="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 78.6 78.6">
-          <g id="bfc00e51-4944-464c-a33a-77ccc8acaccb" data-name="Layer 2">
-            <g id="f8101da3-a0fa-4378-bb85-483672178114" data-name="Layer 1">
-              <path d="M72.1,32.8H45.8V6.5a6.5,6.5,0,0,0-13,0V32.8H6.5a6.5,6.5,0,0,0,0,13H32.8V72.1a6.5,6.5,0,0,0,13,0V45.8H72.1a6.5,6.5,0,0,0,0-13Z" style="fill: #d9f4f1"></path>
-            </g>
-          </g>
-        </svg>
+        <h3 class="choose-power-wrapper__power-text do-not-unclick-arrow" data-id="text-power">
+          choose your power
+        </h3>
+        <!-- class="choose-power-wrapper__minus do-not-unclick-arrow" -->
+        <!-- data-clickable-arrow="false"  -->
+        <!-- <img
+          class="choose-power-wrapper__minus do-not-unclick-arrow"
+          src="./assets/SVG/right.svg"
+          alt=""
+          data-clickable-arrow="false"
+        /> -->
+        <input class="choose-power-wrapper__slider do-not-unclick-arrow" data-clickable-arrow="false" type="range" min="0" max="1000" value="500">
+        <!-- class="choose-power-wrapper__plus" -->
+        <!-- <img
+          class="choose-power-wrapper__plus do-not-unclick-arrow"
+          src="./assets/SVG/left-arm-power.svg"
+          alt=""
+          data-clickable-arrow="false"
+        /> -->
       </div>
 
       <div class="main__meltedSnowman meltedSnowman">

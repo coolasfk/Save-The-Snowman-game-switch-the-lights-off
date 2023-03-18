@@ -162,25 +162,11 @@ var theBody = document.querySelector(".main");
 ///------------ GLOBAL VARIABLES ------------///
 
 var isArrowOn = false;
-var rectangleArrowAngle;
-var arrowClicked = {};
-var arrowPosition = 0;
-var arrowPositionHeight = 0;
-var arrowPositionWidth = 0;
-var arrowPositionLeft = 0;
-var arrowPositionRight = 0;
-var arrowPositionTop = 0;
-var arrowPositionBottom = 0;
-var rectangleArrowPosition = 0;
 var directionsForSnowball = 0;
 var snowballTranslateX = "";
 var snowballTranslateY = "";
 var powerOfThrow = 400;
 var result = 0;
-var rectangleArrowHeight = 0;
-var rectangleArrowWidth = 0;
-var rectangleArrow = {};
-var newHeight = 0;
 var counterHits = 0;
 var requiredDistanceBallSwitch = 150;
 var counterMeltingSnowman = 0;
@@ -238,8 +224,6 @@ window.addEventListener("load", function () {
   textOpacityToggle(textInfo);
 });
 var textOpacityToggle = function textOpacityToggle(item) {
-  //setTimeout(())
-
   setTimeout(function () {
     return item.classList.add("active");
   }, 500);
@@ -247,15 +231,13 @@ var textOpacityToggle = function textOpacityToggle(item) {
     return item.classList.remove("active");
   }, 2500);
 };
-// textOpacityToggle(textInfo);
 
 ///------------ FUNCTIONS FOR ARROW CLICKED - HANDLING SNOWBALL ------------///
 
-var addingRectangleForSnowballDirection = function addingRectangleForSnowballDirection(arrowClicked) {
-  rectangleArrow = document.createElement("div");
-  arrowPosition = arrowClicked.getBoundingClientRect();
-  arrowPositionHeight = arrowPosition.height;
-  arrowPositionWidth = arrowPosition.width;
+var definingDirectionOfThrow = function definingDirectionOfThrow(arrowClicked) {
+  var rectangleArrow = document.createElement("div");
+  var arrowPosition = arrowClicked.getBoundingClientRect();
+  var arrowPositionHeight = arrowPosition.height;
   rectangleArrow.style.transformOrigin = "left bottom";
   rectangleArrow.style.height = arrowPosition.height + "px";
   rectangleArrow.style.width = arrowPosition.width + "px";
@@ -269,13 +251,9 @@ var addingRectangleForSnowballDirection = function addingRectangleForSnowballDir
   rectangleArrow.style.zIndex = -100;
   document.querySelector(".main").append(rectangleArrow);
   rectangleArrowPosition = rectangleArrow.getBoundingClientRect();
-  rectangleArrowHeight = parseFloat(rectangleArrow.style.height);
-  rectangleArrowWidth = parseFloat(rectangleArrow.style.width);
-};
-var getTheAngle = function getTheAngle(rectangleArrowHeight, rectangleArrowWidth) {
-  return angle = Math.atan(rectangleArrowHeight / rectangleArrowWidth);
-};
-var createFakeSnowball = function createFakeSnowball() {
+  var rectangleArrowHeight = parseFloat(rectangleArrow.style.height);
+  var rectangleArrowWidth = parseFloat(rectangleArrow.style.width);
+  var angle = Math.atan(rectangleArrowHeight / rectangleArrowWidth);
   var snowballPosition = snowball.getBoundingClientRect();
   fakeSnowball.style.top = snowballPosition.top;
   fakeSnowball.style.height = snowballPosition.height + "px";
@@ -289,13 +267,8 @@ var createFakeSnowball = function createFakeSnowball() {
   fakeSnowball.style.zIndex = 900;
   fakeSnowball.style.backgroundColor = "green";
   document.querySelector(".footer").append(fakeSnowball);
-};
-var newWidthCalc = function newWidthCalc(angle) {
   newHeight = rectangleArrowHeight + powerOfThrow;
   newWidth = newHeight / Math.tan(angle);
-  return newWidth;
-};
-var definingDirectionOfThrow = function definingDirectionOfThrow(newWidth) {
   rectangleArrow.style.height = newHeight + "px";
   rectangleArrow.style.width = newWidth + "px";
   rectangleArrow.style.transform = "translateY(-".concat(newHeight - arrowPositionHeight, "px)");
@@ -361,7 +334,6 @@ var checkingIfSwitchGotHit = function checkingIfSwitchGotHit(switchON, snowball)
     switchIsHit(switchON, firstLampON, firstLampOFF, secondLampON, secondLampOFF, thirdLampON, thirdLampOFF, firstSwitch, secondSwitch, thirdSwitch, firstLampBroken, secondLampBroken, thirdLampBroken, snowball);
     console.log("hit");
   } else if (isSnowballAnimationOn = true && distanceBetweenSnowballAndSwitch > requiredDistanceBallSwitch) {
-    // isSnowballAnimationOn = false;
     counterMiss++;
   }
   if (counterMiss == 6) {
@@ -402,11 +374,7 @@ directionsArrows.forEach(function (arrow) {
     arrowClicked = e.target;
     arrowClicked.style.opacity = 1;
     isArrowOn = true;
-    addingRectangleForSnowballDirection(arrowClicked);
-    getTheAngle(rectangleArrowHeight, rectangleArrowWidth);
-    newWidthCalc(angle);
-    createFakeSnowball();
-    definingDirectionOfThrow(newWidth);
+    definingDirectionOfThrow(arrowClicked);
     animationSnowball();
     removeHoverListeners(directionsArrows);
   });
@@ -553,7 +521,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64850" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65439" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
