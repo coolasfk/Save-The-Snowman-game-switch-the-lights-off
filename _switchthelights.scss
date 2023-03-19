@@ -153,9 +153,16 @@
         .arrows {
           background-color: transparent;
           height: 10vw;
+          // padding: 1vw;
 
           &__arrow {
             padding: 2vw;
+            // testoow
+            transition: 0.3s;
+            opacity: 1;
+            // &:hover {
+            //   opacity: 0.5;
+            // }
           }
         }
       }

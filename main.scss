@@ -10,73 +10,6 @@
   box-sizing: border-box;
   overflow: hidden;
 }
-@media only screen and (max-width: 900px) {
-  body {
-    max-height: 100%;
-    max-width: 100%;
-
-    background-color: c.$background-color;
-  }
-
-  .header {
-    &__logo-wrapper,
-    .logo-wrapper {
-      &__logo {
-        width: 70vw;
-        height: auto;
-        margin-top: 15vw;
-        margin-left: 10vw;
-        z-index: 10;
-        position: absolute;
-        background-color: transparent;
-      }
-    }
-  }
-  .main {
-    &__snowman-wrapper,
-    .snowman-wrapper {
-      &__snowman {
-        z-index: 5;
-        width: 100vw;
-        margin-left: 15vw;
-        margin-top: 40vw;
-      }
-    }
-    &__play-btn-wrapper,
-    .play-btn-wrapper {
-      width: 100vw;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      &__play-btn {
-        width: 40vw;
-        height: auto;
-        position: absolute;
-        z-index: 20;
-        margin-left: -20vw;
-        transform: translateX(50vw);
-
-        margin-top: 0vw;
-        background-color: transparent;
-        border: 1vw solid c.$snowman-color;
-      }
-    }
-    &__backdrop-wrapper,
-    .backdrop-wrapper {
-      display: flex;
-      justify-content: center;
-      width: 400vw;
-      height: 400vw;
-      margin-left: -100vw;
-      margin-top: -20vw;
-      &__backdrop {
-        width: 400vw;
-        height: 400vw;
-      }
-    }
-  }
-}
 
 body {
   max-height: 100%;
@@ -114,6 +47,7 @@ body {
         border-radius: 80vw;
         font-size: 1rem;
         color: c.$snowman-color;
+        cursor: pointer;
       }
     }
   }

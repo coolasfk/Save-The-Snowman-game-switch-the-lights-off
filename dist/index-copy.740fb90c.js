@@ -408,11 +408,11 @@ var switchIsHit = function switchIsHit(switchHit, firstLampON, firstLampOFF, sec
     counterHits++;
     if (counterHits == 1) {
       textOpacityToggle(textInfo);
-      textInfo.textContent = "One down! Two more to go!";
+      textInfo.innerText = "One down! Two more to go!";
       theBody.style.backgroundColor = "#474c59";
     } else if (counterHits == 2) {
       textOpacityToggle(textInfo);
-      textInfo.textContent = "Yay snowman is really happy! Hit one more!";
+      textInfo.innerText = "Yay snowman is really happy! Hit one more!";
       theBody.style.backgroundColor = "#3a3e46";
     } else if (counterHits == 3) {
       snowball.style.opacity = 0;
@@ -420,7 +420,7 @@ var switchIsHit = function switchIsHit(switchHit, firstLampON, firstLampOFF, sec
       throwMechanicsWrapper.style.zIndex = -100;
       sliderWrapper.style.opacity = 0;
       textOpacityToggle(textInfo);
-      textInfo.textContent = "congrats! By saving electricity you contribute to less global warming and more snow!";
+      textInfo.innerText = "congrats! By saving electricity you contribute to less global warming and more snow!";
     }
     switchHit.classList.add("notactive");
     if (switchHit == firstSwitch) {
@@ -460,21 +460,21 @@ var switchIsHit = function switchIsHit(switchHit, firstLampON, firstLampOFF, sec
 var meltSnowmaGraphicsSteps = function meltSnowmaGraphicsSteps(count) {
   if (count == 1) {
     textOpacityToggle(textInfo);
-    textInfo.textContent = "Oh no! Snowman is melting! Aim at the switches to save it!";
+    textInfo.innerText = "Oh no! Snowman is melting! Aim at the switches to save it!";
     meltedSnowman1.classList.add("notactive");
     meltedSnowman2.classList.remove("notactive");
   } else if (count == 2) {
-    textInfo.textContent = "Try harder! You can do it!";
+    textInfo.innerText = "Try harder! You can do it!";
     textOpacityToggle(textInfo);
     meltedSnowman2.classList.add("notactive");
     meltedSnowman3.classList.remove("notactive");
   } else if (count == 3) {
-    textInfo.textContent = "Try harder! You can do it!";
+    textInfo.innerText = "Try harder! You can do it!";
     textOpacityToggle(textInfo);
     meltedSnowman3.classList.add("notactive");
     meltedSnowman4.classList.remove("notactive");
   } else if (count == 4) {
-    textInfo.textContent = "Try harder! You can do it!";
+    textInfo.innerText = "Try harder! You can do it!";
     textOpacityToggle(textInfo);
     meltedSnowman4.classList.add("notactive");
     meltedSnowman5.classList.remove("notactive");
@@ -493,7 +493,7 @@ var gameOver = function gameOver() {
   throwMechanicsWrapper.style.opacity = 0;
   throwMechanicsWrapper.style.zIndex = -100;
   sliderWrapper.style.opacity = 0;
-  textInfo.textContent = "GAME OVER\nhitting lamps is not a solution!";
+  textInfo.innerText = "GAME OVER\nhitting lamps is not a solution!";
   textInfo.style.opacity = 1;
 };
 },{}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {

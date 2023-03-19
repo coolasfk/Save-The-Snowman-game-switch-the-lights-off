@@ -124,11 +124,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.removeHoverListeners = exports.changeAllArrowsOpacity = exports.addHoverListeners = void 0;
+///------------ FUNCTIONS HOOVERING EVENTS ------------///
+
 var changeAllArrowsOpacity = function changeAllArrowsOpacity(item) {
   for (var i = 0; i < item.length; i++) {
-    if (i % 2 == !0) {
-      item[i].style.opacity = "0.1";
-    }
+    // if (i % 2 == !0) {
+    item[i].style.opacity = "0.1";
+    // }
   }
 };
 exports.changeAllArrowsOpacity = changeAllArrowsOpacity;
@@ -138,6 +140,17 @@ var removeHoverListeners = function removeHoverListeners(element) {
     arrow.removeEventListener("mouseleave", mouseLeaveEvent);
   });
 };
+
+//to powinno sie dziac tylko gdy jest mobile device albo maly
+//add event listener zmiana szerokosci i tam dac ify (onchange)
+// resize
+// export const removeHoverListeners = (element) => {
+//   console.log("");
+//   element.forEach((arrow) => {
+//     arrow.removeEventListener("touchmove", pointerOverEvent);
+//     arrow.removeEventListener("touchend", mouseLeaveEvent);
+//   });
+// };
 exports.removeHoverListeners = removeHoverListeners;
 var pointerOverEvent = function pointerOverEvent(e) {
   e.target.style.opacity = 0.3;
@@ -155,16 +168,132 @@ var addHoverListeners = function addHoverListeners(element) {
   return false;
 };
 exports.addHoverListeners = addHoverListeners;
-},{}],"main.js":[function(require,module,exports) {
+},{}],"slider.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.readPowerOfThrow = void 0;
+// /------------ SLIDER-POWER ------------/
+// const sliderPower = document.querySelector(".choose-power-wrapper__slider");
+// const textSlider = document.querySelector(".choose-power-wrapper__power-text");
+
+var readPowerOfThrow = function readPowerOfThrow(item, text) {
+  var powerOfThrow = Math.round(item.value);
+  text.innerText = "your power is: ".concat(Math.round(powerOfThrow / 10), " ");
+  console.log(powerOfThrow);
+  return powerOfThrow;
+};
+exports.readPowerOfThrow = readPowerOfThrow;
+},{}],"text.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.textOpacityToggle = void 0;
+var textOpacityToggle = function textOpacityToggle(item, time1, time2) {
+  setTimeout(function () {
+    return item.classList.add("active");
+  }, time1);
+  setTimeout(function () {
+    return item.classList.remove("active");
+  }, time2);
+};
+exports.textOpacityToggle = textOpacityToggle;
+},{}],"directionsOfThrow.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.definingDirectionOfThrow = void 0;
+var _slider = require("./slider");
+var definingDirectionOfThrow = function definingDirectionOfThrow(arrow, fakeSnowball, ball,
+//   power,
+allArrows, sliderPower, textSlider) {
+  var rectangleArrow = document.createElement("div");
+  var arrowPosition = arrow.getBoundingClientRect();
+  var arrowPositionHeight = arrowPosition.height;
+  rectangleArrow.style.transformOrigin = "left bottom";
+  rectangleArrow.style.height = arrowPosition.height + "px";
+  rectangleArrow.style.width = arrowPosition.width + "px";
+  rectangleArrow.style.top = arrowPosition.top + "px";
+  rectangleArrow.style.bottom = arrowPosition.bottom + "px";
+  rectangleArrow.style.left = arrowPosition.left + "px";
+  rectangleArrow.style.right = arrowPosition.right + "px";
+  rectangleArrow.style.backgroundColor = "red";
+  rectangleArrow.style.opacity = 0;
+  rectangleArrow.style.position = "absolute";
+  rectangleArrow.style.zIndex = -100;
+  document.querySelector(".main").append(rectangleArrow);
+  var rectangleArrowPosition = rectangleArrow.getBoundingClientRect();
+  var rectangleArrowHeight = parseFloat(rectangleArrow.style.height);
+  var rectangleArrowWidth = parseFloat(rectangleArrow.style.width);
+  var angle = Math.atan(rectangleArrowHeight / rectangleArrowWidth);
+  var snowballPosition = ball.getBoundingClientRect();
+  fakeSnowball.style.top = snowballPosition.top;
+  fakeSnowball.style.height = snowballPosition.height + "px";
+  fakeSnowball.style.width = snowballPosition.width + "px";
+  fakeSnowball.style.top = snowballPosition.top + "px";
+  fakeSnowball.style.bottom = snowballPosition.bottom + "px";
+  fakeSnowball.style.left = snowballPosition.left + "px";
+  fakeSnowball.style.right = snowballPosition.right + "px";
+  fakeSnowball.style.position = "absolute";
+  fakeSnowball.style.opacity = 0;
+  fakeSnowball.style.zIndex = 900;
+  fakeSnowball.style.backgroundColor = "green";
+  document.querySelector(".footer").append(fakeSnowball);
+  var newHeight = rectangleArrowHeight + (0, _slider.readPowerOfThrow)(sliderPower, textSlider);
+  // rectangleArrowHeight + power.value * 1;
+
+  var newWidth = newHeight / Math.tan(angle);
+  rectangleArrow.style.height = newHeight + "px";
+  rectangleArrow.style.width = newWidth + "px";
+  rectangleArrow.style.transform = "translateY(-".concat(newHeight - arrowPositionHeight, "px)");
+  var snowballTranslateX = rectangleArrow.style.width;
+  var snowballTranslateY = rectangleArrow.style.height;
+  var directionOfThrow;
+  for (var i = 0; i < 7; i++) {
+    if (arrow == allArrows[i]) {
+      fakeSnowball.style.transform = "translateX(".concat(snowballTranslateX, ") translateY(-").concat(snowballTranslateY, ") ");
+      directionOfThrow = function directionOfThrow() {
+        var directionsForSnowball = [parseFloat(snowballTranslateX), -parseFloat(snowballTranslateY)];
+        return directionsForSnowball;
+      };
+    }
+  }
+  for (var _i = 8; _i < 14; _i++) {
+    if (arrow == allArrows[_i]) {
+      fakeSnowball.style.transform = "translateX(-".concat(snowballTranslateX, ") translateY(-").concat(snowballTranslateY, ") ");
+      directionOfThrow = function directionOfThrow() {
+        var directionsForSnowball = [-parseFloat(snowballTranslateX), -parseFloat(snowballTranslateY)];
+        return directionsForSnowball;
+      };
+    }
+  }
+  return directionOfThrow();
+};
+exports.definingDirectionOfThrow = definingDirectionOfThrow;
+},{"./slider":"slider.js"}],"main.js":[function(require,module,exports) {
 "use strict";
 
 var _hovers = require("./hovers.js");
+var _slider = require("./slider.js");
+var _text = require("./text.js");
+var _directionsOfThrow = require("./directionsOfThrow.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+"use strict";
 ///------------ DOM ITEMS ------------///
 
 var directionsArrows = document.querySelectorAll(".arrows__arrow");
@@ -197,7 +326,10 @@ var snowball = document.querySelector("[data-id = \"snowball\"]");
 var textOnSnowball = document.querySelector("[data-id = \"snowball-text\"]");
 var sliderBall = document.querySelector(".choose-power-wrapper__slider");
 var fakeSnowball = document.createElement("div");
-var allArrows = document.querySelector("[data-id=\"allArrows\"]").childNodes;
+
+// let allArrows = [...document.querySelector(`[data-id="allArrows"]`).childNodes];
+var allArrows = _toConsumableArray(document.querySelectorAll(".arrows__arrow"));
+console.log("just  found allArrows: ", allArrows);
 var throwMechanicsWrapper = document.getElementById("throw-mechanics-wrapper");
 var sliderWrapper = document.querySelector(".choose-power-wrapper");
 var theBody = document.querySelector(".main");
@@ -205,134 +337,41 @@ var theBody = document.querySelector(".main");
 ///------------ GLOBAL VARIABLES ------------///
 
 var isArrowOn = false;
-var snowballTranslateX = "";
-var snowballTranslateY = "";
-var powerOfThrow = 400;
 var counterHits = 0;
 var requiredDistanceBallSwitch = 150;
 var counterMeltingSnowman = 0;
 var counterMiss;
-var directionOfThrow; /// how to show function
-var newWidth = 0;
 var isSnowballAnimationOn = false;
 var arrowClicked = false;
-var rectangleArrowPosition = {};
-var newHeight = 0;
+// let rectangleArrowPosition = {};
 
 ///------------ FUNCTIONS HOOVERING EVENTS ------------///
-
-// const pointerOverEvent = (e) => {
-//   e.target.style.opacity = 0.3;
-// };
-
-// const mouseLeaveEvent = (e) => {
-//   setTimeout(() => {
-//     e.target.style.opacity = 0.1;
-//   }, "1000");
-// };
-
-// const addHoverListeners = (element) => {
-//   element.forEach((arrow) => {
-//     arrow.addEventListener("pointerover", pointerOverEvent);
-//     arrow.addEventListener("mouseleave", mouseLeaveEvent);
-//   });
-
-//   return false;
-// };
 
 isArrowOn = (0, _hovers.addHoverListeners)(directionsArrows);
 
 // /------------ SLIDER-POWER ------------/
-
 sliderPower.addEventListener("change", function () {
-  readPowerOfThrow(sliderPower);
+  (0, _slider.readPowerOfThrow)(sliderPower, textSlider);
 });
-var readPowerOfThrow = function readPowerOfThrow(item) {
-  powerOfThrow = Math.round(item.value);
-  textSlider.textContent = "your power is: ".concat(Math.round(powerOfThrow / 10), " ");
-};
+var power = (0, _slider.readPowerOfThrow)(sliderPower, textSlider);
 
 ///------------ INFO-TEXT FUNCTIONS ------------///
 
 window.addEventListener("load", function () {
-  textOpacityToggle(textInfo, 500, 5000);
+  (0, _text.textOpacityToggle)(textInfo, 500, 5000);
 });
-var textOpacityToggle = function textOpacityToggle(item, time1, time2) {
-  setTimeout(function () {
-    return item.classList.add("active");
-  }, time1);
-  setTimeout(function () {
-    return item.classList.remove("active");
-  }, time2);
-};
 
 ///------------ FUNCTIONS FOR ARROW CLICKED - HANDLING SNOWBALL ------------///
 
-var definingDirectionOfThrow = function definingDirectionOfThrow(arrowClicked) {
-  var rectangleArrow = document.createElement("div");
-  var arrowPosition = arrowClicked.getBoundingClientRect();
-  var arrowPositionHeight = arrowPosition.height;
-  rectangleArrow.style.transformOrigin = "left bottom";
-  rectangleArrow.style.height = arrowPosition.height + "px";
-  rectangleArrow.style.width = arrowPosition.width + "px";
-  rectangleArrow.style.top = arrowPosition.top + "px";
-  rectangleArrow.style.bottom = arrowPosition.bottom + "px";
-  rectangleArrow.style.left = arrowPosition.left + "px";
-  rectangleArrow.style.right = arrowPosition.right + "px";
-  rectangleArrow.style.backgroundColor = "red";
-  rectangleArrow.style.opacity = 0;
-  rectangleArrow.style.position = "absolute";
-  rectangleArrow.style.zIndex = -100;
-  document.querySelector(".main").append(rectangleArrow);
-  rectangleArrowPosition = rectangleArrow.getBoundingClientRect();
-  var rectangleArrowHeight = parseFloat(rectangleArrow.style.height);
-  var rectangleArrowWidth = parseFloat(rectangleArrow.style.width);
-  var angle = Math.atan(rectangleArrowHeight / rectangleArrowWidth);
-  var snowballPosition = snowball.getBoundingClientRect();
-  fakeSnowball.style.top = snowballPosition.top;
-  fakeSnowball.style.height = snowballPosition.height + "px";
-  fakeSnowball.style.width = snowballPosition.width + "px";
-  fakeSnowball.style.top = snowballPosition.top + "px";
-  fakeSnowball.style.bottom = snowballPosition.bottom + "px";
-  fakeSnowball.style.left = snowballPosition.left + "px";
-  fakeSnowball.style.right = snowballPosition.right + "px";
-  fakeSnowball.style.position = "absolute";
-  fakeSnowball.style.opacity = 0;
-  fakeSnowball.style.zIndex = 900;
-  fakeSnowball.style.backgroundColor = "green";
-  document.querySelector(".footer").append(fakeSnowball);
-  newHeight = rectangleArrowHeight + powerOfThrow;
-  newWidth = newHeight / Math.tan(angle);
-  rectangleArrow.style.height = newHeight + "px";
-  rectangleArrow.style.width = newWidth + "px";
-  rectangleArrow.style.transform = "translateY(-".concat(newHeight - arrowPositionHeight, "px)");
-  snowballTranslateX = rectangleArrow.style.width;
-  snowballTranslateY = rectangleArrow.style.height;
-  for (var i = 0; i < 15; i++) {
-    if (arrowClicked == allArrows[i]) {
-      fakeSnowball.style.transform = "translateX(".concat(snowballTranslateX, ") translateY(-").concat(snowballTranslateY, ") ");
-      directionOfThrow = function directionOfThrow() {
-        var directionsForSnowball = [parseFloat(snowballTranslateX), -parseFloat(snowballTranslateY)];
-        return directionsForSnowball;
-      };
-    }
-  }
-  for (var _i = 15; _i < 30; _i++) {
-    if (arrowClicked == allArrows[_i]) {
-      fakeSnowball.style.transform = "translateX(-".concat(snowballTranslateX, ") translateY(-").concat(snowballTranslateY, ") ");
-      directionOfThrow = function directionOfThrow() {
-        var directionsForSnowball = [-parseFloat(snowballTranslateX), -parseFloat(snowballTranslateY)];
-        return directionsForSnowball;
-      };
-    }
-  }
-};
-var animationSnowball = function animationSnowball() {
+var animationSnowball = function animationSnowball(arrow, fakeBall, ball) {
   isSnowballAnimationOn = true;
-  var _directionOfThrow = directionOfThrow(),
-    _directionOfThrow2 = _slicedToArray(_directionOfThrow, 2),
-    finalMoveX = _directionOfThrow2[0],
-    finalMoveY = _directionOfThrow2[1];
+  var _definingDirectionOfT = (0, _directionsOfThrow.definingDirectionOfThrow)(arrow, fakeBall, ball,
+    // sliderPower, //readPower?
+    allArrows, sliderPower, textSlider),
+    _definingDirectionOfT2 = _slicedToArray(_definingDirectionOfT, 2),
+    finalMoveX = _definingDirectionOfT2[0],
+    finalMoveY = _definingDirectionOfT2[1];
+  console.log("returned data:", finalMoveX, finalMoveY);
   var throwingSnowBall = [{
     transform: "scale(1)"
   }, {
@@ -387,8 +426,8 @@ snowball.addEventListener("click", function () {
     checkingIfSwitchGotHit(secondLampON, fakeSnowball, switchIsHit);
     checkingIfSwitchGotHit(thirdLampON, fakeSnowball, switchIsHit);
   } else if (isArrowOn == false) {
-    textInfo.textContent = "click the direction arrows first";
-    textOpacityToggle(textInfo, 500, 3000);
+    textInfo.innerText = "click the direction arrows first";
+    (0, _text.textOpacityToggle)(textInfo, 500, 3000);
   }
 });
 var snowballOpacity = function snowballOpacity(element) {
@@ -413,8 +452,7 @@ directionsArrows.forEach(function (arrow) {
     arrowClicked.style.stroke = "white";
     arrowClicked.style.strokeWidth = "1vw";
     isArrowOn = true;
-    definingDirectionOfThrow(arrowClicked);
-    animationSnowball();
+    animationSnowball(arrowClicked, fakeSnowball, snowball);
     (0, _hovers.removeHoverListeners)(directionsArrows);
   });
 });
@@ -450,20 +488,20 @@ var switchIsHit = function switchIsHit(switchHit, firstLampON, firstLampOFF, sec
     textOnSnowball.style.opacity = 1;
     counterHits++;
     if (counterHits == 1) {
-      textOpacityToggle(textInfo, 500, 3000);
-      textInfo.textContent = "One down! Two more to go!";
+      (0, _text.textOpacityToggle)(textInfo, 500, 3000);
+      textInfo.innerText = "One down!\nTwo more to go!";
       theBody.style.backgroundColor = "#474c59";
     } else if (counterHits == 2) {
-      textOpacityToggle(textInfo, 500, 3000);
-      textInfo.textContent = "Yay snowman is really happy! Hit one more!";
+      (0, _text.textOpacityToggle)(textInfo, 500, 3000);
+      textInfo.innerText = "Yay snowman is really happy!\nHit one more!";
       theBody.style.backgroundColor = "#3a3e46";
     } else if (counterHits == 3) {
       snowball.style.opacity = 0;
       throwMechanicsWrapper.style.opacity = 0;
       throwMechanicsWrapper.style.zIndex = -100;
       sliderWrapper.style.opacity = 0;
-      textOpacityToggle(textInfo, 500, 3000);
-      textInfo.textContent = "congrats! By saving electricity you contribute to less global warming and more snow!";
+      (0, _text.textOpacityToggle)(textInfo, 500, 99000);
+      textInfo.innerText = "Congrats! By saving electricity you contribute\n to less global warming and more happy snowmen!";
     }
     switchHit.classList.add("notactive");
     if (switchHit == firstSwitch) {
@@ -483,17 +521,17 @@ var switchIsHit = function switchIsHit(switchHit, firstLampON, firstLampOFF, sec
       console.log("lamp got hit");
       firstLampON.classList.add("notactive");
       firstLampBroken.classList.remove("notactive");
-      gameOver("Game over! Hitting lamps is not a solution!");
+      gameOver("Game over!\nDestroying lamps is ver bad for environment :/");
     } else if (switchHit == secondLampON) {
       console.log("lamp got hit");
       secondLampON.classList.add("notactive");
       secondLampBroken.classList.remove("notactive");
-      gameOver("Game over! Hitting lamps is not a solution!");
+      gameOver("Game over!\nDestroying lamps is ver bad for environment :/");
     } else if (switchHit == thirdLampON) {
       console.log("lamp got hit");
       thirdLampON.classList.add("notactive");
       thirdLampBroken.classList.remove("notactive");
-      gameOver("Game over! Hitting lamps is not a solution!");
+      gameOver("Game over!\nDestroying lamps is ver bad for environment :/");
     }
   }, 1000);
 };
@@ -502,27 +540,27 @@ var switchIsHit = function switchIsHit(switchHit, firstLampON, firstLampOFF, sec
 
 var meltSnowmaGraphicsSteps = function meltSnowmaGraphicsSteps(count) {
   if (count == 1) {
-    textOpacityToggle(textInfo, 500, 3000);
-    textInfo.textContent = "Oh no! Snowman is melting! Aim at the switches to save it!";
+    (0, _text.textOpacityToggle)(textInfo, 500, 3000);
+    textInfo.innerText = "Oh no! Snowman is melting!\nAim at the switches to save it!";
     meltedSnowman1.classList.add("notactive");
     meltedSnowman2.classList.remove("notactive");
   } else if (count == 2) {
-    textInfo.textContent = "Try harder! You can do it!";
-    textOpacityToggle(textInfo, 500, 3000);
+    textInfo.innerText = "You can do better!";
+    (0, _text.textOpacityToggle)(textInfo, 500, 3000);
     meltedSnowman2.classList.add("notactive");
     meltedSnowman3.classList.remove("notactive");
   } else if (count == 3) {
-    textInfo.textContent = "Try harder! You can do it!";
-    textOpacityToggle(textInfo, 500, 3000);
+    textInfo.innerText = "Try again!\nYou can do it :)";
+    (0, _text.textOpacityToggle)(textInfo, 500, 3000);
     meltedSnowman3.classList.add("notactive");
     meltedSnowman4.classList.remove("notactive");
   } else if (count == 4) {
-    textInfo.textContent = "Try harder! You can do it!";
-    textOpacityToggle(textInfo, 500, 3000);
+    textInfo.innerText = "Focus!\nYou have one more chance!";
+    (0, _text.textOpacityToggle)(textInfo, 500, 3000);
     meltedSnowman4.classList.add("notactive");
     meltedSnowman5.classList.remove("notactive");
   } else if (count == 5) {
-    gameOver("Game over! The snowman melted :/. Try again!");
+    gameOver("Game over! Snowman melted :/\nTry again!");
   }
 };
 var gameOver = function gameOver(text) {
@@ -536,10 +574,10 @@ var gameOver = function gameOver(text) {
   throwMechanicsWrapper.style.opacity = 0;
   throwMechanicsWrapper.style.zIndex = -100;
   sliderWrapper.style.opacity = 0;
-  textInfo.textContent = text;
+  textInfo.innerText = text;
   textInfo.style.opacity = 1;
 };
-},{"./hovers.js":"hovers.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./hovers.js":"hovers.js","./slider.js":"slider.js","./text.js":"text.js","./directionsOfThrow.js":"directionsOfThrow.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -564,7 +602,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49455" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54462" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

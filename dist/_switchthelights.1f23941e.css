@@ -144,6 +144,8 @@
   .main .throw-mechanics-wrapper .directions__arrows__arrow,
   .main .throw-mechanics-wrapper .directions .arrows__arrow {
     padding: 2vw;
+    transition: 0.3s;
+    opacity: 1;
   }
   .main__throw-mechanics-wrapper__snowball-wrapper__text,
   .main__throw-mechanics-wrapper .snowball-wrapper__text,
