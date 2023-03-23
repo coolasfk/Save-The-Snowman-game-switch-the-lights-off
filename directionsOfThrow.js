@@ -4,7 +4,7 @@ export const definingDirectionOfThrow = (
   arrow,
   fakeSnowball,
   ball,
-  //   power,
+
   allArrows,
   sliderPower,
   textSlider,
@@ -54,7 +54,6 @@ export const definingDirectionOfThrow = (
   document.querySelector(".footer").append(fakeSnowball);
   let newHeight =
     rectangleArrowHeight + readPowerOfThrow(sliderPower, textSlider);
-  // rectangleArrowHeight + power.value * 1;
 
   let newWidth = newHeight / Math.tan(angle);
 
@@ -67,7 +66,7 @@ export const definingDirectionOfThrow = (
   let snowballTranslateX = rectangleArrow.style.width;
   let snowballTranslateY = rectangleArrow.style.height;
   let directionOfThrow;
-  for (let i = 0; i < 7; i++) {
+  for (let i = 1; i < 7; i++) {
     if (arrow == allArrows[i]) {
       fakeSnowball.style.transform = `translateX(${snowballTranslateX}) translateY(-${snowballTranslateY}) `;
       directionOfThrow = () => {
@@ -79,7 +78,16 @@ export const definingDirectionOfThrow = (
       };
     }
   }
-  for (let i = 8; i < 14; i++) {
+
+  if (arrow == allArrows[0]) {
+    fakeSnowball.style.transform = `translateX(${snowballTranslateX}) translateY(-${snowballTranslateY}) `;
+    directionOfThrow = () => {
+      let directionsForSnowball = [0, -parseFloat(snowballTranslateY)];
+      return directionsForSnowball;
+    };
+  }
+
+  for (let i = 7; i < 14; i++) {
     if (arrow == allArrows[i]) {
       fakeSnowball.style.transform = `translateX(-${snowballTranslateX}) translateY(-${snowballTranslateY}) `;
       directionOfThrow = () => {

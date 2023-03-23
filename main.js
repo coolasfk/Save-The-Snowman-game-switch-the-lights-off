@@ -5,17 +5,13 @@ import { removeHoverListeners } from "./hovers.js";
 import { readPowerOfThrow } from "./slider.js";
 import { textOpacityToggle } from "./text.js";
 import { definingDirectionOfThrow } from "./directionsOfThrow.js";
+import { gameOver } from "./meltingSnowman.js";
+import { meltSnowmaGraphicsSteps } from "./meltingSnowman.js";
+import { clickOutside } from "./unclickingArrows.js";
 
 ///------------ DOM ITEMS ------------///
 
 const directionsArrows = document.querySelectorAll(".arrows__arrow");
-
-const meltedSnowman1 = document.querySelector(".meltedSnowman__meltedSnowman1");
-const meltedSnowman2 = document.querySelector(".meltedSnowman__meltedSnowman2");
-const meltedSnowman3 = document.querySelector(".meltedSnowman__meltedSnowman3");
-const meltedSnowman4 = document.querySelector(".meltedSnowman__meltedSnowman4");
-const meltedSnowman5 = document.querySelector(".meltedSnowman__meltedSnowman5");
-const meltedSnowman6 = document.querySelector(".meltedSnowman__meltedSnowman6");
 
 const firstLampON = document.getElementById("lamp-first-on");
 
@@ -47,14 +43,9 @@ let sliderPower = document.querySelector(".choose-power-wrapper__slider");
 const snowball = document.querySelector(`[data-id = "snowball"]`);
 const textOnSnowball = document.querySelector(`[data-id = "snowball-text"]`);
 
-const sliderBall = document.querySelector(".choose-power-wrapper__slider");
-
 const fakeSnowball = document.createElement("div");
 
-// let allArrows = [...document.querySelector(`[data-id="allArrows"]`).childNodes];
-let allArrows = [...document.querySelectorAll(`.arrows__arrow`)];
-
-console.log("just  found allArrows: ", allArrows);
+const allArrows = [...document.querySelectorAll(`.arrows__arrow`)];
 
 const throwMechanicsWrapper = document.getElementById(
   "throw-mechanics-wrapper",
@@ -74,7 +65,6 @@ let counterMiss;
 
 let isSnowballAnimationOn = false;
 let arrowClicked = false;
-// let rectangleArrowPosition = {};
 
 ///------------ FUNCTIONS HOOVERING EVENTS ------------///
 
@@ -102,12 +92,11 @@ const animationSnowball = (arrow, fakeBall, ball) => {
     arrow,
     fakeBall,
     ball,
-    // sliderPower, //readPower?
     allArrows,
     sliderPower,
     textSlider,
   );
-  console.log("returned data:", finalMoveX, finalMoveY);
+
   const throwingSnowBall = [
     { transform: "scale(1)" },
 
@@ -135,7 +124,6 @@ const animationSnowball = (arrow, fakeBall, ball) => {
   });
 };
 const checkingIfSwitchGotHit = (switchON, snowball) => {
-  console.log(switchON);
   let switchPosition = switchON.getBoundingClientRect();
   let xSideSwitch = switchPosition.left;
   let ySideSwitch = switchPosition.bottom;
@@ -173,8 +161,6 @@ const checkingIfSwitchGotHit = (switchON, snowball) => {
       thirdLampBroken,
       snowball,
     );
-
-    console.log("hit");
   } else if (
     (isSnowballAnimationOn =
       true && distanceBetweenSnowballAndSwitch > requiredDistanceBallSwitch)
@@ -184,14 +170,12 @@ const checkingIfSwitchGotHit = (switchON, snowball) => {
 
   if (counterMiss == 6) {
     counterMeltingSnowman++;
-    console.log("miss");
   }
 
-  meltSnowmaGraphicsSteps(counterMeltingSnowman);
+  meltSnowmaGraphicsSteps(counterMeltingSnowman, textInfo);
 };
 
 snowball.addEventListener("click", () => {
-  console.log(isArrowOn);
   if (isArrowOn == true) {
     counterMiss = 0;
     checkingIfSwitchGotHit(firstSwitch, fakeSnowball, switchIsHit);
@@ -205,18 +189,6 @@ snowball.addEventListener("click", () => {
     textOpacityToggle(textInfo, 500, 3000);
   }
 });
-
-const snowballOpacity = (element) => {
-  let increment = 0.025;
-  let opacity = 0;
-  let instance = window.setInterval(() => {
-    element.style.opacity = opacity;
-    opacity = opacity + increment;
-    if (opacity > 1) {
-      window.clearInterval(instance);
-    }
-  }, 30);
-};
 
 ///------------ ARROW CLICKED MAIN FUNCTION ------------///
 
@@ -238,21 +210,6 @@ directionsArrows.forEach((arrow) => {
 });
 
 ///------------ UNCLICKING ARROWS ------------///
-
-const clickOutside = (e) => {
-  if (
-    !e.target.classList.contains("arrows__arrow") &&
-    !(e.target.getAttribute("data-clickable-arrow") == "false")
-  ) {
-    removeHoverListeners(directionsArrows);
-    isArrowOn = addHoverListeners(directionsArrows);
-    directionsArrows.forEach((arrow) => {
-      arrow.style.opacity = 0.1;
-      arrow.style.stroke = "unset";
-      arrow.style.stoke = "transparent";
-    });
-  }
-};
 
 theBody.addEventListener("click", clickOutside);
 
@@ -282,7 +239,6 @@ const switchIsHit = (
   thirdLampBroken,
   snowball,
 ) => {
-  console.log(switchHit);
   textOnSnowball.style.opacity = 0;
   setTimeout(() => {
     snowball.style.opacity = 0;
@@ -328,66 +284,36 @@ const switchIsHit = (
       thirdSwitchOff.classList.remove("notactive");
     } else if (switchHit == firstLampON) {
       counterMeltingSnowman = 5;
-      console.log("lamp got hit");
+
       firstLampON.classList.add("notactive");
       firstLampBroken.classList.remove("notactive");
-      gameOver("Game over!\nDestroying lamps is ver bad for environment :/");
+      gameOver(
+        textInfo,
+        snowball,
+        throwMechanicsWrapper,
+        sliderWrapper,
+        "Game over!\nDestroying lamps is ver bad for environment :/",
+      );
     } else if (switchHit == secondLampON) {
-      console.log("lamp got hit");
       secondLampON.classList.add("notactive");
       secondLampBroken.classList.remove("notactive");
-      gameOver("Game over!\nDestroying lamps is ver bad for environment :/");
+      gameOver(
+        textInfo,
+        snowball,
+        throwMechanicsWrapper,
+        sliderWrapper,
+        "Game over!\nDestroying lamps is ver bad for environment :/",
+      );
     } else if (switchHit == thirdLampON) {
-      console.log("lamp got hit");
       thirdLampON.classList.add("notactive");
       thirdLampBroken.classList.remove("notactive");
-      gameOver("Game over!\nDestroying lamps is ver bad for environment :/");
+      gameOver(
+        textInfo,
+        snowball,
+        throwMechanicsWrapper,
+        sliderWrapper,
+        "Game over!\nDestroying lamps is ver bad for environment :/",
+      );
     }
   }, 1000);
-};
-
-///------------ SWITCH IS NOT HIT ------------///
-
-const meltSnowmaGraphicsSteps = (count) => {
-  if (count == 1) {
-    textOpacityToggle(textInfo, 500, 3000);
-    textInfo.innerText =
-      "Oh no! Snowman is melting!\nAim at the switches to save it!";
-
-    meltedSnowman1.classList.add("notactive");
-    meltedSnowman2.classList.remove("notactive");
-  } else if (count == 2) {
-    textInfo.innerText = "You can do better!";
-    textOpacityToggle(textInfo, 500, 3000);
-    meltedSnowman2.classList.add("notactive");
-    meltedSnowman3.classList.remove("notactive");
-  } else if (count == 3) {
-    textInfo.innerText = "Try again!\nYou can do it :)";
-    textOpacityToggle(textInfo, 500, 3000);
-    meltedSnowman3.classList.add("notactive");
-    meltedSnowman4.classList.remove("notactive");
-  } else if (count == 4) {
-    textInfo.innerText = "Focus!\nYou have one more chance!";
-    textOpacityToggle(textInfo, 500, 3000);
-    meltedSnowman4.classList.add("notactive");
-    meltedSnowman5.classList.remove("notactive");
-  } else if (count == 5) {
-    gameOver("Game over! Snowman melted :/\nTry again!");
-  }
-};
-
-const gameOver = (text) => {
-  meltedSnowman1.classList.add("notactive");
-  meltedSnowman2.classList.add("notactive");
-  meltedSnowman3.classList.add("notactive");
-  meltedSnowman4.classList.add("notactive");
-  meltedSnowman5.classList.add("notactive");
-  meltedSnowman6.classList.remove("notactive");
-
-  snowball.style.opacity = 0;
-  throwMechanicsWrapper.style.opacity = 0;
-  throwMechanicsWrapper.style.zIndex = -100;
-  sliderWrapper.style.opacity = 0;
-  textInfo.innerText = text;
-  textInfo.style.opacity = 1;
 };
