@@ -8,69 +8,6 @@
   overflow-x: hidden;
 }
 
-@media only screen and (max-width: 900px) {
-  body {
-    max-height: 100%;
-    max-width: 100%;
-    background-color: #616b84;
-  }
-  .header {
-    display: flex;
-    justify-content: center;
-  }
-  .header__title {
-    margin-top: 5vh;
-    margin-bottom: 10vh;
-    text-align: center;
-    font: 700 normal 3rem "program", sans-serif;
-    color: #bdefea;
-    max-width: 80vw;
-  }
-  .main {
-    display: flex;
-    justify-content: center;
-  }
-  .main__snowball-wrapper-link,
-  .main .snowball-wrapper-link {
-    display: flex;
-    justify-content: center;
-  }
-  .main__snowball-wrapper-link__snowball-wrapper,
-  .main__snowball-wrapper-link .snowball-wrapper,
-  .main .snowball-wrapper-link__snowball-wrapper,
-  .main .snowball-wrapper-link .snowball-wrapper {
-    display: flex;
-    justify-content: center;
-  }
-  .main__snowball-wrapper-link__snowball-wrapper__snowball-cta,
-  .main__snowball-wrapper-link .snowball-wrapper__snowball-cta,
-  .main .snowball-wrapper-link__snowball-wrapper__snowball-cta,
-  .main .snowball-wrapper-link .snowball-wrapper__snowball-cta {
-    margin-top: 35vw;
-    position: absolute;
-    z-index: 10;
-    color: #616b84;
-    font: 700 normal 2rem program, sans-serif;
-    cursor: pointer;
-    text-align: center;
-  }
-  .main__snowball-wrapper-link__snowball-wrapper__snowball,
-  .main__snowball-wrapper-link .snowball-wrapper__snowball,
-  .main .snowball-wrapper-link__snowball-wrapper__snowball,
-  .main .snowball-wrapper-link .snowball-wrapper__snowball {
-    cursor: pointer;
-    margin-bottom: 80vw;
-    height: 40vw;
-    animation: moveSnowBall 2s infinite ease-in-out;
-  }
-  .footer__rules-wrapper__rules,
-  .footer .rules-wrapper__rules {
-    font: 300 normal 1.5rem "program", sans-serif;
-    color: #f2ecf4;
-    margin: 0 10vw 0 10vw;
-    text-align: center;
-  }
-}
 @keyframes moveSnowBall {
   0% {
     transform: translateY(5vw);
@@ -96,7 +33,7 @@
     margin-top: 5vh;
     margin-bottom: 10vh;
     text-align: center;
-    font: 700 normal 3rem "program", sans-serif;
+    font: 700 normal 3rem "program", "helvetica";
     color: #bdefea;
     max-width: 80vw;
   }
@@ -120,11 +57,11 @@
   .main__snowball-wrapper-link .snowball-wrapper__snowball-cta,
   .main .snowball-wrapper-link__snowball-wrapper__snowball-cta,
   .main .snowball-wrapper-link .snowball-wrapper__snowball-cta {
-    margin-top: 20vw;
+    margin-top: 15vw;
     position: absolute;
     z-index: 10;
     color: #616b84;
-    font: 700 normal 2rem program, sans-serif;
+    font: 700 normal 2rem "program", "helvetica";
     cursor: pointer;
     text-align: center;
   }
@@ -133,15 +70,16 @@
   .main .snowball-wrapper-link__snowball-wrapper__snowball,
   .main .snowball-wrapper-link .snowball-wrapper__snowball {
     cursor: pointer;
-    margin-bottom: 10vw;
-    height: 40vw;
+    margin-bottom: 8vw;
+    height: 30vw;
     animation: moveSnowBall 2s infinite ease-in-out;
   }
   .footer__rules-wrapper__rules,
   .footer .rules-wrapper__rules {
-    font: 300 normal 1.5rem "program", sans-serif;
+    font: 300 normal 1.5rem "program", "comic sans";
     color: #f2ecf4;
-    margin: 0 10vw 0 10vw;
+    font-size: 2.5vw;
+    margin: 0 5vw 5vw 5vw;
     text-align: center;
   }
 }

@@ -35,7 +35,7 @@
   .main__text-info-wrapper__text-info,
   .main .text-info-wrapper__text-info {
     width: 60vw;
-    font: 700 normal 2rem program, sans-serif;
+    font: 700 normal 2rem "program", "helvetica";
     text-align: center;
     color: white;
     transition: 0.3s;
@@ -117,12 +117,14 @@
   .main__throw-mechanics-wrapper .directions,
   .main .throw-mechanics-wrapper__directions,
   .main .throw-mechanics-wrapper .directions {
-    width: 28vw;
+    width: 26vw;
+    height: auto;
     background-color: transparent;
     display: flex;
     justify-content: center;
     margin: 10vw 50vw 6vw 50vw;
-    transform: translateX(-14vw);
+    transform: translateX(-13vw);
+    overflow: visible;
   }
   .main__throw-mechanics-wrapper__directions__arrows,
   .main__throw-mechanics-wrapper__directions .arrows,
@@ -133,7 +135,7 @@
   .main .throw-mechanics-wrapper .directions__arrows,
   .main .throw-mechanics-wrapper .directions .arrows {
     background-color: transparent;
-    height: 10vw;
+    overflow: visible;
   }
   .main__throw-mechanics-wrapper__directions__arrows__arrow,
   .main__throw-mechanics-wrapper__directions .arrows__arrow,
@@ -143,15 +145,15 @@
   .main .throw-mechanics-wrapper__directions .arrows__arrow,
   .main .throw-mechanics-wrapper .directions__arrows__arrow,
   .main .throw-mechanics-wrapper .directions .arrows__arrow {
-    padding: 2vw;
     transition: 0.3s;
     opacity: 1;
+    stroke-width: 5px;
   }
   .main__throw-mechanics-wrapper__snowball-wrapper__text,
   .main__throw-mechanics-wrapper .snowball-wrapper__text,
   .main .throw-mechanics-wrapper__snowball-wrapper__text,
   .main .throw-mechanics-wrapper .snowball-wrapper__text {
-    font: 500 normal 1rem "bryant-web", sans-serif;
+    font: 500 normal 1rem "bryant-web", "helvetica";
     color: #616b84;
     position: absolute;
     z-index: 1005;
@@ -189,7 +191,7 @@
   }
   .main__choose-power-wrapper__power-text,
   .main .choose-power-wrapper__power-text {
-    font: 500 normal 1.5rem "bryant-web", sans-serif;
+    font: 500 normal 1.5rem "bryant-web", "helvetica";
     margin: 4vw 0 4vw 0;
     color: white;
   }
@@ -241,6 +243,27 @@
     margin-top: 72vh;
     margin-left: -60vw;
     overflow: hidden;
+  }
+  .main__btnPlayAgain-wrapper,
+  .main .btnPlayAgain-wrapper {
+    position: absolute;
+    width: 100vw;
+    display: flex;
+    margin-top: 40vw;
+    justify-content: center;
+  }
+  .main__btnPlayAgain-wrapper__btnPlayAgain,
+  .main .btnPlayAgain-wrapper__btnPlayAgain {
+    width: 15vw;
+    height: 15vw;
+    z-index: 20;
+    background-color: transparent;
+    border: 1vw solid #bdefea;
+    font-family: 700 normal 3rem "program", "helvetica";
+    border-radius: 80vw;
+    font-size: 1rem;
+    color: #bdefea;
+    cursor: pointer;
   }
 }
 .notactive {

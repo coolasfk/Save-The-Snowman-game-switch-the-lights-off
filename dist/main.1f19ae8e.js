@@ -117,7 +117,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"hovers.js":[function(require,module,exports) {
+})({"js/hovers.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -168,7 +168,7 @@ var addHoverListeners = function addHoverListeners(element) {
   return false;
 };
 exports.addHoverListeners = addHoverListeners;
-},{}],"slider.js":[function(require,module,exports) {
+},{}],"js/slider.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -186,7 +186,7 @@ var readPowerOfThrow = function readPowerOfThrow(item, text) {
   return powerOfThrow;
 };
 exports.readPowerOfThrow = readPowerOfThrow;
-},{}],"text.js":[function(require,module,exports) {
+},{}],"js/text.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -203,7 +203,7 @@ var textOpacityToggle = function textOpacityToggle(item, time1, time2) {
   }, time2);
 };
 exports.textOpacityToggle = textOpacityToggle;
-},{}],"directionsOfThrow.js":[function(require,module,exports) {
+},{}],"js/directionsOfThrow.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -280,7 +280,7 @@ var definingDirectionOfThrow = function definingDirectionOfThrow(arrow, fakeSnow
   return directionOfThrow();
 };
 exports.definingDirectionOfThrow = definingDirectionOfThrow;
-},{"./slider":"slider.js"}],"meltingSnowman.js":[function(require,module,exports) {
+},{"./slider":"js/slider.js"}],"js/gameOver-meltSnowman.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -297,6 +297,8 @@ var meltedSnowman4 = document.querySelector(".meltedSnowman__meltedSnowman4");
 var meltedSnowman5 = document.querySelector(".meltedSnowman__meltedSnowman5");
 var meltedSnowman6 = document.querySelector(".meltedSnowman__meltedSnowman6");
 var snowball = document.querySelector("[data-id = \"snowball\"]");
+var playAgainBtnWrapper = document.querySelector(".main__btnPlayAgain-wrapper");
+var playAgainBtn = document.querySelector(".btnPlayAgain-wrapper__btnPlayAgain");
 var throwMechanicsWrapper = document.getElementById("throw-mechanics-wrapper");
 var sliderWrapper = document.querySelector(".choose-power-wrapper");
 var gameOver = function gameOver(textInfo, snowball, throwMechanicsWrapper, sliderWrapper, text) {
@@ -306,6 +308,11 @@ var gameOver = function gameOver(textInfo, snowball, throwMechanicsWrapper, slid
   meltedSnowman4.classList.add("notactive");
   meltedSnowman5.classList.add("notactive");
   meltedSnowman6.classList.remove("notactive");
+  playAgainBtnWrapper.classList.remove("notactive");
+  playAgainBtn.classList.remove("notactive");
+  playAgainBtn.addEventListener("click", function () {
+    window.location.reload();
+  });
   snowball.style.opacity = 0;
   throwMechanicsWrapper.style.opacity = 0;
   throwMechanicsWrapper.style.zIndex = -100;
@@ -340,7 +347,7 @@ var meltSnowmaGraphicsSteps = function meltSnowmaGraphicsSteps(count, textInfo) 
   }
 };
 exports.meltSnowmaGraphicsSteps = meltSnowmaGraphicsSteps;
-},{"./text":"text.js"}],"unclickingArrows.js":[function(require,module,exports) {
+},{"./text":"js/text.js"}],"js/unclickingArrows.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -361,15 +368,15 @@ var clickOutside = function clickOutside(e, isArrowOn) {
   }
 };
 exports.clickOutside = clickOutside;
-},{"./hovers":"hovers.js"}],"main.js":[function(require,module,exports) {
+},{"./hovers":"js/hovers.js"}],"main.js":[function(require,module,exports) {
 "use strict";
 
-var _hovers = require("./hovers.js");
-var _slider = require("./slider.js");
-var _text = require("./text.js");
-var _directionsOfThrow = require("./directionsOfThrow.js");
-var _meltingSnowman = require("./meltingSnowman.js");
-var _unclickingArrows = require("./unclickingArrows.js");
+var _hovers = require("./js/hovers.js");
+var _slider = require("./js/slider.js");
+var _text = require("./js/text.js");
+var _directionsOfThrow = require("./js/directionsOfThrow.js");
+var _gameOverMeltSnowman = require("./js/gameOver-meltSnowman.js");
+var _unclickingArrows = require("./js/unclickingArrows.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
@@ -413,23 +420,19 @@ var theBody = document.querySelector(".main");
 
 ///------------ GLOBAL VARIABLES ------------///
 
-var isArrowOn = false;
 var counterHits = 0;
 var requiredDistanceBallSwitch = 150;
 var counterMeltingSnowman = 0;
 var counterMiss;
 var isSnowballAnimationOn = false;
 var arrowClicked = false;
-
-///------------ FUNCTIONS HOOVERING EVENTS ------------///
-
+var isArrowOn = false;
 isArrowOn = (0, _hovers.addHoverListeners)(directionsArrows);
 
 // /------------ SLIDER-POWER ------------/
 sliderPower.addEventListener("change", function () {
   (0, _slider.readPowerOfThrow)(sliderPower, textSlider);
 });
-var power = (0, _slider.readPowerOfThrow)(sliderPower, textSlider);
 
 ///------------ INFO-TEXT FUNCTIONS ------------///
 
@@ -483,7 +486,7 @@ var checkingIfSwitchGotHit = function checkingIfSwitchGotHit(switchON, snowball)
   if (counterMiss == 6) {
     counterMeltingSnowman++;
   }
-  (0, _meltingSnowman.meltSnowmaGraphicsSteps)(counterMeltingSnowman, textInfo);
+  (0, _gameOverMeltSnowman.meltSnowmaGraphicsSteps)(counterMeltingSnowman, textInfo);
 };
 snowball.addEventListener("click", function () {
   if (isArrowOn == true) {
@@ -494,6 +497,10 @@ snowball.addEventListener("click", function () {
     checkingIfSwitchGotHit(firstLampON, fakeSnowball, switchIsHit);
     checkingIfSwitchGotHit(secondLampON, fakeSnowball, switchIsHit);
     checkingIfSwitchGotHit(thirdLampON, fakeSnowball, switchIsHit);
+    textOnSnowball.style.opacity = 0;
+    setTimeout(function () {
+      textOnSnowball.style.opacity = 1;
+    }, 1000);
   } else if (isArrowOn == false) {
     textInfo.innerText = "click the direction arrows first";
     (0, _text.textOpacityToggle)(textInfo, 500, 3000);
@@ -528,10 +535,8 @@ directionsArrows.forEach(function (arrow) {
 ///------------ SWITCH IS HIT ------------///
 
 var switchIsHit = function switchIsHit(switchHit, firstLampON, firstLampOFF, secondLampON, secondLampOFF, thirdLampON, thirdLampOFF, firstSwitch, secondSwitch, thirdSwitch, firstLampBroken, secondLampBroken, thirdLampBroken, snowball) {
-  textOnSnowball.style.opacity = 0;
   setTimeout(function () {
     snowball.style.opacity = 0;
-    textOnSnowball.style.opacity = 1;
     counterHits++;
     if (counterHits == 1) {
       (0, _text.textOpacityToggle)(textInfo, 500, 3000);
@@ -566,19 +571,19 @@ var switchIsHit = function switchIsHit(switchHit, firstLampON, firstLampOFF, sec
       counterMeltingSnowman = 5;
       firstLampON.classList.add("notactive");
       firstLampBroken.classList.remove("notactive");
-      (0, _meltingSnowman.gameOver)(textInfo, snowball, throwMechanicsWrapper, sliderWrapper, "Game over!\nDestroying lamps is ver bad for environment :/");
+      (0, _gameOverMeltSnowman.gameOver)(textInfo, snowball, throwMechanicsWrapper, sliderWrapper, "Game over!\nDestroying lamps is ver bad for environment :/");
     } else if (switchHit == secondLampON) {
       secondLampON.classList.add("notactive");
       secondLampBroken.classList.remove("notactive");
-      (0, _meltingSnowman.gameOver)(textInfo, snowball, throwMechanicsWrapper, sliderWrapper, "Game over!\nDestroying lamps is ver bad for environment :/");
+      (0, _gameOverMeltSnowman.gameOver)(textInfo, snowball, throwMechanicsWrapper, sliderWrapper, "Game over!\nDestroying lamps is ver bad for environment :/");
     } else if (switchHit == thirdLampON) {
       thirdLampON.classList.add("notactive");
       thirdLampBroken.classList.remove("notactive");
-      (0, _meltingSnowman.gameOver)(textInfo, snowball, throwMechanicsWrapper, sliderWrapper, "Game over!\nDestroying lamps is ver bad for environment :/");
+      (0, _gameOverMeltSnowman.gameOver)(textInfo, snowball, throwMechanicsWrapper, sliderWrapper, "Game over!\nDestroying lamps is ver bad for environment :/");
     }
   }, 1000);
 };
-},{"./hovers.js":"hovers.js","./slider.js":"slider.js","./text.js":"text.js","./directionsOfThrow.js":"directionsOfThrow.js","./meltingSnowman.js":"meltingSnowman.js","./unclickingArrows.js":"unclickingArrows.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./js/hovers.js":"js/hovers.js","./js/slider.js":"js/slider.js","./js/text.js":"js/text.js","./js/directionsOfThrow.js":"js/directionsOfThrow.js","./js/gameOver-meltSnowman.js":"js/gameOver-meltSnowman.js","./js/unclickingArrows.js":"js/unclickingArrows.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -603,7 +608,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56936" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51316" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

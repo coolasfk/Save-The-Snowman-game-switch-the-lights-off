@@ -132,7 +132,7 @@
       flex-direction: column;
       justify-content: center;
       background-color: transparent;
-      // border: 4px green solid;
+
       justify-items: center;
       margin-top: 28vw;
       position: absolute;
@@ -140,29 +140,28 @@
 
       &__directions,
       .directions {
-        width: 28vw;
+        width: 26vw;
+        height: auto;
 
         background-color: transparent;
 
         display: flex;
         justify-content: center;
         margin: 10vw 50vw 6vw 50vw;
-        transform: translateX(-14vw);
+        transform: translateX(-13vw);
+        overflow: visible;
 
         &__arrows,
         .arrows {
           background-color: transparent;
-          height: 10vw;
-          // padding: 1vw;
+
+          overflow: visible;
 
           &__arrow {
-            padding: 2vw;
-            // testoow
             transition: 0.3s;
             opacity: 1;
-            // &:hover {
-            //   opacity: 0.5;
-            // }
+
+            stroke-width: 5px;
           }
         }
       }
@@ -209,14 +208,7 @@
       flex-direction: row;
 
       justify-content: center;
-      // &__minus {
-      //   width: 6vw;
-      //   height: 6vw;
-      //   height: auto;
-      //   margin-top: 2vw;
-      //   position: absolute;
-      //   transform: translateX(-15vw);
-      // }
+
       &__power-text {
         font: t.$descriptions-font;
         margin: 4vw 0 4vw 0;
@@ -246,7 +238,7 @@
         -webkit-appearance: none;
         width: 2vw;
         height: 2vw;
-        // border-radius: 5vw;
+
         margin-top: 5vw;
         background: c.$snowman-color;
         background-color: transparent;
@@ -255,15 +247,6 @@
         cursor: pointer;
         border: none;
       }
-      // &__plus {
-      //   transform-origin: bottom center;
-      //   width: 6vw;
-      //   height: 6vw;
-      //   margin-top: 2vw;
-
-      //   position: absolute;
-      //   transform: translateX(15vw);
-      // }
     }
     &__meltedSnowman,
     .meltedSnowman {
@@ -279,6 +262,30 @@
       margin-top: 72vh;
       margin-left: -60vw;
       overflow: hidden;
+    }
+    &__btnPlayAgain-wrapper,
+    .btnPlayAgain-wrapper {
+      position: absolute;
+      width: 100vw;
+      display: flex;
+      margin-top: 40vw;
+
+      justify-content: center;
+      &__btnPlayAgain {
+        width: 15vw;
+        height: 15vw;
+
+        z-index: 20;
+
+        background-color: transparent;
+        border: 1vw solid c.$snowman-color;
+        font-family: t.$headline-font;
+
+        border-radius: 80vw;
+        font-size: 1rem;
+        color: c.$snowman-color;
+        cursor: pointer;
+      }
     }
   }
 }

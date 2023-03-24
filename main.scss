@@ -23,7 +23,7 @@ body {
     &__logo-wrapper,
     .logo-wrapper {
       &__logo {
-        width: 30vw;
+        width: 35vw;
         height: auto;
         margin: 5vw;
         margin-top: 15vw;
@@ -37,9 +37,9 @@ body {
         height: 15vw;
         position: absolute;
         z-index: 20;
-        margin-left: 20vw;
+        margin-left: 25vw;
 
-        margin-top: 30vw;
+        margin-top: 35vw;
         background-color: transparent;
         border: 1vw solid c.$snowman-color;
         font-family: t.$headline-font;
@@ -55,25 +55,31 @@ body {
     &__snowman-wrapper,
     .snowman-wrapper {
       &__snowman {
-        // z-index: 120;
         width: 200vw;
         margin-left: -53vw;
-        margin-top: 12vw;
+        margin-top: 15vw;
       }
     }
 
-    // &__backdrop-wrapper,
-    // .backdrop-wrapper {
-    //   display: flex;
-    //   justify-content: center;
-    //   width: 500vw;
-    //   height: 500vw;
-    //   margin-left: -155vw;
-    //   margin-top: -6vw;
-    //   &__backdrop {
-    //     width: 500vw;
-    //     height: 500vw;
-    //   }
-    // }
+    &__bottomText-wrapper,
+    .bottomText-wrapper {
+      display: flex;
+      width: 70vw;
+      height: 10vw;
+      justify-content: center;
+      position: absolute;
+      z-index: 3000;
+      margin-top: 67vw;
+      margin-right: 5vw;
+      margin-left: 37vw;
+      margin-bottom: 10vw;
+
+      text-align: right;
+      &__bottomText {
+        font: t.$h3-font-smaller;
+
+        color: c.$background-color;
+      }
+    }
   }
 }

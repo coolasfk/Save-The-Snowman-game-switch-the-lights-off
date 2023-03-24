@@ -17,7 +17,7 @@ body {
 @media (min-width: 901px) {
   .header__logo-wrapper__logo,
   .header .logo-wrapper__logo {
-    width: 30vw;
+    width: 35vw;
     height: auto;
     margin: 5vw;
     margin-top: 15vw;
@@ -32,11 +32,11 @@ body {
     height: 15vw;
     position: absolute;
     z-index: 20;
-    margin-left: 20vw;
-    margin-top: 30vw;
+    margin-left: 25vw;
+    margin-top: 35vw;
     background-color: transparent;
     border: 1vw solid #bdefea;
-    font-family: 700 normal 3rem "program", sans-serif;
+    font-family: 700 normal 3rem "program", "helvetica";
     padding: 2vw 3vw;
     border-radius: 80vw;
     font-size: 1rem;
@@ -47,7 +47,26 @@ body {
   .main .snowman-wrapper__snowman {
     width: 200vw;
     margin-left: -53vw;
-    margin-top: 12vw;
+    margin-top: 15vw;
+  }
+  .main__bottomText-wrapper,
+  .main .bottomText-wrapper {
+    display: flex;
+    width: 70vw;
+    height: 10vw;
+    justify-content: center;
+    position: absolute;
+    z-index: 3000;
+    margin-top: 67vw;
+    margin-right: 5vw;
+    margin-left: 37vw;
+    margin-bottom: 10vw;
+    text-align: right;
+  }
+  .main__bottomText-wrapper__bottomText,
+  .main .bottomText-wrapper__bottomText {
+    font: 300 normal 1.6rem "program", "helvetica";
+    color: #616b84;
   }
 }
 

@@ -1,13 +1,13 @@
 ("use strict");
-import { changeAllArrowsOpacity } from "./hovers.js";
-import { addHoverListeners } from "./hovers.js";
-import { removeHoverListeners } from "./hovers.js";
-import { readPowerOfThrow } from "./slider.js";
-import { textOpacityToggle } from "./text.js";
-import { definingDirectionOfThrow } from "./directionsOfThrow.js";
-import { gameOver } from "./meltingSnowman.js";
-import { meltSnowmaGraphicsSteps } from "./meltingSnowman.js";
-import { clickOutside } from "./unclickingArrows.js";
+import { changeAllArrowsOpacity } from "./js/hovers.js";
+import { addHoverListeners } from "./js/hovers.js";
+import { removeHoverListeners } from "./js/hovers.js";
+import { readPowerOfThrow } from "./js/slider.js";
+import { textOpacityToggle } from "./js/text.js";
+import { definingDirectionOfThrow } from "./js/directionsOfThrow.js";
+import { gameOver } from "./js/gameOver-meltSnowman.js";
+import { meltSnowmaGraphicsSteps } from "./js/gameOver-meltSnowman.js";
+import { clickOutside } from "./js/unclickingArrows.js";
 
 ///------------ DOM ITEMS ------------///
 
@@ -55,8 +55,6 @@ const theBody = document.querySelector(".main");
 
 ///------------ GLOBAL VARIABLES ------------///
 
-let isArrowOn = false;
-
 let counterHits = 0;
 let requiredDistanceBallSwitch = 150;
 let counterMeltingSnowman = 0;
@@ -65,17 +63,13 @@ let counterMiss;
 
 let isSnowballAnimationOn = false;
 let arrowClicked = false;
-
-///------------ FUNCTIONS HOOVERING EVENTS ------------///
-
+let isArrowOn = false;
 isArrowOn = addHoverListeners(directionsArrows);
 
 // /------------ SLIDER-POWER ------------/
 sliderPower.addEventListener("change", () => {
   readPowerOfThrow(sliderPower, textSlider);
 });
-
-let power = readPowerOfThrow(sliderPower, textSlider);
 
 ///------------ INFO-TEXT FUNCTIONS ------------///
 
@@ -184,6 +178,10 @@ snowball.addEventListener("click", () => {
     checkingIfSwitchGotHit(firstLampON, fakeSnowball, switchIsHit);
     checkingIfSwitchGotHit(secondLampON, fakeSnowball, switchIsHit);
     checkingIfSwitchGotHit(thirdLampON, fakeSnowball, switchIsHit);
+    textOnSnowball.style.opacity = 0;
+    setTimeout(() => {
+      textOnSnowball.style.opacity = 1;
+    }, 1000);
   } else if (isArrowOn == false) {
     textInfo.innerText = "click the direction arrows first";
     textOpacityToggle(textInfo, 500, 3000);
@@ -239,10 +237,8 @@ const switchIsHit = (
   thirdLampBroken,
   snowball,
 ) => {
-  textOnSnowball.style.opacity = 0;
   setTimeout(() => {
     snowball.style.opacity = 0;
-    textOnSnowball.style.opacity = 1;
 
     counterHits++;
 

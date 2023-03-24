@@ -9,6 +9,12 @@ const meltedSnowman4 = document.querySelector(".meltedSnowman__meltedSnowman4");
 const meltedSnowman5 = document.querySelector(".meltedSnowman__meltedSnowman5");
 const meltedSnowman6 = document.querySelector(".meltedSnowman__meltedSnowman6");
 const snowball = document.querySelector(`[data-id = "snowball"]`);
+const playAgainBtnWrapper = document.querySelector(
+  ".main__btnPlayAgain-wrapper",
+);
+const playAgainBtn = document.querySelector(
+  ".btnPlayAgain-wrapper__btnPlayAgain",
+);
 const throwMechanicsWrapper = document.getElementById(
   "throw-mechanics-wrapper",
 );
@@ -26,7 +32,11 @@ export const gameOver = (
   meltedSnowman4.classList.add("notactive");
   meltedSnowman5.classList.add("notactive");
   meltedSnowman6.classList.remove("notactive");
-
+  playAgainBtnWrapper.classList.remove("notactive");
+  playAgainBtn.classList.remove("notactive");
+  playAgainBtn.addEventListener("click", () => {
+    window.location.reload();
+  });
   snowball.style.opacity = 0;
   throwMechanicsWrapper.style.opacity = 0;
   throwMechanicsWrapper.style.zIndex = -100;
